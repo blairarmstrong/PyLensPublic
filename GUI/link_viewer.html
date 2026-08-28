@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Link Viewer &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Creating Graphs" href="creating_graphs.html" />
+    <link rel="prev" title="Unit Viewer" href="unit_viewer.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Graphical User Interface (GUI)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main_viewer.html">Main Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_viewer.html">Unit Viewer</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Link Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating_graphs.html">Creating Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Graphical User Interface (GUI)</a><ul>
+      <li>Previous: <a href="unit_viewer.html" title="previous chapter">Unit Viewer</a></li>
+      <li>Next: <a href="creating_graphs.html" title="next chapter">Creating Graphs</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="link-viewer">
+<h1>Link Viewer<a class="headerlink" href="#link-viewer" title="Link to this heading">¶</a></h1>
+<p>The Link Viewer provides a graphical illustration of the links between the layers of the network.</p>
+<p>The Link Viewer can be invoked from the GUI’s Main Viewer once a network is loaded. As an example, here we load the network python script <code class="docutils literal notranslate"><span class="pre">encoder_example_one.py</span></code> from the <code class="docutils literal notranslate"><span class="pre">examples/example_networks/encoder_examples/</span></code> path within PyLens. For this network, the Link Viewer looks like this:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/link-viewer.png"><img alt="blank image of the link viewer" src="../_images/link-viewer.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The Link Viewer consists of:</p>
+<ul class="simple">
+<li><p>A <strong>main panel</strong> displaying a two-dimensional connectivity matrix of network links. The rows specify the layers from which the links are leaving, while the columns specify the receiving layers.</p></li>
+<li><p>An <strong>information bar</strong> (in the upper half) that displays summary statistics of all the displayed links and information about the currently selected link.</p></li>
+<li><p>A <strong>drop-down menu</strong> (at the very top of the window (on Windows) or the screen (on Mac)) that allows you to control miscellaneous settings.</p></li>
+</ul>
+<p>Let’s step through the key functions of the Link Viewer.</p>
+<p>To <strong>display information about a specific link</strong>, hover over its cell. The boxes on the right of the information bar show the value of the link as well as the group names and indexes of the units it connects.</p>
+<p>To <strong>change the type of cell value</strong> to display, use the <code class="docutils literal notranslate"><span class="pre">Value</span></code> tab. The options are <code class="docutils literal notranslate"><span class="pre">Link</span> <span class="pre">Weight</span></code>, <code class="docutils literal notranslate"><span class="pre">Link</span> <span class="pre">Derivs</span></code> and <code class="docutils literal notranslate"><span class="pre">Link</span> <span class="pre">Deltas</span></code>.</p>
+<p>To <strong>update the link’s values</strong> as training progresses, click on the <code class="docutils literal notranslate"><span class="pre">Viewer</span></code> tab at the top and specify the <code class="docutils literal notranslate"><span class="pre">Update</span> <span class="pre">After</span></code> interval.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/link-viewer-update-after.png"><img alt="Options for updating interval of the weights." src="../_images/link-viewer-update-after.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The <strong>size and spacing of the link cells</strong> can be modified by clicking on the <code class="docutils literal notranslate"><span class="pre">Viewer</span></code> tab and selecting <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Size</span></code> or <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">Spacing</span></code>.</p>
+<p>To <strong>hide or re-display link groups</strong> in the Link Viewer, click on the <code class="docutils literal notranslate"><span class="pre">Sending</span> <span class="pre">Groups</span></code> or <code class="docutils literal notranslate"><span class="pre">Receiving</span> <span class="pre">Groups</span></code> tabs and select the group to hide or redisplay.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/link-viewer-hide-input.png"><img alt="Hiding the input group's outgoing links." src="../_images/link-viewer-hide-input.png" style="width: 600px;" />
+</a>
+</figure>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/link-viewer-input-hidden.png"><img alt="Hiding the input group's outgoing links." src="../_images/link-viewer-input-hidden.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The <code class="docutils literal notranslate"><span class="pre">Palette</span></code> tab includes <strong>different color palettes</strong> you can use to display the links.</p>
+<p>Same as in the Unit Viewer, the <code class="docutils literal notranslate"><span class="pre">Viewer</span></code> tab also contains options to <code class="docutils literal notranslate"><span class="pre">Update</span></code> the colors of the link cells or to <code class="docutils literal notranslate"><span class="pre">Refresh</span></code> (i.e., rebuild the representation of) the links.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

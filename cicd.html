@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Github Action Unit Tests &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="github-action-unit-tests">
+<h1>Github Action Unit Tests<a class="headerlink" href="#github-action-unit-tests" title="Link to this heading">¶</a></h1>
+<p>This is the CI/CD Tool that PYLens uses on its repository.</p>
+<p>Any unit tests that a developer wishes to perform on each push and pull request will follow these steps</p>
+<p>Github action performs whenever there is a “push” or “pull request” event on the master branch. Other branches will not perform the tests.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>You should not need to install anything locally.</p>
+<p>All scripts are performed on Github.</p>
+</section>
+<section id="creating-unit-tests">
+<h2>Creating Unit Tests<a class="headerlink" href="#creating-unit-tests" title="Link to this heading">¶</a></h2>
+<p><strong>Set Up</strong></p>
+<p>There is one crucial step before pushing your unit tests onto github.</p>
+<p>You will need to add all required libraries that needs to be installed in “requirements.txt”</p>
+<p>You can either add the libraries manually or run</p>
+<dl class="simple">
+<dt>::</dt><dd><p>pip freeze &gt; requirements.txt</p>
+</dd>
+</dl>
+<p>However, make sure you are running in a virtual environment when running the command above, or else pip adds all libraries installed in your local machine to requirements.txt</p>
+<p>Also, please make sure non of the existing libraries are deleted when you run the command above.</p>
+<p><strong>Unit Test file</strong></p>
+<p>You can place the unit test anywhere in the repository. However, it would be best to place it in “pre-commit_hooks” directory as all current unit tests are within that directory.</p>
+<p>You can run any sort of tests in the unit test file and create any helper functions.</p>
+<p>The tests runs like a regular python file execution; it will run “main” first.</p>
+<p>To indicate the test has passed, simple exit with exit code 0 or let the program terminate without any error raised.</p>
+<p>To indicate the test has failed, simply raise an error or exit with an exit code that is non-zero.</p>
+<p>A simple test would be:</p>
+<dl class="simple">
+<dt>::</dt><dd><dl class="simple">
+<dt>if __name__ == “__main__”:</dt><dd><p>a = 1
+b = 1
+assert a == b</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>The program above passes the test if the assertion is true and fails if the assertion fails.</p>
+<p><strong>Adding unit test as an action</strong></p>
+<p>After you have created an unit test file, you will need to add it to the “unit_test.yml” file.</p>
+<p>This indicates to Github that this is also a file to run.</p>
+<p>Add your file by simply following previous examples and adding a “-name” attribute and “run” command.</p>
+<p>You do not need to add any building scripts as previous commands already creates an environment and installs all dependencies using pip.</p>
+<p>For example, if I want to add a file called “unit_test_one.py” that has the path “pre-commit_hooks/unit_test_one.py”</p>
+<p>I would add the following to “unit_tests.yml”</p>
+<p>- name: Example One</p>
+<p>run: python3 pre-commit_hooks/unit_test_one.py</p>
+<p>Please make sure the indentation matches previous lines.</p>
+<p>After you make these changes, push the updated unit_tests.yml and your test file to Github.</p>
+<p>You should see the actions running under “Actions” tab. It will tell you the progress of the test and shows a green check mark if test has passes and red “x” if failed.</p>
+<p>Upon failure, github also sends an email to notify you.</p>
+<p><strong>Important</strong></p>
+<p>Please make sure your unit tests does not have any keyboard or plots interaction as Github does not support these features in Github Actions.</p>
+<p>Also ensure that your test file does not wait on a user input or the tkinter “mainloop” as these commands runs indefinitely and may cause a timeout.</p>
+<p>There is a timeout-minute attribute to the github action, this is to prevent the action from running for too long.</p>
+<p>As we create more tests, this attribute might need to be increased to ensure all unit tests are performed.</p>
+<p>Currently it has been set to 5 minutes as the average test takes 2.5 minutes.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

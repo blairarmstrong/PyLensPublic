@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>disconnect_units &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="disconnect-units">
+<span id="id1"></span><h1>disconnect_units<a class="headerlink" href="#disconnect-units" title="Link to this heading">¶</a></h1>
+<p>Delete links of a specified type between two units</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">disconnect_units</span><span class="p">(</span>
+    <span class="n">outgoing_group</span><span class="p">,</span>
+    <span class="n">outgoing_unit_idx</span><span class="p">,</span>
+    <span class="n">incoming_group</span><span class="p">,</span>
+    <span class="n">incoming_unit_idx</span><span class="p">,</span>
+    <span class="n">link_type</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">disconnect_units</span></code> between two units by clearing the corresponding entries in the connection mask. If <code class="docutils literal notranslate"><span class="pre">link_type</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the function is applied to all link types. If a link’s mask becomes entirely zero after modification, the link is removed.</p>
+<p>This function returns the number of unit-pairs disconnected (as an integer).</p>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>outgoing_group</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): Name (or unique identifier) of the group from which the links originate.</p></li>
+<li><p><strong>outgoing_unit_idx</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): List of indices of the units in the outgoing group from which the links originate.</p></li>
+<li><p><strong>incoming_group</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): Name (or unique identifier) of the group receiving the connections.</p></li>
+<li><p><strong>incoming_unit_idx</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): List of indices of the units in the incoming group that receive the connections.</p></li>
+<li><p><strong>link_type</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code> | <code class="docutils literal notranslate"><span class="pre">None</span></code>, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): Type or label assigned to the links.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Disconnect one specific pair of units</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">disconnect_units</span><span class="p">(</span>
+    <span class="n">outgoing_group</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span>
+    <span class="n">outgoing_unit_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">incoming_group</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="n">incoming_unit_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2. Disconnect multiple unit pairs for one link type</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">disconnect_units</span><span class="p">(</span>
+    <span class="n">outgoing_group</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="n">outgoing_unit_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">incoming_group</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
+    <span class="n">incoming_unit_idx</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">link_type</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="connect_units.html"><span class="doc">connect_units</span></a>: Create links between specific units</p></li>
+<li><p><a class="reference internal" href="disconnect_groups.html"><span class="doc">disconnect_groups</span></a>: Delete links of a specified type between two groups</p></li>
+<li><p><a class="reference internal" href="disconnect_group_units.html"><span class="doc">disconnect_group_units</span></a>: Delete links from a group to one or more units</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

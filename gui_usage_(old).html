@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GUI: Tutorial &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="gui-tutorial">
+<h1>GUI: Tutorial<a class="headerlink" href="#gui-tutorial" title="Link to this heading">¶</a></h1>
+<p>The PYLens GUI allows users to load and train networks while also providing a graphical interface to explore how the network weights, units and performance evolve over training updates. To start an empty PYLens GUI, install PYLens and run the following code from the root folder.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python examples/start_gui.py</span>
+</pre></div>
+</div>
+<p>The Main Viewer should spin up. It contains 8 panels: network information, display, file loading, training algorithms, training hyperparameters, training options, training controls, and an exit button. Most buttons will be disabled because a network hasn’t been loaded yet!</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/main-viewer-empty.png"><img alt="The Main Viewer window. Only the run script, load examples and exit button are enabled at startup." src="_images/main-viewer-empty.png" style="width: 600px;" />
+</a>
+</figure>
+<p>To begin exploring the GUI, load a network python script using the Run Script button.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/run-script.png"><img alt="Click the run-script button to load a network from a python file." src="_images/run-script.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Many example network exist in the examples/example_networks/ folder of PYLens. I’ve chosen to load encoder_example_one.py from encoder_examples/. The GUI buttons should now be enabled. The training hyperparemeters are populated by those specified in the network’s python script.</p>
+<section id="network-information">
+<h2>Network information<a class="headerlink" href="#network-information" title="Link to this heading">¶</a></h2>
+<p>Here you will find the name of the loaded network and its training and testing example sets.  You can see the loaded training and testing sets by clicking on the respective tab.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/training-set.png"><img alt="Training sets loaded in encoder_example_one." src="_images/training-set.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+<section id="network-display">
+<h2>Network display<a class="headerlink" href="#network-display" title="Link to this heading">¶</a></h2>
+<p>The graphical displays are located in the network display panel. These include the unit viewer, link viewer and new graph. They provide a graphical way to probe the network’s properties such as unit outputs, weights connecting different layers, and error over time.</p>
+<section id="unit-viewer">
+<h3>Unit Viewer<a class="headerlink" href="#unit-viewer" title="Link to this heading">¶</a></h3>
+<p>The unit viewer is invoked by clicking the Unit Viewer button in the network display panel.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/unit-viewer-button.png"><img alt="Unit Viewer button." src="_images/unit-viewer-button.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Each unit in the network’s architecture correspond to a cell in the unit viewer. The units are sorted in reverse order in which layers were specified, layer by layer. You can see the value of each unit by hovering over its cell. Click on a specific Example Set on the left tab to see the values of each unit for that example.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="images/unit-viewer-output-0.png"><img alt="Hovering over the first unit of the output layer to see its output value on Example 4." src="images/unit-viewer-output-0.png" style="width: 600px;" />
+</a>
+</figure>
+<p>To change the displayed values(i.e. from output to external inputs), click on the value tab at the top of the window and select the desired type of value to display.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/external-input.png"><img alt="Selecting and displaying external-input values in the unit viewer." src="_images/external-input.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Right clicking on a unit will display the weight of the connections coming into and out of the unit by hovering over the corresponding connected unit.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/weight-output.png"><img alt="The unit with the yellow outline is connected to the output 4 unit with a weight of 0.36." src="_images/weight-output.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The inference set can be changed between training and testing in the Example Set tab at the top. For some networks, the inference Procedure is different during training and during testing (for example Boltzmann machines). To change the Procedure, click the Procedure tab at the top.
+The Palette tab can be used to change the color palette of the unit viewer.</p>
+</section>
+<section id="link-viewer">
+<h3>Link Viewer<a class="headerlink" href="#link-viewer" title="Link to this heading">¶</a></h3>
+<p>Clicking the Link Viewer button in the network display panel will bring up the link viewer window. This window displays the weights of all the links between layers in a network. The row titles specify the layers from which the links are leaving, while the columns specify the receiving layers. Hovering over a link’s cell will display it’s value on the top right. In addition, the statistics of all the displayed weights are shown below the toolbar.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/link-viewer.png"><img alt="Link viewer window displaying the weight value of the link going from hidden unit 1 to output 3." src="_images/link-viewer.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The link’s values can be updated as training progresses by specifying the Update After interval within the Viewer tab.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/link-viewer-update-after.png"><img alt="Options for updating interval of the weights." src="_images/link-viewer-update-after.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The size of each link can be modified by clicking on a size in the Cell Size dropdown menu in the Viewer tab.</p>
+<p>To hide or re-display specific groups in the link viewer, click on the Sending Groups or Receiving Groups tab and select the group to hide/redisplay.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/link-viewer-hide-input.png"><img alt="Hiding the input group's outgoing links." src="_images/link-viewer-hide-input.png" style="width: 600px;" />
+</a>
+</figure>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/link-viewer-input-hidden.png"><img alt="Hiding the input group's outgoing links." src="_images/link-viewer-input-hidden.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The cell’s displayed value can be changed in the Value tab. The options are Link Weight, Link Derivs and Link Deltas. The Palette tab includes different color palettes to display the links with.</p>
+</section>
+<section id="new-graph">
+<h3>New Graph<a class="headerlink" href="#new-graph" title="Link to this heading">¶</a></h3>
+<p>The New Graph button is used to invoke graphs that can plot arbitrary network properties during training. To start plotting, click the New Graph button and then click on Start Training in the main viewer. By default, the network’s error will be plotted. The error will be plotted at each Report Interval for the number of training steps specified.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/error-plot.png"><img alt="Error plotted every 10 update intervals for 100 training steps." src="_images/error-plot.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The graph’s controls include the default matplotlib controls: resetting the view, panning, zooming, configuring the graph’s size, and saving.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/graph-controls.png"><img alt="Graph controls." src="_images/graph-controls.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Next to the New Graph button is a text entry box where network properties can be input for plotting. Arbitrary network attributes (with numerical values) can be plotted by specifying the attribute name on the text entry box. For example, to plot the output of the first output unit in the last layer of the encoder_example_one network, I typed in <code class="docutils literal notranslate"><span class="pre">output_groups[-1].output_matrix[1]</span></code>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/output-unit-plot.png"><img alt="Plotting the output unit." src="_images/output-unit-plot.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Different traces are plotted each time the Reset Network button is clicked while plotting. This way, one can compare training progress between different runs. The latest trace will be plotted in black color.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/traces.png"><img alt="Error plot for different training runs." src="_images/traces.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Multiple graphs can be invoked by re-clicking the New Graph button.</p>
+</section>
+</section>
+<section id="file-loading">
+<h2>File Loading<a class="headerlink" href="#file-loading" title="Link to this heading">¶</a></h2>
+<p>The file loading panel provides shortcuts for executing some common actions, including running scripts, loading example sets, and saving and loading weights. Each button will cause a file browser to be opened to let you choose the file for reading or writing. Depending on the command, another popup may appear once the file is chosen for setting any remaining options.</p>
+</section>
+<section id="training-algorithms">
+<h2>Training algorithms<a class="headerlink" href="#training-algorithms" title="Link to this heading">¶</a></h2>
+<p>The algorithms panel contains radio buttons for selecting the current weight update method. The selected algorithm will be used when “Train Network” is pressed.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/steepest.png"><img alt="The steepest descent algorithm is selected and will be used for training." src="_images/steepest.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+<section id="training-hyperparameters">
+<h2>Training hyperparameters<a class="headerlink" href="#training-hyperparameters" title="Link to this heading">¶</a></h2>
+<p>The fifth panel provides access to commonly used training hyperparameters. To change a value, click in the entry box, edit the value, and then press Enter.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/hyper-params.png"><img alt="Default training hyperparameters for the encoder_example_one network." src="_images/hyper-params.png" style="width: 600px;" />
+</a>
+</figure>
+<p>After loading a network, the entry boxes will be populated with the default hyperparameters specified in the network’s python script.</p>
+</section>
+<section id="training-options">
+<h2>Training options<a class="headerlink" href="#training-options" title="Link to this heading">¶</a></h2>
+<p>Entry boxes for different training options are included after the network and optimizer hyperparameters.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/training-options.png"><img alt="Default training hyperparameters for the encoder_example_one network." src="_images/training-options.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The training options are:
+* Batch Size: The size of the batch seen at each training step. If 0, the batch size will include all examples in the Example Set.
+* Error Criterion: The error threshold at which to stop training.
+* Weight Updates: Number of weight updates that will be executed for a single press of “Start Traububg”
+* Report Interval: Number of weight updates between training stats reports and graph updates.</p>
+</section>
+<section id="training-control">
+<h2>Training control<a class="headerlink" href="#training-control" title="Link to this heading">¶</a></h2>
+<p>Training begins once a network and training examples are loaded and the Start Training button is clicked. Training can be stopped with the Stop Training button. The Reset Network button will reinitialize the networks weights and parameters so that training can begin from scratch. Test Network will run the network on the testing set, if a Example Test Set is loaded. To Exit the program, either click Exit in the training control display or click the x button at the top right corner.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="_images/training-control.png"><img alt="Training control buttons." src="_images/training-control.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

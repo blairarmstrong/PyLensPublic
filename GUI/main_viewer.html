@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Main Viewer &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unit Viewer" href="unit_viewer.html" />
+    <link rel="prev" title="Graphical User Interface (GUI)" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Graphical User Interface (GUI)</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Main Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_viewer.html">Unit Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="link_viewer.html">Link Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating_graphs.html">Creating Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Graphical User Interface (GUI)</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Graphical User Interface (GUI)</a></li>
+      <li>Next: <a href="unit_viewer.html" title="next chapter">Unit Viewer</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="main-viewer">
+<h1>Main Viewer<a class="headerlink" href="#main-viewer" title="Link to this heading">¶</a></h1>
+<p>The Main Viewer contains 8 panels: network information, file loading, display, training algorithms, training hyperparameters, training options, training controls, and an exit button.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/main-viewer-empty.png"><img alt="The Main Viewer window. Only the run script, load examples and exit button are enabled at startup." src="../_images/main-viewer-empty.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Most buttons will be disabled because a network has not been loaded yet. To begin exploring the GUI, load a network python script using the <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">Script</span></code> button. Many example networks exist in the <code class="docutils literal notranslate"><span class="pre">examples/example_networks/</span></code> folder of PyLens. For instance, to familiarize yourself with the GUI functionality, you could load <code class="docutils literal notranslate"><span class="pre">encoder_example_one.py</span></code> from <code class="docutils literal notranslate"><span class="pre">encoder_examples/</span></code>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/run-script.png"><img alt="Click the run-script button to load a network from a python file." src="../_images/run-script.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The GUI buttons should now be enabled. The training hyperparemeters are populated by those specified in the network’s python script.</p>
+<p>Next, we will step through the GUI panels individually.</p>
+<section id="network-information">
+<h2>Network Information<a class="headerlink" href="#network-information" title="Link to this heading">¶</a></h2>
+<p>The first panel, the network info panel, shows the name of the loaded network and its training and testing example sets. Clicking on <code class="docutils literal notranslate"><span class="pre">Training</span> <span class="pre">Set</span></code> or <code class="docutils literal notranslate"><span class="pre">Testing</span> <span class="pre">Set</span></code> will reveal a pull-down menu that lets you change the example sets.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/training-set.png"><img alt="Training sets loaded in encoder_example_one." src="../_images/training-set.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+<section id="file-loading">
+<h2>File Loading<a class="headerlink" href="#file-loading" title="Link to this heading">¶</a></h2>
+<p>This panel provides shortcuts for executing some common actions, including running scripts, loading example sets, and saving and loading weights. Each button will cause a file browser to be opened to let you choose the file for reading or writing. Depending on the command, another pop-up may appear once the file is chosen for setting any remaining options.</p>
+</section>
+<section id="network-display">
+<h2>Network Display<a class="headerlink" href="#network-display" title="Link to this heading">¶</a></h2>
+<p>This panel provides access to three graphical displays: the <code class="docutils literal notranslate"><span class="pre">Unit</span> <span class="pre">Viewer</span></code>, the <code class="docutils literal notranslate"><span class="pre">Link</span> <span class="pre">Viewer</span></code> and <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Graph</span></code>. They provide graphical ways to probe network properties such as unit outputs, weights connecting different layers, and error over time.</p>
+<p>See here for details about each graphical display:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="unit_viewer.html"><span class="doc">Unit Viewer</span></a></p></li>
+<li><p><a class="reference internal" href="link_viewer.html"><span class="doc">Link Viewer</span></a></p></li>
+<li><p><a class="reference internal" href="creating_graphs.html"><span class="doc">New Graph</span></a></p></li>
+</ul>
+</section>
+<section id="training-algorithms">
+<h2>Training Algorithms<a class="headerlink" href="#training-algorithms" title="Link to this heading">¶</a></h2>
+<p>This panel contains radio buttons for selecting the weight update method. The selected algorithm will be used to optimize the weights when training the network.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/steepest.png"><img alt="The steepest descent algorithm is selected and will be used for training." src="../_images/steepest.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+<section id="training-hyperparameters">
+<h2>Training Hyperparameters<a class="headerlink" href="#training-hyperparameters" title="Link to this heading">¶</a></h2>
+<p>This panel provides access to commonly used training hyperparameters. When loading a network, the entry boxes will be populated with the default hyperparameters specified in the network’s python script. To change a value, click in the entry box, edit the value, and then press Enter.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/hyper-params.png"><img alt="Default training hyperparameters for the encoder_example_one network." src="../_images/hyper-params.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+<section id="training-options">
+<h2>Training Options<a class="headerlink" href="#training-options" title="Link to this heading">¶</a></h2>
+<p>This panel allows users to specify key training options. To change a value, click in the entry box, edit the value, and then press Enter.</p>
+<p>The training options are:</p>
+<ul class="simple">
+<li><p><strong>Batch Size</strong>: The size of the batch seen at each training step. If 0, the batch size will include all examples in the Example Set.</p></li>
+<li><p><strong>Error Criterion</strong>: The error threshold at which to stop training.</p></li>
+<li><p><strong>Weight Updates</strong>: Number of weight updates that will be executed for a single press of “Start Training”.</p></li>
+<li><p><strong>Report Interval</strong>: Number of weight updates between training stats reports and graph updates.</p></li>
+<li><p><strong>Parallel Training</strong>: Enable parallel training mode that utilizes multiple cores of the CPU</p></li>
+<li><p><strong>Number of Cores</strong>: Number of CPU cores used in parallel training mode.</p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/training-options.png"><img alt="Default training hyperparameters for the encoder_example_one network." src="../_images/training-options.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+<section id="training-control">
+<h2>Training Control<a class="headerlink" href="#training-control" title="Link to this heading">¶</a></h2>
+<p>Once a network and training examples are loaded, clicking the <code class="docutils literal notranslate"><span class="pre">Start</span> <span class="pre">Training</span></code> button will begin training the network. Training can be stopped with the <code class="docutils literal notranslate"><span class="pre">Stop</span> <span class="pre">Training</span></code> button. The <code class="docutils literal notranslate"><span class="pre">Reset</span> <span class="pre">Network</span></code> button will reinitialize the networks weights and parameters so that training can begin from scratch. <code class="docutils literal notranslate"><span class="pre">Test</span> <span class="pre">Network</span></code> will run the network on the set of testing examples, if a Testing Set is loaded.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/training-control.png"><img alt="Training control buttons." src="../_images/training-control.png" style="width: 600px;" />
+</a>
+</figure>
+</section>
+<section id="exit">
+<h2>Exit<a class="headerlink" href="#exit" title="Link to this heading">¶</a></h2>
+<p>Clicking on <code class="docutils literal notranslate"><span class="pre">Exit</span></code> closes the GUI. Alternatively, you can click the “x” button at the top-right corner of the control panel.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

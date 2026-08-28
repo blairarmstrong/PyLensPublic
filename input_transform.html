@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Output Transformations &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="output-transformations">
+<h1>Output Transformations<a class="headerlink" href="#output-transformations" title="Link to this heading">¶</a></h1>
+<section id="basic-input-types">
+<h2>Basic Input Types:<a class="headerlink" href="#basic-input-types" title="Link to this heading">¶</a></h2>
+<p>DOT_PRODUCT:</p>
+<p>This is by far the most common input type. It computes the dot product of the incoming weight vector with the incoming activation vector. In other words, it takes the sum over all incoming links of the product of the link weight and the output of the unit the link is coming from. This is the default unless the network is a BOLTZMANN machine.</p>
+<p>[v] DISTANCE:</p>
+<p>This computes the squared distance between the weight vector and the activation vector. In other words, it takes the sum over all incoming links of the square of the difference between the link weight and the output of the unit the link is coming from. You probably do not want to use this for a backpropagation network. It should be used along with the KOHONEN output type for Kohonen networks.</p>
+<p>PRODUCT:</p>
+<p>This takes the product of all incoming weights and the outputs of the units from which they come. This can be used to perform the Pi part of a Sigma-Pi unit, which is actually implemented in Lens using more than one unit. PRODUCT could be used for the gating part of a gated unit, which is essentially a Pi-Sigma. Often the weights involved will actually be frozen at 1.0 so that only the sending unit activations are relevant.</p>
+<p>[X] IN_BOLTZ:</p>
+<p>This is the input half of a Boltzmann unit. If the unit is clamped by either an externalInput or a target within the grace period (see OUT_BOLTZ), this does nothing. Otherwise, it computes a dot product. In the backward pass, this does not propagate derivatives to the sending units but it increments the incoming link derivatives by:
+U-&gt;output * V-&gt;output - U-&gt;clampedOutput * V-&gt;clampedOutput,
+where U is the receiving unit, V is the sending unit, output is the unit’s output after the non-clamped phase and clampedOutput is the desired output. This implements the Boltzmann machine learning rule.</p>
+<p>IN_COPY:</p>
+<p>The units in a group with an IN_COPY input function simply copy their inputs from some field in the corresponding units of another group. The copyConnect command must be used to specify which group and which field will be the source of the copying.</p>
+</section>
+<section id="input-modifying-types">
+<h2>Input Modifying Types:<a class="headerlink" href="#input-modifying-types" title="Link to this heading">¶</a></h2>
+<p>SOFT_CLAMP:</p>
+<p>The SOFT_CLAMP function assumes that the output function is logistic. It adds a factor to the input of the unit such that, with no other input, the output of the unit would be:
+initOutput + clampStrength * (externalInput - initOutput)
+Thus, the output would fall between the initOutput and the externalInput. The clampStrength, which ranges from 0.0 to 1.0, determines the extent to which the output will be dominated by the externalInput. This is meant to be used by groups that also receive ordinary inputs. The clampStrength should be less than 1.0 if the externalInputs are 0.0 or 1.0 or the group will have infinite input.</p>
+<p>[v] INCR_CLAMP:</p>
+<p>This function simply adds the externalInput, scaled by the clampStrength, to the unit’s input. It is used in interactive activation models, among other things.</p>
+<p>IN_INTEGR:</p>
+<p>This time-averages the group’s input according to the function:
+input = lastInput + dt (newInput - lastInput)</p>
+<p>It is ordinarily used with CONTINUOUS networks. With a LOGISTIC output function, it differs from OUT_INTEGR in that units will adapt more rapidly when being pulled toward the extremes and less rapidly when being pulled towards an output of 0.5.</p>
+<p>[v] IN_NORM:</p>
+<p>This normalizes the inputs to the group so they sum to 1.0. This should probably not be used if inputs can be negative because the results may be rather strange.</p>
+<p>[v] IN_NOISE:</p>
+<p>This makes the input noisy. The noise function is the group’s noiseProc and the standard deviation or range is given by the group’s noiseRange.</p>
+<p>[-] IN_DERIV_NOISE:</p>
+<p>This makes the inputDeriv noisy on the backward pass. The noise function is the group’s noiseProc and the standard deviation or range is given by the group’s noiseRange.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

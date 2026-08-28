@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>copy_unit_values &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="copy-unit-values">
+<span id="id1"></span><h1>copy_unit_values<a class="headerlink" href="#copy-unit-values" title="Link to this heading">¶</a></h1>
+<p>Copy unit values from one group to another group or within the same group</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">copy_unit_values</span><span class="p">(</span>
+    <span class="n">src_group_name</span><span class="p">,</span>
+    <span class="n">dst_group_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">src_field</span><span class="o">=</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span>
+    <span class="n">dst_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">update_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">require_same_units</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">copy_unit_values</span></code> copies unit values from one group’s field to another field in the same or a different group. It could be used to copy the inputs of a group to its outputs or the outputs of one group to the targets of another.</p>
+<p>The copy is instantaneous; this does not set up a permanent connection.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The parameters <code class="docutils literal notranslate"><span class="pre">src_field</span></code>, <code class="docutils literal notranslate"><span class="pre">dst_field</span></code>, <code class="docutils literal notranslate"><span class="pre">update_cache</span></code>, and <code class="docutils literal notranslate"><span class="pre">require_same_units</span></code> are <strong>keyword-only</strong> arguments (they follow a bare <code class="docutils literal notranslate"><span class="pre">*</span></code> in the signature). They must be passed by name, not by position.</p>
+</div>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>src_group_name</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): Name of the source group.</p></li>
+<li><p><strong>dst_group_name</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, optional): Name of the destination group. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to <code class="docutils literal notranslate"><span class="pre">src_group_name</span></code>.</p></li>
+<li><p><strong>src_field</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, keyword-only, default <code class="docutils literal notranslate"><span class="pre">&quot;outputs&quot;</span></code>): Source field name. One of: <code class="docutils literal notranslate"><span class="pre">&quot;inputs&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;outputs&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;targets&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;input_derivs&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;output_derivs&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;external_input&quot;</span></code>.</p></li>
+<li><p><strong>dst_field</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, keyword-only, optional): Destination field. Defaults to <code class="docutils literal notranslate"><span class="pre">src_field</span></code>.</p></li>
+<li><p><strong>update_cache</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>, keyword-only, default <code class="docutils literal notranslate"><span class="pre">True</span></code>): If <code class="docutils literal notranslate"><span class="pre">True</span></code> and writing to outputs, refresh cached outputs.</p></li>
+<li><p><strong>require_same_units</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>, keyword-only, default <code class="docutils literal notranslate"><span class="pre">True</span></code>): If <code class="docutils literal notranslate"><span class="pre">True</span></code>, require that both groups have the same number of units.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Copy outputs from one group to another group’s targets</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">copy_unit_values</span><span class="p">(</span>
+    <span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;output&quot;</span><span class="p">,</span>
+    <span class="n">src_field</span><span class="o">=</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span>
+    <span class="n">dst_field</span><span class="o">=</span><span class="s2">&quot;targets&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2. Copy outputs to inputs within the same group</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">copy_unit_values</span><span class="p">(</span>
+    <span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="n">src_field</span><span class="o">=</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span>
+    <span class="n">dst_field</span><span class="o">=</span><span class="s2">&quot;inputs&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="print_unit_values.html"><span class="doc">print_unit_values</span></a>: Print basic unit values for a list of groups into a file</p></li>
+<li><p><a class="reference internal" href="reset_unit_values.html"><span class="doc">reset_unit_values</span></a>: Reset values of a specified field for all units in the group</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

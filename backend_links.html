@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Backend: Links &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="backend-links">
+<h1>Backend: Links<a class="headerlink" href="#backend-links" title="Link to this heading">¶</a></h1>
+<p>Links are object representing weights in a neural network. There are 3 types of link: Random, One-To-One and Full.</p>
+<ul class="simple">
+<li><p><strong>Random link</strong> represents lesioned link where p% of connection are dropped permenantly.</p></li>
+<li><p><strong>One-to-One</strong> represents one to one connection between two groups, i.e each units from the previous group will contribute to the corresponding units in the next group.</p></li>
+<li><p><strong>Full Link</strong> represent full connectivity between two groups, i.e every units from the previous group will contribute to every units in the next group</p></li>
+</ul>
+<section id="usage-example">
+<h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Network</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span><span class="s2">&quot;first_layer&quot;</span><span class="p">,</span> <span class="s2">&quot;second_layer&quot;</span><span class="p">,</span> <span class="n">link_type</span><span class="o">=</span><span class="s2">&quot;inhibitory&quot;</span><span class="p">,</span> <span class="n">proj_type</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="n">drop_rate</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, the sparse matrix will be used as masks.</p>
+<p>In contrast:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Network</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span><span class="s2">&quot;first_layer&quot;</span><span class="p">,</span> <span class="s2">&quot;second_layer&quot;</span><span class="p">,</span> <span class="n">link_type</span><span class="o">=</span><span class="s2">&quot;inhibitory&quot;</span><span class="p">,</span> <span class="n">proj_type</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="n">drop_rate</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, the dense matrix will be used.</p>
+</section>
+<section id="programmer-s-guide-on-sparse-vs-dense-mask-choice">
+<h2>Programmer’s guide on sparse vs dense mask choice<a class="headerlink" href="#programmer-s-guide-on-sparse-vs-dense-mask-choice" title="Link to this heading">¶</a></h2>
+<p><strong>Dot product</strong></p>
+<p>For dot product between n by n weight matrix by a size n vector.</p>
+<p>Sparse matrix has a timing advantage when over 75% of the cells are unfiled.</p>
+<p>The time performance: Scipy is y times faster than numpy can be modelled by y = -1/(4(p-1)) as n increases, where p is the drop rate.</p>
+<p><strong>Elementwise matrix multiplication</strong></p>
+<p>For dot product between n by n weight matrix by a size n by n matrix.</p>
+<p>Sparse matrix has a timing advantage when over 60% of the cells are unfilled.</p>
+<p>The time performance: Scipy is y times faster than numpy can be modelled by y = -3/(8(p-1)) as n increases, where p is the drop rate.</p>
+<p>Currently the code is doing the switch operation automatically, such that when the matrix will be converted to sparse type if the sparsity is over certain threshold as determined above. Otherwise it will use numpy dense array.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

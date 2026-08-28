@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Custom Error Class &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="custom-error-class">
+<h1>Custom Error Class<a class="headerlink" href="#custom-error-class" title="Link to this heading">¶</a></h1>
+<p>The loss function will involve building a class that implements the Error class. In init function, call super().__init__(“loss name”) to initialize with error function’s name. If there are additional parameters, initialize them near class header.</p>
+<p>If you would like to have autograd to calculate derivative automatically, write “self.func_deriv = elementwise_grad(self.func)” in the init method to have that automation setup.</p>
+<p>Write your forward operation in self.func method, and write the backward operation in self.backward method. If you are using autograd, you just need to write “return self.func_deriv(outputs, targets)”, If for some reason the autograd cannot properly calculate the loss, you will have to manually put in the formula for calculating derivatives.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MeanSquareError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="n">func_deriv</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Mean Squared Error&quot;</span><span class="p">)</span>
+
+        <span class="c1"># take the derivative of the function to use in the backward pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func_deriv</span> <span class="o">=</span> <span class="n">elementwise_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">targets</span> <span class="o">-</span> <span class="n">outputs</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">targets</span> <span class="o">-</span> <span class="n">outputs</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_deriv</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To use the custom loss function, you will need to pass it into the error_function argument when adding output group to the network.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_error</span> <span class="o">=</span> <span class="n">MeanSquareError</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="n">xor_net</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">group_type</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">error_function</span><span class="o">=</span><span class="n">my_error</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

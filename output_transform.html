@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Output Transformations &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="output-transformations">
+<h1>Output Transformations<a class="headerlink" href="#output-transformations" title="Link to this heading">¶</a></h1>
+<section id="basic-output-types">
+<h2>Basic Output Types:<a class="headerlink" href="#basic-output-types" title="Link to this heading">¶</a></h2>
+<section id="linear">
+<h3>LINEAR:<a class="headerlink" href="#linear" title="Link to this heading">¶</a></h3>
+<p>This simply copies the input to the output.</p>
+</section>
+<section id="logistic">
+<h3>LOGISTIC:<a class="headerlink" href="#logistic" title="Link to this heading">¶</a></h3>
+<p>Computes the traditional sigmoid function:
+O = 1 / (1 + exp(-i * gain))
+Gain is the inverse of the temperature. It is used to avoid division. Ordinarily the gain is taken from the network’s gain field or the group’s gain field if that is set. If ADAPTIVE_GAIN is used, each unit will have its own trainable gain.</p>
+<p>[v] TERNARY:</p>
+<p>This is essentially a normal sigmoid shifted to the right added to a negated sigmoid of -i shifted to the left. Alternately, you can think of it as a [-1,1] sigmoid that has a flat place at 0. It is designed to give the unit stable outputs at -1, 1, and 0. You could think of such units as coding whether a feature is present, absent, or unknown. The gain affects the slope of each of the two sigmoids. The ternaryShift sets the distance between their centers. Increasing the ternaryShift will make the central plateau wider. Increasing the gain will make the transitions between plateaus sharper.</p>
+<p>TANH:</p>
+<p>This is equivalent to 1 - 2S(2 i), where S is the ordinary sigmoid function and I is the input. Note that its slope is actually twice what the slope would be if you just stretched a sigmoid to the range [-1,1]. So you may want to use half the normal gain to compensate. If ADAPTIVE_GAIN is used, each unit will have its own trainable gain.</p>
+<p>EXPONENTIAL:</p>
+<p>This is just exp(i). There is a big potential for overflow with this, so you may want to be careful how you use it.</p>
+<p>GAUSSIAN:</p>
+<p>This computes a gaussian radial basis function: exp(-i^2 * gain^2). This is often as effective as LOGISTIC, although it can become a bit unstable at the end of training. It can also be used in conjunction with ADAPTIVE_GAIN for individual, trainable gains for each unit.</p>
+<p>SOFT_MAX:</p>
+<p>This is equivalent to an exponential followed by a normalization. However, SOFT_MAX scales the values before computing the exponential. This doesn’t affect the end result but it avoids overflow. A SOFT_MAX OUTPUT group will get DIVERGENCE error by default.</p>
+<p>[X] KOHONEN:</p>
+<p>This is used for the map layer in a KOHONEN network. It should be combined with a DISTANCE input function. It finds the unit whose weight vector is most similar to the input vector. Any unit in the map whose squared Euclidean distance from the best unit is greater than neighborhood will be silent. Groups in the neighborhood will have output equal to 1.0 minus the ratio between the unit’s input and the largest input of any unit. The output will therefore fall in the range [0.0, 1.0].
+In the backward pass, the inputDeriv of units in the neighborhood will be set to 1.0 and that of the others to 0.0. Only units in the neighborhood will be able to alter their incoming weights. The DISTANCE procedure, in the backward pass, will cause the incoming weights to drift towards the input vector.</p>
+<p>[X] OUT_BOLTZ:</p>
+<p>This is used for groups in a Boltzmann network. If the unit has an externalInput, the output will be clamped to that value. Otherwise, if it has a target and the network is in the gracePeriod (the positive phase of the Boltzmann algorithm), the output will be clamped to the target. Otherwise, it is computed as a time-averaged sigmoid of the input.</p>
+<p>[v] OUT_COPY: (Displays nan for )</p>
+<p>The units in a group with an OUT_COPY output function simply copy their outputs from some field in the corresponding units of another group. The copyConnect command must be used to specify which group and which field will be the source of the copying.</p>
+<p>[v] INTERACT_INTEGR:</p>
+<p>This implements the interactive-activation output rule. For a traditional interactive-activation model, it should be used with DOT_PRODUCT inputs, and an INCR_CLAMP input function. It contains a decay term and time-averages the activations. The decay is fixed at 1.0. This version crops the unit outputs to the range [0, maxOutput] because negative outputs are not normally used in an IA model.</p>
+</section>
+</section>
+<section id="clamping-output-types">
+<h2>Clamping Output Types:<a class="headerlink" href="#clamping-output-types" title="Link to this heading">¶</a></h2>
+<p>HARD_CLAMP:</p>
+<p>If the externalInput is a real number, this sets the output to the externalInput. Otherwise it does nothing.</p>
+<p>[v] BIAS_CLAMP:</p>
+<p>This sets the output to the initOutput (defaults to 1.0 for BIAS groups).</p>
+<p>ELMAN_CLAMP:</p>
+<p>In order for an ELMAN_CLAMP function to work, you must first use elmanConnect to associate a source group with the context group. This simply copies the (cached) output from each source unit and adds it to the output of the corresponding context unit. It is possible to have more that one ELMAN_CLAMP function. In this case, the output will simply sum the outputs from each of the source units. If a group has multiple ELMAN_CLAMP functions, each call to elmanConnect will define the source group for the first function that has not yet been assigned a group.</p>
+<p>[v] WEAK_CLAMP:</p>
+<p>This shifts the output a certain fraction of the way towards the externalInput. The fraction is determined by the clampStrength. Specifically, the function is: o = o + clampStrength * (externalInput - o)</p>
+</section>
+<section id="output-modifying-types">
+<h2>Output Modifying Types:<a class="headerlink" href="#output-modifying-types" title="Link to this heading">¶</a></h2>
+<p>OUT_INTEGR:</p>
+<p>This is just like IN_INTEGR but it integrates the output rather than the input. This is put on by default in a CONTINUOUS network unless IN_INTEGR is specified.</p>
+<p>[v] OUT_NORM:</p>
+<p>This normalizes the outputs of the units in the group to sum to 1.0. It probably should not be used unless the un-normalized values are constrained to be positive. The SOFT_MAX function should be used rather than an EXPONENTIAL followed by OUT_NORM because SOFT_MAX will avoid numerical overflow.</p>
+<p>OUT_NOISE:</p>
+<p>This makes the output noisy. The type of noise is determined by the group’s noiseProc and noiseRange parameters.</p>
+<p>[-] OUT_DERIV_NOISE: (how to test noise)</p>
+<p>This injects noise into the outputDerivs on the backward pass. The type of noise is determined by the group’s noiseProc and noiseRange parameters.</p>
+<p>OUT_CROPPED:</p>
+<p>This crops the output to within the range [minOutput, maxOutput]. You may want to use this after OUT_NOISE to prevent outputs outside of this range.</p>
+<p>[v] OUT_WINNER:</p>
+<p>This is a winner-take-all filter. The most active unit retains its activation and the other units are set to the minimum output value for the group. In the backward phase, the original outputs are restored to enable error to be backpropagated across the transfer function.</p>
+<p>3/9:
+Weak Clamp, should it update? see comments</p>
+<p>Kohonen: what is periodic boundary, neighbor? do i implement that?</p>
+<p>Out_deriv Noise: no forward function, how to ignore</p>
+<p>Finished:</p>
+<p>Ternary
+Out_copy (but displays nan for error rather than 200000)
+Bias Clamp
+Out_Norm
+Out Winner
+INTERACT_INTEGR (same as weak clamp)
+WEAK_CLAMP (done but theres no actual change, just 200000 for error and same weight cost)</p>
+<p>Working on:</p>
+<dl class="simple">
+<dt>Kohonen (implemented, but dk how to test)</dt><dd><ul class="simple">
+<li><p>kept neighborhood and periodic boundary as default</p></li>
+</ul>
+</dd>
+</dl>
+<p>OUT_DERIV_NOISE (should be working? no good way to test)</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

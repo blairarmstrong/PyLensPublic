@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Beginner’s Tutorial &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Coding Tutorial" href="coding_tutorial.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Beginner’s Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preparation">Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#launching-the-gui">Launching the GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interacting-with-the-gui">Interacting with the GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-to-go-from-here">Where to Go From Here?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bonus-code-explanation">Bonus: Code Explanation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="coding_tutorial.html" title="next chapter">Coding Tutorial</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="beginner-s-tutorial">
+<span id="pylens-xor-tutorial"></span><h1>Beginner’s Tutorial<a class="headerlink" href="#beginner-s-tutorial" title="Link to this heading">¶</a></h1>
+<p>In this tutorial, you will learn how to use <strong>PyLens</strong> to build a simple neural network that addresses the classic <strong>XOR problem</strong> — a common example in neural networks that demonstrates a function which is not linearly separable. (See the <a class="reference external" href="https://en.wikipedia.org/wiki/Exclusive_or">XOR Wikipedia entry</a> for more details.)</p>
+<p>Specifically, you’ll learn how to set up and train the XOR network <strong>using the PyLens GUI</strong>, which allows you to perform several key tasks, such as visualizing network layers, monitoring real-time plots, and interactively exploring training progress.</p>
+<section id="preparation">
+<h2>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">¶</a></h2>
+<ol class="arabic">
+<li><p><strong>Install PyLens</strong>:
+If you have not installed PyLens yet, please follow the instructions in
+<a class="reference internal" href="installation.html"><span class="doc">Installing PyLens</span></a>.</p></li>
+<li><p><strong>Navigate to Your PyLens Folder</strong>:
+By default, PyLens may be installed in a directory of your choice.
+In this tutorial, when we see paths like <code class="docutils literal notranslate"><span class="pre">./examples/lens_example_input/xor_dense.ex</span></code>, the leading
+<code class="docutils literal notranslate"><span class="pre">.</span></code> indicates the <strong>current PyLens directory</strong> (or the directory where you cloned the PyLens repository).
+If you are unsure where that is, check the directory where you ran <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">...</span></code> or wherever you installed
+PyLens according to the instructions.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>.../PyLens<span class="w"> </span><span class="o">[</span>replace<span class="w"> </span>...<span class="w"> </span>with<span class="w"> </span>actual<span class="w"> </span>folder<span class="w"> </span>path<span class="o">]</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Ensure Required Data and Weights</strong>:
+Verify that the following files exist in your PyLens installation (or cloned) folder:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xor_dense.ex</span></code> located in:
+<code class="docutils literal notranslate"><span class="pre">./examples/lens_example_input/xor_dense.ex</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xor_example_one_weights.wt</span></code> located in:
+<code class="docutils literal notranslate"><span class="pre">./examples/example_networks/xor_examples/xor_example_one_weights.wt</span></code></p></li>
+</ul>
+<p>These files provide the XOR training examples and a reference set of initial weights.
+If you do <strong>not</strong> have these files, try reinstalling PyLens or updating your local PyLens repository.</p>
+</li>
+</ol>
+</section>
+<section id="launching-the-gui">
+<h2>Launching the GUI<a class="headerlink" href="#launching-the-gui" title="Link to this heading">¶</a></h2>
+<p>The focus of this tutorial is on using the GUI to train and visualize the XOR network. Below is the typical process:</p>
+<ol class="arabic">
+<li><p>Open the <strong>Anaconda Prompt</strong> (Windows) or <strong>Terminal</strong> (macOS/Linux).</p></li>
+<li><p><strong>Activate Your Python/Virtual Environment</strong> (if using one). For details, see
+<a class="reference internal" href="installation.html"><span class="doc">Step 3 of the Installation Guide</span></a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>pylens_env
+</pre></div>
+</div>
+</li>
+<li><p><strong>Run the tutorial</strong> by enabling the GUI in the script and executing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>examples/example_networks/xor_examples/xor_example_one.py
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="interacting-with-the-gui">
+<h2>Interacting with the GUI<a class="headerlink" href="#interacting-with-the-gui" title="Link to this heading">¶</a></h2>
+<p>Once the GUI is open, you will see the PyLens GUI structured as follows, providing various tools for visualizing network components, tuning parameters, and monitoring training progress.</p>
+<img alt="GUI Overview" src="_images/GUI.png" />
+<p>By running our script, we have already built a network and loaded our example set. So let us explore the structure of this network, starting with its units.</p>
+<ol class="arabic">
+<li><p><strong>Exploring the Unit Viewer</strong></p>
+<p>Click on <strong>Unit Viewer</strong>. A new window will open, which allows you to inspect individual neurons, activation values, and responses. By clicking on each unit, you can see whether it belongs to the <strong>input layer</strong>, <strong>hidden layer</strong>, or <strong>output layer</strong>, helping you understand how information flows through the network.</p>
+<img alt="Unit Viewer Example" src="_images/unit_viewer.png" />
+<p>For example, in the XOR network, you can observe:</p>
+<ul class="simple">
+<li><p>Two input units corresponding to the two binary inputs of the XOR function.</p></li>
+<li><p>One hidden layer unit, which are crucial for capturing the non-linearity required to solve XOR.</p></li>
+<li><p>One output unit, which determines the final network prediction.</p></li>
+<li><p>One bias unit, which specifies a constant that is used to adjust the output.</p></li>
+</ul>
+<p>Next, let us take a look at the network links.</p>
+</li>
+<li><p><strong>Exploring the Link Viewer</strong></p>
+<p>In the GUI window, click on the <strong>Link Viewer</strong>. A new window will open that visualizes weight connections between neurons.</p>
+<img alt="Link Viewer Example" src="_images/link_viewer.png" />
+<p>Here, you can observe that:</p>
+<ul class="simple">
+<li><p>The displayed values represent the weight strength between different network layers.</p></li>
+<li><p>Red and blue colors indicate positive and negative weights, respectively, helping you understand how signals propagate through the network.</p></li>
+</ul>
+<p>In the next step, we will train the network and create a graph to  inspect its performance.</p>
+</li>
+<li><p><strong>Training the Network and Creating Graphs</strong></p>
+<p>To visualize how our network learns the XOR problem, we want to train the network and plot its performance. In the box next to <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Graph</span></code>, type the variable for the graph you want to create. Here, we want to visualize the network “error” (as in the image below). Then, click <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Graph</span></code> to create an empty graph.</p>
+<img alt="Graph Viewer Example" src="_images/graph_viewer.png" />
+<p>Now, we can train our network. While keeping the error graph open, click on <code class="docutils literal notranslate"><span class="pre">Start</span> <span class="pre">Training</span></code> in the main GUI. Repeat this process several times.</p>
+<img alt="Training Control Panel" src="_images/training-control.png" />
+<p>As you can see, the graph dynamically visualizes changes in error as we keep updating the network weights. In other words, the network is gradually learning the non-linear separation between training examples required by the XOR problem. You can reset the network to the intial state with random weights by clicking on <code class="docutils literal notranslate"><span class="pre">Reset</span> <span class="pre">Network</span></code>.</p>
+<p>Additional graphs can be created to visualize other metrics during training, based on the variable you input.</p>
+<p>As a final step, we will explore how changing the network parameters influences training.</p>
+</li>
+<li><p><strong>Tuning Parameters</strong></p>
+<p>A range of essential training parameters can be modified in the GUI, including:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Learning rate</p></li>
+<li><p>Momentum</p></li>
+<li><p>Weight decay</p></li>
+<li><p>Batch size</p></li>
+<li><p>Optimizer selection (Steepest Descent, Momentum, Adam, etc.)</p></li>
+</ul>
+</div></blockquote>
+<p>Change the values in the respective fields or select a different optimizer to observe how different settings impact training. For example, you may be able to see how a lower learning rate slows down learning, or how a larger batch size leads to less frequent weight updates.</p>
+<img alt="Parameter Tuning Example" src="_images/parameter_tuning.png" />
+<p>For more details on the GUI’s features and components, please consult the section <a class="reference internal" href="GUI/index.html"><span class="doc">Graphical User Interface (GUI)</span></a>.</p>
+</li>
+</ol>
+</section>
+<section id="where-to-go-from-here">
+<h2>Where to Go From Here?<a class="headerlink" href="#where-to-go-from-here" title="Link to this heading">¶</a></h2>
+<p>We hope you enjoyed exploring PyLens and understanding some core concepts of neural network training through the classic XOR example. For next steps, you might consider the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Explore the GUI</strong>: Read the <a class="reference internal" href="GUI/index.html"><span class="doc">GUI documentation</span></a> for more detailed information on the GUI’s features and how to interact with them.</p></li>
+<li><p><strong>Experiment</strong>: Try different training parameters, network architectures, and activation functions to see how they affect the network’s performance.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="bonus-code-explanation">
+<h2>Bonus: Code Explanation<a class="headerlink" href="#bonus-code-explanation" title="Link to this heading">¶</a></h2>
+<p>If you want a deeper look at how the XOR network is set up in <code class="docutils literal notranslate"><span class="pre">examples/example_networks/xor_examples/xor_example_one.py</span></code>, below are the major code chunks with brief explanations.</p>
+<ol class="arabic">
+<li><p><strong>Simulator/Network Creation</strong>:
+We start by instantiating a <code class="code docutils literal notranslate"><span class="pre">Simulator</span></code> named <code class="docutils literal notranslate"><span class="pre">sim_xor</span></code> and then creating a network called <code class="docutils literal notranslate"><span class="pre">xor_net_one</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyLens.simulator</span><span class="w"> </span><span class="kn">import</span> <span class="n">Simulator</span>
+
+<span class="c1"># Create simulator</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sim_xor&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create network</span>
+<span class="n">xor_net_one</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">create_net</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;xor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Network Architecture</strong>:
+We add three groups (layers)—an input layer, hidden layer, and output layer—and connect them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add the input layer (2 units)</span>
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
+    <span class="mi">2</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span>
+    <span class="n">group_type</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span>
+    <span class="n">input_transforms</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">output_transforms</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">)</span>
+
+<span class="c1"># Add the hidden layer (2 units, sigmoid activation)</span>
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
+    <span class="mi">2</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="n">group_type</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="n">input_transforms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dot&quot;</span><span class="p">],</span>
+    <span class="n">output_transforms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Add the output layer (1 unit, sigmoid + cross_entropy error)</span>
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
+    <span class="n">group_type</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
+    <span class="n">input_transforms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dot&quot;</span><span class="p">],</span>
+    <span class="n">output_transforms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sigmoid&quot;</span><span class="p">],</span>
+    <span class="n">error_function</span><span class="o">=</span><span class="s2">&quot;cross_entropy&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Connect layers (full projection)</span>
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span>
+    <span class="n">outgoing_group</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span>
+    <span class="n">incoming_group</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="n">link_type</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="n">proj_type</span><span class="o">=</span><span class="s2">&quot;full&quot;</span>
+<span class="p">)</span>
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span>
+    <span class="n">outgoing_group</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+    <span class="n">incoming_group</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
+    <span class="n">link_type</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="n">proj_type</span><span class="o">=</span><span class="s2">&quot;full&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <strong>input</strong> layer has 2 units, the <strong>hidden</strong> layer has 2 units (with sigmoid activation),
+and the <strong>output</strong> layer has 1 unit (with sigmoid + cross_entropy error).
+We use full, uniform connections from input → hidden and hidden → output.</p>
+</li>
+<li><p><strong>Loading Data &amp; Weights</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xor_net_one</span><span class="o">.</span><span class="n">load_example_set</span><span class="p">(</span><span class="s2">&quot;./examples/lens_example_input/xor_dense.ex&quot;</span><span class="p">)</span>
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">load_clen_weight</span><span class="p">(</span><span class="s2">&quot;./examples/example_networks/xor_examples/xor_example_one_weights.wt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This loads the XOR truth table examples and an initial weight file (seeded for consistency with a <em>clens</em> reference).</p>
+</li>
+<li><p><strong>Training Loop</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set hyperparameters</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">num_updates</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">report_interval</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">update_method</span> <span class="o">=</span> <span class="s2">&quot;steepest&quot;</span>
+
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">update_method</span><span class="p">)</span>
+<span class="n">xor_net_one</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">num_updates</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">report_interval</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We train for 100 updates using gradient descent with momentum (<code class="code docutils literal notranslate"><span class="pre">learning_rate=0.5</span></code>). This short run demonstrates the
+basic correctness of the network (you can extend this for more iterations if desired).</p>
+</li>
+</ol>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>heal_all_links &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="heal-all-links">
+<span id="id1"></span><h1>heal_all_links<a class="headerlink" href="#heal-all-links" title="Link to this heading">¶</a></h1>
+<p>Restores lesioned links across all groups in the network.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">heal_all_links</span><span class="p">(</span><span class="n">heal_rate</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">heal_all_links</span></code> restores <strong>lesioned links</strong> in all groups within the network. The healing process can be controlled in two ways:</p>
+<ul class="simple">
+<li><p><strong>Full Healing</strong>: If no rate is specified (<code class="docutils literal notranslate"><span class="pre">heal_rate=None</span></code>), all lesioned links in the network will be fully restored.</p></li>
+<li><p><strong>Partial Healing</strong>: A proportion of links will be healed based on the given <code class="docutils literal notranslate"><span class="pre">heal_rate</span></code>.</p></li>
+</ul>
+<p>This function is useful for <strong>gradually restoring connectivity</strong> in a network after lesioning.</p>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>heal_rate</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): The proportion (between 0 and 1) of lesioned links to heal.</p>
+<ul>
+<li><p>If <cite>None</cite>, <strong>all</strong> lesioned links are fully restored.</p></li>
+<li><p>If <cite>0.5</cite>, restores approximately 50% of the lesioned links.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Fully heal all links in the network:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">heal_all_links</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>2. Heal 50% of lesioned links across all groups:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">heal_all_links</span><span class="p">(</span><span class="n">heal_rate</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">lesion_all_links</span></code>: Lesions all links in the network.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">heal_specific_group</span></code>: Restores lesioned units in a specific group.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">heal_all_groups</span></code>: Restores lesioned units in all groups.</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>polarity &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="polarity">
+<span id="id1"></span><h1>polarity<a class="headerlink" href="#polarity" title="Link to this heading">¶</a></h1>
+<p>Compute the average polarization of unit outputs in a group</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">polarity</span><span class="p">(</span>
+    <span class="n">action</span><span class="p">,</span>
+    <span class="n">group_names</span><span class="o">=</span><span class="s2">&quot;*&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">polarity</span></code> takes an action and a list of groups on which to perform that action.</p>
+<p>Possible <strong>actions</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code>: The groups will erase all of the stored polarity information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">update</span></code>: The current polarity of each of the units in the group will be computed and these observations are recorded in the group structure using the <code class="docutils literal notranslate"><span class="pre">polarity_sum</span></code> and <code class="docutils literal notranslate"><span class="pre">polarity_num</span></code> fields. It is common to add a polarity <code class="docutils literal notranslate"><span class="pre">update</span></code> call to the <code class="docutils literal notranslate"><span class="pre">postEventProc</span></code> or <code class="docutils literal notranslate"><span class="pre">postExampleProc</span></code> so that the polarity is tracked following each event or example.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">report</span></code>: The command will print a dictionary mapping each group name to its average polarity since the last reset.</p></li>
+</ul>
+<p><strong>Polarity</strong> is a measure of the degree to which the units in a group are adopting outputs close to the minimum or maximum possible output value. In a logistic group, the minimum output is 0 and the maximum is 1, but other types of units may have a different range. In order to compute the polarity of a unit, its output is first normalized to the range [0,1].</p>
+<p>The polarity of a unit whose normalized output is x is given by the following formula:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>polarity = x log2(x) + (1-x) log2(1-x) + 1</p>
+</div>
+<p>This is a U-shaped function. If the normalized output is 0.5, the polarity is 0. As the output increases towards 1 or decreases towards 0, the polarity grows towards 1.</p>
+<p>The average polarity of the units in a group, across several training or testing examples, is a useful measure. A high polarity, close to 1, indicates that the units are adopting binary states. A low polarity can indicate that there are too few units to solve the given task and the network is forced to make use of intermediate activation values. In the absence of noise, it is also possible for a network to find a low-polarity solution when it has too many units.</p>
+<p>Various techniques can be used to encourage a network to adopt more polarized output values. Indirectly this can be done by adding noise to the unit inputs. Units with non-polarized values will be more susceptible to this kind of noise and the network will be more successful with a solution that uses binary activations. An output cost function, such as LOGISTIC_COST, can also be used to directly encourage polarized output values. In fact, the LOGISTIC_COST function uses a cost function that is simply the inverse of polarity.</p>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>action</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): The action to be performed on polarity values. One of: <code class="docutils literal notranslate"><span class="pre">&quot;reset&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;update&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;report&quot;</span></code>.</p></li>
+<li><p><strong>group_names</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">list</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">&quot;*&quot;</span></code>): A list of group names on which the action is performed. Use <code class="docutils literal notranslate"><span class="pre">&quot;*&quot;</span></code> or omit to apply to all groups. A single group name string is also accepted.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Reset polarity tracking, then update after processing</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">polarity</span><span class="p">(</span><span class="s2">&quot;reset&quot;</span><span class="p">)</span>
+<span class="c1"># ... run examples ...</span>
+<span class="n">net</span><span class="o">.</span><span class="n">polarity</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2. Report average polarity for specific groups</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">polarity</span><span class="p">(</span><span class="s2">&quot;report&quot;</span><span class="p">,</span> <span class="n">group_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="get_group_type.html"><span class="doc">get_group_type</span></a>: Print information about a group’s type, input type, and output type</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

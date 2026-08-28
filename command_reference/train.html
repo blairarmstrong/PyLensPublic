@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>train &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="train">
+<span id="id1"></span><h1>train<a class="headerlink" href="#train" title="Link to this heading">¶</a></h1>
+<p>Train the network using a specified algorithm</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="n">network_params</span><span class="o">.</span><span class="n">PAR_N_numUpdates</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="n">network_params</span><span class="o">.</span><span class="n">PAR_N_batchSize</span><span class="p">,</span>
+    <span class="n">report_interval</span><span class="o">=</span><span class="n">network_params</span><span class="o">.</span><span class="n">PAR_N_reportInterval</span><span class="p">,</span>
+    <span class="n">stop_event</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">parallel_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">num_worker</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">train</span></code> initializes and executes the <strong>training process</strong> for the network. The training follows these steps:</p>
+<ul class="simple">
+<li><p><strong>Runs for a specified number of epochs</strong> (<code class="docutils literal notranslate"><span class="pre">epochs</span></code>).</p></li>
+<li><p><strong>Uses mini-batch training with a specified batch size</strong> (<code class="docutils literal notranslate"><span class="pre">batch_size</span></code>).</p></li>
+<li><p><strong>Reports progress at specified intervals</strong> (<code class="docutils literal notranslate"><span class="pre">report_interval</span></code>).</p></li>
+<li><p><strong>Supports both NumPy-based and PyTorch-based optimizers</strong> (with validation checks for learning rate, momentum, and weight decay).</p></li>
+<li><p><strong>Supports parallel training</strong> (<code class="docutils literal notranslate"><span class="pre">parallel_mode=True</span></code>). For details, see <a class="reference internal" href="../parallel.html"><span class="doc">Special Topics: Parallel Training</span></a>.</p></li>
+</ul>
+<p>During training, network parameters are updated, and performance metrics are reported. If an output path (<code class="docutils literal notranslate"><span class="pre">net_res_save_path</span></code>) is set, results will be saved automatically.</p>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>epochs</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">network_params.PAR_N_numUpdates</span></code>): The number of weight updates to perform during training. Must be greater than 0.</p></li>
+<li><p><strong>batch_size</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">network_params.PAR_N_batchSize</span></code>): The number of examples processed before a weight update. If set to <code class="docutils literal notranslate"><span class="pre">0</span></code>, the entire dataset is run before each update.</p></li>
+<li><p><strong>report_interval</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">network_params.PAR_N_reportInterval</span></code>): The number of updates between each progress report. Must be greater than <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><strong>stop_event</strong> (optional, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): A threading event that can be used to <strong>interrupt training early</strong>.</p></li>
+<li><p><strong>parallel_mode</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">False</span></code>): If <cite>True</cite>, enables <strong>parallel training</strong>. Uses <code class="docutils literal notranslate"><span class="pre">self.num_worker</span></code> workers to distribute computation.</p></li>
+<li><p><strong>num_worker</strong> (optional, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): Set the number of parallel workers <code class="docutils literal notranslate"><span class="pre">self.num_worker</span></code> for parallel training.</p></li>
+</ul>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>total_time</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): The total time taken for training.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Train the network for 100 epochs with a batch size of 32 and report every 10 updates:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">report_interval</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2. Train with full-batch updates (batch_size=0) and enable parallel training with 3 parallel workers:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">parallel_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_worker</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>3. Train and allow for external stopping using a threading event:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="n">stop_event</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">stop_event</span><span class="o">=</span><span class="n">stop_event</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="xref std std-doc">use_training_set</span>: <a href="#id2"><span class="problematic" id="id3">|use_training_set|</span></a></p></li>
+<li><p><a class="reference internal" href="set_update_method.html"><span class="doc">set_update_method</span></a>: Set the weight update method for training</p></li>
+<li><p><a class="reference internal" href="update_weights.html"><span class="doc">update_weights</span></a>: Update the weights of the links between groups</p></li>
+<li><p><a class="reference internal" href="test.html"><span class="doc">test</span></a>: Evaluate the network on the testing set</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

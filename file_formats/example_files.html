@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example Files &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Activation Output Files" href="activation_output_files.html" />
+    <link rel="prev" title="Script Files" href="script_files.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">File Formats and Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="script_files.html">Script Files</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="activation_output_files.html">Activation Output Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weight_files.html">Weight Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">File Formats and Usage</a><ul>
+      <li>Previous: <a href="script_files.html" title="previous chapter">Script Files</a></li>
+      <li>Next: <a href="activation_output_files.html" title="next chapter">Activation Output Files</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="example-files">
+<h1>Example Files<a class="headerlink" href="#example-files" title="Link to this heading">¶</a></h1>
+<section id="text-format">
+<h2>Text Format<a class="headerlink" href="#text-format" title="Link to this heading">¶</a></h2>
+<p>Example files are written in text format. The text format is rather complex, yet flexible. It is customary to give text example files the extension “.ex”. When saving files, you might as well always add .gz or .bz2 to the name so the file will automatically be compressed. Decompression adds negligible time to the loading process. When loading, leave off the .gz or .bz2 and the file will be loaded correctly whether or not it is compressed.</p>
+<p>Before reading further, you may want to familiarize yourself with concepts of time and example events in Lens, although you may not need to concern yourself too much with this if you are just writing simple example files for feed-forward networks with one set of inputs and one set of targets per example. If the training set selects examples in ORDERED mode (which means that examples are presented to the network during training in the order in which they were read from the example file), having more than one event per example or making each event a different example may be basically equivalent for most networks. However, multiple events per example should be used if that is the logical organization of the example set. Additionally, if you are using any example selection strategy other than ORDERED, you must use multiple events per example if those events need to occur in sequence.</p>
+<p>The text example file format was substantially altered for PyLens, although most earlier formats can still be loaded. Note that it is no longer necessary to specify the number of input and output units in the header. Those values will be ignored if they do appear. In fact, it is no longer necessary to even have a set header.</p>
+<p>The file format is shown below. As in C code, whitespace only matters when leaving it out would cause ambiguity or cause two numbers or strings to run together. Extra whitespace generally does not matter (although it is a good idea to follow each example with a line break). Any line beginning with a hash mark (“#”) will be treated as a comment and ignored. In the format specification, elements in angled brackets denote values of specific types. &lt;I &gt; denotes an integer, &lt;R &gt; denotes a real number, &lt;B &gt; denotes a boolean (0 or 1) value, and &lt;S &gt; denotes a string. The string should be surrounded by quotes, brackets, parentheses, or curly braces if it contains any whitespace. A dash (“-”) can be used in place of a real number to indicate a NaN, which is often used for parameter values or to inactivate inputs or targets.</p>
+<p>All fields are optional unless they are in red. Words and punctuation in bold should appear in the file as written. Text in blue is just explanatory and does not appear. If two or more things are in blue square brackets separated by pipes (“|”), then one or the other must appear. If something is in parentheses, it can be repeated 0 or more times. If two or more things are in parentheses and are separated by pipes (“|”), then you can repeatedly choose from among the alternatives. For example, (a | b | c) would match a sequence of zero or more characters, where each character is either a, b, or c. There can’t be any space between a field identifier and the colon.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">proc</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">S</span> <span class="nb">set</span><span class="o">-</span><span class="n">proc</span><span class="o">&gt;</span>
+
+<span class="nb">max</span><span class="p">:</span>   <span class="o">&lt;</span><span class="n">R</span> <span class="nb">set</span><span class="o">-</span><span class="n">maxTime</span><span class="o">&gt;</span>
+
+<span class="nb">min</span><span class="p">:</span>   <span class="o">&lt;</span><span class="n">R</span> <span class="nb">set</span><span class="o">-</span><span class="n">minTime</span><span class="o">&gt;</span>
+
+<span class="n">grace</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">R</span> <span class="nb">set</span><span class="o">-</span><span class="n">graceTime</span><span class="o">&gt;</span>
+
+<span class="n">defI</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="nb">set</span><span class="o">-</span><span class="n">defaultInput</span><span class="o">&gt;</span>
+
+<span class="n">actI</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="nb">set</span><span class="o">-</span><span class="n">activeInput</span><span class="o">&gt;</span>
+
+<span class="n">defT</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="nb">set</span><span class="o">-</span><span class="n">defaultTarget</span><span class="o">&gt;</span>
+<span class="n">actT</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="nb">set</span><span class="o">-</span><span class="n">activeTarget</span><span class="o">&gt;</span>
+<span class="p">;</span>
+
+<span class="k">for</span> <span class="n">each</span> <span class="n">example</span><span class="p">:</span>
+  <span class="n">name</span><span class="p">:</span>   <span class="o">&lt;</span><span class="n">S</span> <span class="n">example</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+
+  <span class="n">proc</span><span class="p">:</span>   <span class="o">&lt;</span><span class="n">S</span> <span class="n">example</span><span class="o">-</span><span class="n">proc</span><span class="o">&gt;</span>
+
+  <span class="n">freq</span><span class="p">:</span>   <span class="o">&lt;</span><span class="n">R</span> <span class="n">example</span><span class="o">-</span><span class="n">frequency</span><span class="o">&gt;</span>
+
+  <span class="o">&lt;</span><span class="n">I</span> <span class="n">example</span><span class="o">-</span><span class="n">numEvents</span><span class="o">&gt;</span>   <span class="c1">#this can be left out if it is 1</span>
+
+  <span class="k">for</span> <span class="n">each</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">events</span><span class="p">:</span>
+    <span class="p">[(</span><span class="o">&lt;</span><span class="n">I</span> <span class="n">event</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">I</span> <span class="n">event</span><span class="o">&gt;-&lt;</span><span class="n">I</span> <span class="n">event</span><span class="o">&gt;</span> <span class="o">|</span> \<span class="o">*</span><span class="p">)</span>
+        <span class="n">proc</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">S</span> <span class="n">event</span><span class="o">-</span><span class="n">proc</span><span class="o">&gt;</span>
+
+        <span class="nb">max</span><span class="p">:</span>   <span class="o">&lt;</span><span class="n">R</span> <span class="n">event</span><span class="o">-</span><span class="n">maxTime</span><span class="o">&gt;</span>
+
+        <span class="nb">min</span><span class="p">:</span>   <span class="o">&lt;</span><span class="n">R</span> <span class="n">event</span><span class="o">-</span><span class="n">minTime</span><span class="o">&gt;</span>
+
+        <span class="n">grace</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">R</span> <span class="n">event</span><span class="o">-</span><span class="n">graceTime</span><span class="o">&gt;</span>
+
+        <span class="n">defI</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="n">event</span><span class="o">-</span><span class="n">defaultInput</span><span class="o">&gt;</span>
+
+        <span class="n">actI</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="n">event</span><span class="o">-</span><span class="n">activeInput</span><span class="o">&gt;</span>
+
+        <span class="n">defT</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="n">event</span><span class="o">-</span><span class="n">defaultTarget</span><span class="o">&gt;</span>
+
+        <span class="n">actT</span><span class="p">:</span>  <span class="o">&lt;</span><span class="n">R</span> <span class="n">event</span><span class="o">-</span><span class="n">activeTarget</span><span class="o">&gt;</span>
+
+    <span class="p">]</span>
+
+    <span class="p">(</span><span class="n">I</span><span class="p">:</span>\<span class="o">|</span><span class="n">i</span><span class="p">:</span>\<span class="o">|</span><span class="n">T</span><span class="p">:</span>\<span class="o">|</span><span class="n">t</span><span class="p">:</span>\<span class="o">|</span><span class="n">B</span><span class="p">:</span>\<span class="o">|</span><span class="n">b</span><span class="p">:</span>\<span class="o">|</span><span class="p">)</span> <span class="p">(</span>
+      <span class="n">dense</span> <span class="nb">range</span><span class="p">:</span>  <span class="p">(</span><span class="o">&lt;</span><span class="n">S</span> <span class="n">group</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">I</span> <span class="n">first</span><span class="o">-</span><span class="n">unit</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">R</span> <span class="nb">input</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">|</span>
+      <span class="n">sparse</span> <span class="nb">range</span><span class="p">:</span> <span class="p">{</span><span class="o">&lt;</span><span class="n">S</span> <span class="n">group</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">R</span> <span class="nb">input</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span><span class="p">}</span> <span class="p">[</span><span class="o">*</span> <span class="o">|</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">I</span> <span class="n">unit</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">I</span> <span class="n">unit</span><span class="o">&gt;-&lt;</span><span class="n">I</span> <span class="n">unit</span><span class="o">&gt;</span><span class="p">)]</span>
+
+    <span class="p">)</span>
+
+<span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-set-header">
+<h2>Example Set Header<a class="headerlink" href="#example-set-header" title="Link to this heading">¶</a></h2>
+<p>The example set header consists of a number of optional fields, which may appear in any order. The proc: is a procedure that is executed before the rest of the set is loaded. Typically, this will define some procedures (or source a script file defining procedures) that will be used by procs belonging to examples or events in the set.</p>
+<p>The header may also specify the maxTime, minTime, graceTime, defaultInput, activeInput, defaultTarget, and activeTarget fields of the example set. The …Time values are used for any event that does not specify its own non-NaN values. The defaultInput and defaultTarget values are used for any unit that does not have a value specified on a particular event. The activeInput and activeTarget are the default values used when a unit is named in a sparse representation, which is explained below.</p>
+<p>The set header need not end with a semicolon. In fact, there could be no set header at all, which will typically be the case. However, a semicolon can be used to avoid ambiguity. For example, if the first example has a proc: specification at the start of its header, you must do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">;</span>
+
+<span class="n">proc</span><span class="p">:</span> <span class="o">...</span>
+
+<span class="n">rather</span> <span class="n">than</span><span class="p">:</span>
+
+<span class="n">proc</span><span class="p">:</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>Otherwise, the proc: will be interpreted as an example set procedure rather than the first example’s procedure.</p>
+</section>
+<section id="procs">
+<h2>Procs<a class="headerlink" href="#procs" title="Link to this heading">¶</a></h2>
+<p>A proc is a snippet of code that is executed before the rest of the object is loaded. Procs can also be manually called anytime using the .proc() function; this executes the snippet of code associated with the object. Procs may be defined for each example set, example or event. All procs are associated with field values and cannot have duplicate names. The procs field values are stored in a separate file, usually called “&lt;nameofexampleset&gt;_procs.ex”. It has its own special format (below).</p>
+<p>Format of proc files:
+A proc file may or may not begin with global variables defined to be used by any of the functions. All global variables must be defined in the procs file before the first proc. At the example sets level, global variables and their values are stored in the instance variable global_dict, which is a dictionary of key-value pairs. They can be accessed anytime from the example set. For example, if “a=0” at the beginning of the proc file defines a global variable “a”, it can be accessed as follows: ExampleSet.global_dict[“a”].</p>
+<p>The global variables are followed by procs with their special format. All procs start with a special key word  “startofproc” followed by the name of the proc. Then, in a new line lies an executable code snippet enclosed in curly brackets “{code}”. For each function defined in the proc, the function needs to pass in the global variables as parameters if they are being used in the function body. You can reference the following example of a procs file.</p>
+<p>To define a proc called testing_proc at example_set, we may have the following text inside at the example_set header inside the example_set.ex file:</p>
+<p>proc: example_set_0;</p>
+<p>And inside the example_set_procs.ex file, we may have:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># global variables</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="mi">9</span>  <span class="c1"># global variables</span>
+
+<span class="n">startofproc</span> <span class="n">example_set_0</span> <span class="p">{</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">funct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">,</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span>
+
+<span class="p">}</span>
+
+<span class="n">startofproc</span> <span class="n">example_0</span> <span class="p">{</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ex_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;testing :)) this is an example!!&#39;</span><span class="p">)</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="example-set-mode">
+<h2>Example Set Mode<a class="headerlink" href="#example-set-mode" title="Link to this heading">¶</a></h2>
+<p>The mode is a parameter which is passed in the constructor of the example Set to set the order of the examples in the example_list of example_set. There are 5 different modes:
+In ORDERED mode, which is the default, examples will be presented in the order in which they were found in the example file.</p>
+<p>In RANDOMIZED mode, examples will be selected at random with replacement, each having the same probability of selection. Note that this differs from PERMUTED because it uses replacement. It differs from PROBABILISTIC because it ignores the example frequency.</p>
+<p>In PERMUTED mode, examples will be selected at random without replacement, each having the same probability of selection. A different order will be computed for each pass through the set.</p>
+<p>In PROBABILISTIC mode, examples are selected based on their given frequency. Specified frequency values will be normalized over all examples and this distribution used for selection. If example sets are concatenated, the distribution will be recalculated based on the specified frequencies. An example with no frequency specified is given a value of 1.0.</p>
+<p>#TODO custom mode</p>
+<p>CUSTOM mode allows you to write a procedure that generates the index of the next example. When it’s time to choose the next example, the example set’s chooseExample procedure will be called. This should return an integer between 0 and one less than the number of examples, inclusive.</p>
+</section>
+<section id="example-iterator">
+<h2>Example Iterator<a class="headerlink" href="#example-iterator" title="Link to this heading">¶</a></h2>
+<p>Example Iiterator is a class implemented to iterate over the examples in  the examples_list of the exampleSet object. The Iterator keeps track of the current example over which the iterator is currently, the previous example, and the next example. Calling iterator_example() method of the exampleSet object allows us to iterate over the example while calling next_example(), prev_example() and curr_example() allows us to access the current example without moving the iterator. If the iterator reaches the last example in the list where the list has the examples arranged in the order mentioned by the mode instance variable, the iterator resets itself by first reordering the example_list based on the mode and then resetting the value of its next, curr and prev parameters so that the curr points to the first example in the ordered example_list.</p>
+</section>
+<section id="example-header">
+<h2>Example Header<a class="headerlink" href="#example-header" title="Link to this heading">¶</a></h2>
+<p>Each example begins with a header consisting of a few optional specifications, which can appear in any order. The most important one is the number of events in the example. If this does not appear, it is assumed to be 1. Otherwise, it is mandatory.</p>
+<p>name: defines the label that will be used for the example. If no name is given, the example will be labeled by its index, starting with 0. Remember that strings containing whitespace should be surrounded by curly braces.</p>
+<p>proc: defines a command that will be run when the example is first loaded. You might use this to cause the network to do something special before this example.</p>
+<p>freq: sets the frequency of example presentation that will be used when selecting examples in PROBABILISTIC mode or when using pseudo-example frequencies, which simply scale the error and output derivatives by the example frequency. The default frequency is 1.0. Frequencies need not be normalized to a sum of 1.0. That will be done automatically if PROBABILISTIC mode is used. You can turn on pseudo-frequencies by setting the network’s pseudoExampleFreq field to 1.</p>
+<p>Event Lists</p>
+<p>Following the example header are the event specifications. Because they are quite flexible, these can be a bit confusing. There are three main sections that may appear in an event specification: event lists, inputs, and targets.</p>
+<p>The event list is used to set parameters for the events and activates certain events so that the next inputs and targets will be applied to those events. Because multiple events can appear in the event list, it is possible to cause events to share input or target representations without duplicating the representation in the example file or in memory.</p>
+<p>The event list is enclosed in square brackets. The list is either a series of event numbers and ranges of event numbers or an asterisk, which stands for all events. There should just be whitespace between elements of the list. If the list is empty, it is equivalent to having an asterisk. Following the event list can be a number of optional parameter settings, which can appear in any order. These settings will only affect the events in the list. For example, this sets the maxTime and minTime of events 0, 3, 4, 5, 6, and 9:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">0</span> <span class="mi">3</span><span class="o">-</span><span class="mi">6</span> <span class="mi">9</span> <span class="nb">max</span><span class="p">:</span><span class="mf">3.5</span> <span class="nb">min</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Either of these set the default sparse inputs for all events to -1.0:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">*</span> <span class="n">defI</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">[</span><span class="n">defI</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The first set of inputs and the first set of targets following an event list will be applied to those events. You may not specify more than one set of inputs or more than one set of targets for an event. If a set of inputs is specified that is not immediately following an event list, it will be applied to the event following the highest numbered event that already has inputs. A similar rule applies for targets. Consider this example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">6</span>
+
+<span class="p">[</span><span class="mi">0</span><span class="o">-</span><span class="mi">2</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">1</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="p">;</span>
+</pre></div>
+</div>
+<p>The inputs 0 1 0 will be applied to events 0, 1, 2, and 4, because these inputs immediately follow the event list. The next inputs, 1 0 1, cannot also be applied to those events so they will be applied to event 5. The targets, however, will apply to the active events, 0-2 and 4, because targets have not yet been specified for those events. In this example, event 3 won’t have any inputs or targets and event 5 won’t have targets.</p>
+<p>You can give inputs and targets to each event in order by simply listing them either in blocks or intermingled:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">1</span>
+
+<span class="ow">or</span><span class="p">:</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Note, though, that if you have activated a list of events to set some parameters, you will need to active event 0 before you can list the inputs and targets for each event in order. Otherwise, the first ones will apply to the active events and the others may cause errors. For example, you may need to do this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">max</span><span class="p">:</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span>
+
+<span class="n">T</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</section>
+<section id="inputs-and-targets">
+<h2>Inputs and Targets<a class="headerlink" href="#inputs-and-targets" title="Link to this heading">¶</a></h2>
+<p>A set of inputs is introduced by either I: or i:. Following this is a series of one or more ranges. A range can either use a dense encoding, which specifies values for a consecutive block of units, or a sparse encoding, which specifies a single value and then a list of unit numbers. When an event is loaded into the network, first the externalInput of each INPUT unit is set to the event’s defaultInput and the target of each OUTPUT unit is set to the event’s defaultTarget. Then each of the ranges is applied to change the inputs or targets for some or all of the units. Typically the default values will be 0.0, although the user may wish to set them to NaN (-). A unit with a NaN target will be ignored when error is computed. A HARD_CLAMP unit with a NaN externalInput will attempt to calculate its input using the standard input combining and transfer methods. If the unit has no input combining or transfer method or no inputs and the externalInput is NaN, it will probably have an output of 0.</p>
+</section>
+<section id="dense-encoding">
+<h2>Dense Encoding<a class="headerlink" href="#dense-encoding" title="Link to this heading">¶</a></h2>
+<p>The dense encoding is preceded by an optional set of {}. Within the curly brackets may be an optional group name and/or an optional first unit index, in either order. If the group name is specified, only units in that group will be affected and the unit indices will be relative to the start of that group. Note that any network that uses the example must have a group with that exact name. If the group name must contain whitespace, it may be surrounded by quotation marks, brackets or parentheses. If a group is not specified, then unit indices will be relative to the entire network, counting from the first unit in the first INPUT group to the last unit in the last INPUT group. The first unit index is the index (relative to either the group or the network) of the first unit for which an externalInput value will be specified.</p>
+<p>Following the curly brackets is a list of real values, which will be the inputs to the consecutive block of input units including and following the starting unit. There is no need to specify in advance how many values will be in this list and there is no need to terminate it with any punctuation (unless it is the last thing in the example). This defaults to 0. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="p">:</span> <span class="p">{</span><span class="n">input2</span> <span class="mi">3</span><span class="p">}</span> <span class="mf">0.1</span> <span class="mf">0.2</span> <span class="mf">0.3</span> <span class="p">{</span><span class="mi">2</span><span class="p">}</span> <span class="mf">0.4</span>
+</pre></div>
+</div>
+<p>will set the externalInputs to units input2:3, input2:4 and input2:5 to 0.1, 0.2, and 0.3, respectively. The next range then sets the externalInput to the third input unit in the network to 0.4. If you do not wish to put a group name or first unit in the parentheses, you may leave them off if they are immediately following an I:. For example, these two lines are equivalent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="p">:</span> <span class="p">{}</span> <span class="mi">2</span> <span class="mi">3</span>
+
+<span class="n">I</span><span class="p">:</span> <span class="mi">2</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>The dense encoding for targets is just like that for inputs, except that a T: introduces it. If a B: is used, it means both inputs and targets. It is equivalent to using I: and then repeating the whole thing again with a T:. The B: can be very useful for auto-encoder and prediction tasks. It will save space both in the example file and in memory when the set is loaded.</p>
+</section>
+<section id="sparse-encoding">
+<h2>Sparse Encoding<a class="headerlink" href="#sparse-encoding" title="Link to this heading">¶</a></h2>
+<p>The sparse range is introduced by a set of curly braces, {}. Within the curly braces may be an optional group name, as for the dense encoding, and/or an externalInput value. If the input value is not specified it will default to the event’s activeInput. However, if two or more events are sharing inputs (because they were listed in an event list), the activeInput value of the first event will apply to all of them, regardless of the other events’ activeInput values.</p>
+<p>Following the curly braces is either a * or a list of unit numbers and unit ranges. The * will cause all units in the group (or in the network if a group is not given) to have the specified externalInput value. Otherwise, only those units whose indices are listed will receive the input. This example will set the externalInput of units 0, 4, 5, and 6 to 1.0, and the externalInput for units 1, 2 and 3 to -1.0:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="p">:</span> <span class="p">{</span><span class="mf">1.0</span><span class="p">}</span> <span class="mi">0</span> <span class="mi">2</span> <span class="mi">4</span><span class="o">-</span><span class="mi">6</span> <span class="p">{</span><span class="o">-</span><span class="mf">1.0</span><span class="p">}</span> <span class="mi">1</span><span class="o">-</span><span class="mi">3</span>
+</pre></div>
+</div>
+<p>If you do not wish to put a group name or externalInput value in the curly braces for the first range, the braces may be eliminated and i: used rather than I:. These are equivalent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="p">:</span> <span class="p">{}</span> <span class="mi">0</span> <span class="mi">3</span>
+
+<span class="n">i</span><span class="p">:</span> <span class="p">{}</span> <span class="mi">0</span> <span class="mi">3</span>
+
+<span class="n">i</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>One more example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">defI</span><span class="p">:</span><span class="o">-</span> <span class="n">actI</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">i</span><span class="p">:</span> <span class="mi">0</span><span class="o">-</span><span class="mi">3</span> <span class="mi">5</span> <span class="mi">8</span> <span class="p">{</span><span class="mf">2.0</span><span class="p">}</span> <span class="mi">4</span> <span class="mi">9</span><span class="o">-</span><span class="mi">11</span>
+</pre></div>
+</div>
+<p>The above case has two ranges. Units 0, 1, 2, 3, 5, and 8 will have externalInput 1.0. Units 4, 9, 10, and 11 will have externalInput 2.0, and units 6, 7, and anything above 12 will have the default input, which is NaN. Therefore, those units will compute their own inputs and targets using any input combining and transfer function they may have.</p>
+<p>Sparse targets are similar to sparse inputs, except T: or t: are used. Here is one way to make sure an event has no targets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="p">:{</span><span class="o">-</span><span class="p">}</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>A b: indicates both inputs and targets. It is equivalent to using i: and then repeating the whole thing again with a t:.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Here is a very simple example file for an XOR problem:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="p">:</span><span class="mi">0</span> <span class="mi">0</span> <span class="n">T</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="n">I</span><span class="p">:</span><span class="mi">0</span> <span class="mi">1</span> <span class="n">T</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="n">I</span><span class="p">:</span><span class="mi">1</span> <span class="mi">0</span> <span class="n">T</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="n">I</span><span class="p">:</span><span class="mi">1</span> <span class="mi">1</span> <span class="n">T</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here is an equivalent file that is ever so slightly smaller because it uses sparse inputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">;;</span>
+
+<span class="n">i</span><span class="p">:</span><span class="mi">1</span> <span class="n">t</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="n">i</span><span class="p">:</span><span class="mi">0</span> <span class="n">t</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="n">i</span><span class="p">:</span>\<span class="o">*</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>This is a poorly done auto-encoder example file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span><span class="p">:</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+
+<span class="n">T</span><span class="p">:</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">I</span><span class="p">:</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>
+
+<span class="n">T</span><span class="p">:</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">I</span><span class="p">:</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="n">T</span><span class="p">:</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">I</span><span class="p">:</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span>
+
+<span class="n">T</span><span class="p">:</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here it is improved using sparse encodings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">:</span><span class="mi">0</span> <span class="n">t</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="n">i</span><span class="p">:</span><span class="mi">1</span> <span class="n">t</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="n">i</span><span class="p">:</span><span class="mi">2</span> <span class="n">t</span><span class="p">:</span><span class="mi">2</span><span class="p">;</span>
+
+<span class="n">i</span><span class="p">:</span><span class="mi">3</span> <span class="n">t</span><span class="p">:</span><span class="mi">3</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>It can be compressed further using the “both” symbol:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span> <span class="n">b</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span> <span class="n">b</span><span class="p">:</span><span class="mi">2</span><span class="p">;</span> <span class="n">b</span><span class="p">:</span><span class="mi">3</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here is an XOR example file with many bells and whistles:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here is the first example.  It has two events:</span>
+
+<span class="n">name</span><span class="p">:{</span><span class="mi">0</span> <span class="mi">0</span><span class="p">}</span>
+
+<span class="n">freq</span><span class="p">:</span><span class="mf">2.7</span>
+
+<span class="n">proc</span><span class="p">:</span> <span class="p">{</span><span class="n">example_proc0</span><span class="p">}</span>
+
+<span class="mi">2</span>
+
+<span class="p">[</span><span class="nb">max</span><span class="p">:</span><span class="mi">2</span> <span class="nb">min</span><span class="p">:</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">I</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span>
+
+<span class="p">[</span><span class="nb">max</span><span class="p">:</span><span class="mf">2.5</span> <span class="n">proc</span><span class="p">:{</span><span class="n">puts</span> <span class="s2">&quot;starting the second event&quot;</span><span class="p">}]</span>
+
+<span class="c1"># Only specifying inputs for the first event and targets for the second</span>
+
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">T</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1"># Here is the second example.  It has one event:</span>
+
+<span class="n">freq</span><span class="p">:</span> <span class="mf">4.5</span>
+
+<span class="n">name</span><span class="p">:</span> <span class="s2">&quot;0 1&quot;</span>
+
+<span class="n">proc</span><span class="p">:{</span><span class="n">example_proc2</span><span class="p">}</span>
+
+<span class="c1"># This means all (one) events have maxTime of 3.5:</span>
+
+<span class="p">[</span><span class="nb">max</span><span class="p">:</span><span class="mf">3.5</span><span class="p">]</span>
+
+<span class="n">I</span><span class="p">:</span><span class="mi">1</span> <span class="n">Tt</span><span class="p">:</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="c1"># Here is the third example.  It has two events with the default headers:</span>
+
+<span class="n">name</span><span class="p">:</span><span class="mi">1</span><span class="o">-</span><span class="mi">0</span>
+
+<span class="mi">2</span>
+
+<span class="c1"># Both events use inputs &quot;1 0&quot;, but the first has no targets.</span>
+
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">i</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span>
+
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">t</span><span class="p">:</span>\<span class="o">*</span><span class="p">;</span>
+</pre></div>
+</div>
+<section id="exampleset-object-structure">
+<h3>ExampleSet Object Structure<a class="headerlink" href="#exampleset-object-structure" title="Link to this heading">¶</a></h3>
+<p>ExampleSet - Example - Event</p>
+<p>ExampleSet is the top level of the training data. In its initialization (see examples below), ExampleSet takes in a Network object, a filename
+and other parameters.</p>
+<p>The ExampleSet.example attribute is a list of Example Objects that are in the ExampleSet.</p>
+<p>The Example.event attribute is a list of Event Objects that are in the Example.</p>
+</section>
+<section id="loading-examplesets">
+<h3>Loading ExampleSets<a class="headerlink" href="#loading-examplesets" title="Link to this heading">¶</a></h3>
+<p>When the load_example_set() function is called, the following procedure is used in the back end to read the example set file into an ExampleSet object:</p>
+<ol class="arabic simple">
+<li><p>filter out commented lines (lines starting with #).</p></li>
+<li><p>check whether the file is using sparse or dense format, and remember the setting.</p></li>
+<li><p>split the file content by example, which is separated by ‘n’. then for each example do the following:</p></li>
+<li><p>create Example object. parse the example header, looking for keywords ending with ‘:’, and setting their respective values.</p></li>
+<li><p>parse event header, looking for keywords ending with ‘:’, and setting their respective values.</p></li>
+<li><p>set the values for input, output and target groups according to the format above.</p></li>
+</ol>
+</section>
+</section>
+<section id="writing-example-files">
+<h2>Writing Example Files<a class="headerlink" href="#writing-example-files" title="Link to this heading">¶</a></h2>
+<p>PyLens includes an ExampleSet level function: ExampleSet.write_example_set_to_file(file_name). This function writes the dense format text representation of this example set to file_name. At any point after a series of manipulations to the initial example set, you can write the example set to a file to save its current state.</p>
+<p>You can also manually construct your own example set and generate a text representation of it.</p>
+<p>Usage example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># creates an example set
+
+set = ExampleSet(network, proc, name, file_name, 1, 1, 1, 1, 0, 0)
+
+ex = Example(set)
+
+set.example.append(ex)
+
+ev = Event(ex)
+
+ex.event.append(ev)
+
+# populate the values of event as necessary
+
+ev.input_group = []
+
+ev.target_group = []
+
+# write out the file
+
+set.write_example_set_to_file(“testing.txt”)
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

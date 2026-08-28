@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Performance Optimization with Numba &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="performance-optimization-with-numba">
+<h1>Performance Optimization with Numba<a class="headerlink" href="#performance-optimization-with-numba" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>To enhance the performance of our neural network computations, we have integrated <a class="reference external" href="https://numba.pydata.org/">Numba</a>, a Just-In-Time (JIT) compiler for Python, into several critical components of our project. Numba allows us to accelerate numerical functions by compiling Python code to optimized machine code at runtime, significantly speeding up execution without the need to rewrite code in a lower-level language.</p>
+</section>
+<section id="why-numba">
+<h2>Why Numba?<a class="headerlink" href="#why-numba" title="Link to this heading">¶</a></h2>
+<p>Numba offers substantial performance improvements for numerical computations, especially in array operations and loops that are prevalent in our neural network algorithms. By utilizing Numba’s JIT compilation, we achieve execution speeds close to those of compiled languages like C, all while maintaining the flexibility and simplicity of Python.</p>
+<p><strong>Advantages</strong>:</p>
+<ul class="simple">
+<li><p>Faster execution of numerical functions.</p></li>
+</ul>
+</section>
+<section id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Link to this heading">¶</a></h2>
+<p>We have applied Numba’s <code class="docutils literal notranslate"><span class="pre">&#64;njit</span></code> decorator to key functions in several modules, including:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cross_entropy_error.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cosine_error.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">divergence_error.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">error.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">squared_error.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">link.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigmoid.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dot_product.py</span></code></p></li>
+</ul>
+<p>These functions are integral to error calculations, activation functions, and other computationally intensive tasks within the network. By compiling these functions with Numba, we reduce the overhead associated with Python’s interpreted execution, leading to faster training times and more efficient network performance.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<p>The following example shows how Numba is applied in <cite>cross_entropy_error.py</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="nd">@njit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">error_vec</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">large_value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">large_value</span> <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="mf">1.0</span> <span class="k">else</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">o</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">large_value</span> <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">else</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">o</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">large_value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="n">o</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">o</span><span class="p">)))</span>
+</pre></div>
+</div>
+</section>
+<section id="performance-improvement">
+<h2>Performance Improvement<a class="headerlink" href="#performance-improvement" title="Link to this heading">¶</a></h2>
+<p>By leveraging Numba, we have observed significant speedups in our network’s training process. The JIT compilation minimizes the execution time of computationally intensive functions, particularly those involving loops and array manipulations.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://numba.pydata.org/numba-doc/latest/index.html">Numba Documentation</a></p></li>
+<li><p><a class="reference external" href="https://github.com/numba/numba">Numba GitHub Repository</a></p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

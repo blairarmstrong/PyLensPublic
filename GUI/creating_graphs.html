@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Creating Graphs &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="File Formats and Usage" href="../file_formats/index.html" />
+    <link rel="prev" title="Link Viewer" href="link_viewer.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Graphical User Interface (GUI)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="main_viewer.html">Main Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit_viewer.html">Unit Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="link_viewer.html">Link Viewer</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Creating Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Graphical User Interface (GUI)</a><ul>
+      <li>Previous: <a href="link_viewer.html" title="previous chapter">Link Viewer</a></li>
+      <li>Next: <a href="../file_formats/index.html" title="next chapter">File Formats and Usage</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="creating-graphs">
+<h1>Creating Graphs<a class="headerlink" href="#creating-graphs" title="Link to this heading">¶</a></h1>
+<p>A range of network properties can be plotted during training. To illustrate these functions, we load the network python script <code class="docutils literal notranslate"><span class="pre">encoder_example_one.py</span></code> from the <code class="docutils literal notranslate"><span class="pre">examples/example_networks/encoder_examples/</span></code> folder of PyLens.</p>
+<p>Click the <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Graph</span></code> button in the Main Viewer to open a new window with an empty graph. Move the window next to the Main Viewer window so that you can access both. Now click on <code class="docutils literal notranslate"><span class="pre">Start</span> <span class="pre">Training</span></code> in the Main Viewer.</p>
+<p>By default, the network’s error will be plotted. The error will be plotted at each Report Interval for the number of training steps specified in the Main Viewer.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/error-plot.png"><img alt="Error plotted every 10 update intervals for 100 training steps." src="../_images/error-plot.png" style="width: 600px;" />
+</a>
+</figure>
+<p>The toolbar at the top of the graph window includes the default matplotlib controls: resetting the view, panning, zooming, configuring the graph’s size, and saving.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/graph-controls.png"><img alt="Graph controls." src="../_images/graph-controls.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Next to the <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Graph</span></code> button in the Main Viewer is a text entry box that can be used to select which network property to plot. Arbitrary network attributes (with numerical values) can be plotted by specifying the attribute name on the text entry box. For example, to plot the output of the first output unit in the last layer of the encoder_example_one network, you would type <code class="docutils literal notranslate"><span class="pre">output_groups[-1].output_matrix[1]</span></code>.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/output-unit-plot.png"><img alt="Plotting the output unit." src="../_images/output-unit-plot.png" style="width: 600px;" />
+</a>
+</figure>
+<p>To compare training progress between different runs, you can press the <code class="docutils literal notranslate"><span class="pre">Reset</span> <span class="pre">Network</span></code> button in the Main Viewer while plotting. This starts a new trace in the graph. The latest trace will be plotted in black color.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/traces.png"><img alt="Error plot for different training runs." src="../_images/traces.png" style="width: 600px;" />
+</a>
+</figure>
+<p>Multiple graphs can be invoked by re-clicking the New Graph button.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

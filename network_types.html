@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Special Topics: Network Types &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Special Topics: Parallel Training" href="parallel.html" />
+    <link rel="prev" title="Special Topics: Group Types" href="group_types.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Special Topics: Network Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#standard-networks">Standard Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simple-recurrent-networks-and-simple-recurrent-backprop-through-time-srbptt-network">Simple Recurrent Networks and Simple Recurrent Backprop Through Time (SRBPTT) Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fully-recurrent-and-continuous-networks">Fully Recurrent and Continuous Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deterministic-boltzmann-machines">Deterministic Boltzmann Machines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="group_types.html" title="previous chapter">Special Topics: Group Types</a></li>
+      <li>Next: <a href="parallel.html" title="next chapter">Special Topics: Parallel Training</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="special-topics-network-types">
+<h1>Special Topics: Network Types<a class="headerlink" href="#special-topics-network-types" title="Link to this heading">¶</a></h1>
+<section id="standard-networks">
+<h2>Standard Networks<a class="headerlink" href="#standard-networks" title="Link to this heading">¶</a></h2>
+<p><strong>Standard networks</strong> are feed-forward networks in that information propagates all the way through the network during the forward pass on each tick. In such networks, groups are updated in the order in which they appear in the network’s group array. A group update in this case consists of computing its inputs and immediately computing its outputs. This differs from continuous networks which have all groups update their inputs and then have all groups compute their outputs. Therefore, we say that continuous networks have synchronous update and standard network (including simple recurrent networks) have sequential update.</p>
+</section>
+<section id="simple-recurrent-networks-and-simple-recurrent-backprop-through-time-srbptt-network">
+<h2>Simple Recurrent Networks and Simple Recurrent Backprop Through Time (SRBPTT) Network<a class="headerlink" href="#simple-recurrent-networks-and-simple-recurrent-backprop-through-time-srbptt-network" title="Link to this heading">¶</a></h2>
+<p>A <strong>Simple Recurrent network (SRN)</strong> is just a standard feed-forward network with one or more <code class="docutils literal notranslate"><span class="pre">elman</span></code> type groups. An <code class="docutils literal notranslate"><span class="pre">elman</span></code> context group is affiliated with a source group that has the same number of units. The context group should have the type <code class="docutils literal notranslate"><span class="pre">elman</span></code>, but the source group can have any type.</p>
+<p>When the context group computes its output, each unit increments its output by the output of the corresponding unit in the source group. If <code class="docutils literal notranslate"><span class="pre">elman_clamp</span></code> is the only output function, this essentially copies the outputs of the source group. Ordinarily, the context group should appear before the source group in the group order. In this case, the values copied will be the output of the source group from the previous tick (See <a class="reference internal" href="GUI/unit_viewer.html#time-events-and-ticks"><span class="std std-ref">Time: Events and Ticks</span></a>). Therefore, the context group is able to provide a bit of history.</p>
+<p>It is customary to create a normal projection from the context group back to the source group, but this need not be the case. You might chain context groups together to get a history of length two or three ticks. If the source group is the output layer and the context group projects to a hidden layer, you will have a Jordan network.</p>
+<p>During training, standard networks, including SRNs, perform a backpropagation sweep on each tick immediately after the forward pass. Continuous networks, on the other hand, perform a single backprop sweep that runs from the end of the example to the beginning of the example. You can extend the backpropagation phases of an SRN by increasing the backpropTicks parameter. A value of 3 will mean that, after each tick, the error will be backpropagated across the current tick and the previous two ticks. This can help SRNs learn long or difficult sequences. However, the training time of the network will increase in proportion to the backpropTicks.</p>
+<p>An alternative is to use a <strong>simple recurrent backprop through time (SRBPTT) network</strong>. This is similar to an SRN in that it uses sequential updating. But it is similar to a continuous backprop through time network in that it uses a single backward sweep that runs from the end of the example to the beginning. It is like having the number of backpropTicks always equal to the number of ticks in the example, but much more efficient because there is just a single backward pass, rather than one for each tick.</p>
+</section>
+<section id="fully-recurrent-and-continuous-networks">
+<h2>Fully Recurrent and Continuous Networks<a class="headerlink" href="#fully-recurrent-and-continuous-networks" title="Link to this heading">¶</a></h2>
+<p><strong>Fully recurrent networks</strong> differ from simple recurrent networks in that fully recurrent networks use concurrent updates and propagate error derivatives backwards through time (See <a class="reference internal" href="GUI/unit_viewer.html#time-events-and-ticks"><span class="std std-ref">Time: Events and Ticks</span></a>). A feed-forward or simple recurrent network will transfer activity from the input layer to the output layer in a single tick: each group in order updates its inputs and immediately updates its outputs. In a fully recurrent network, on the other hand, all groups first update their inputs and then all groups update their outputs. Therefore, information can propagate across just one set of connections per tick.</p>
+<p>What are typically called recurrent-backprop-through-time (RBPTT) networks use a single tick per time interval. Therefore, the unit activations will change completely on each tick. <strong>Continuous networks</strong> are a more general version of fully recurrent networks which use more than one tick per interval and integrate the unit inputs or outputs, causing them to change gradually. Because these are really part of a continuum, it’s not always meaningful to draw a distinction between RBPTTs and continuous networks and they will collectively be called “fully recurrent” to distinguish them from simple recurrent networks.</p>
+<p>Example events are the same in continuous, fully recurrent, and standard networks, each having an optional minTime, maxTime, and graceTime, with the example set defaults used when a value is not specified. These are specified in terms of time intervals, not in ticks, so the scale at which a continuous network is simulated can be changed without altering the example files. In the case of continuous networks, it becomes useful to have event time values that are not integers.</p>
+<p>With continuous networks, the first tick of each example is used to set the initial outputs of the units. This tick therefore has no event associated with it. This is not necessary in standard networks because updates are sequential.</p>
+</section>
+<section id="deterministic-boltzmann-machines">
+<h2>Deterministic Boltzmann Machines<a class="headerlink" href="#deterministic-boltzmann-machines" title="Link to this heading">¶</a></h2>
+<p><strong>Deterministic Boltzmann machines (DBMs)</strong> are typically fully interconnected networks that are trained using a two-phase settling process and a form of Hebbian weight updating. The input to a unit is the dot product of its incoming weights and the activations of the sending units. The units use a logistic transfer function (with an adjustable gain) and are output-integrating, meaning that the outputs change gradually over time. Groups in a DBM will use the <code class="docutils literal notranslate"><span class="pre">BoltzmannInput</span></code> input function and the <code class="docutils literal notranslate"><span class="pre">BoltzmannOutput</span></code> output function by default.</p>
+<p>Training on each example event in a DBM occurs in two phases. At the start of the positive phase, both the input units and the output units are clamped to the inputs and targets, respectively, and the other units are reset to their <code class="docutils literal notranslate"><span class="pre">initOutput</span></code>. Then the non-clamped units are allowed to settle for a given period of time or until the activations are no longer changing significantly. Usually the gain will be annealed with an exponential upward decay during the settling process. Initially there is high temperature (low gain), gradually settling to a lower temperature (high gain).</p>
+<p>In the negative phase, the inputs remain clamped but the outputs are allowed to freely update. At the start of the negative phase, the activations of all of the units other than the inputs are shifted towards their <code class="docutils literal notranslate"><span class="pre">initOutput</span></code>. Early in training, the outputs may not be shifted at all, and would thus remain the same as they were at the end of the positive phase. Gradually, the normalization could be made stronger until the units are completely reset to the <code class="docutils literal notranslate"><span class="pre">initOutput</span></code> at the start of the negative phase. During testing, only the negative phase is run.</p>
+<p>During training, each weight is updated in a Hebbian fashion according to the products of the outputs of the preceding and following units. The weight change will be proportional to the difference between the product at the end of the positive phase and the product at the end of the negative phase. PyLens does not enforce the constraint that links in opposing directions between two units have the same weights, although they will receive the same changes so they will tend towards the same value if there is weight decay or will maintain a fixed offset otherwise.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

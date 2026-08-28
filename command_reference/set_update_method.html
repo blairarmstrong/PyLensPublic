@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>set_update_method &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="set-update-method">
+<span id="id1"></span><h1>set_update_method<a class="headerlink" href="#set-update-method" title="Link to this heading">¶</a></h1>
+<p>Set the weight update method for training</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span>
+    <span class="n">lr</span><span class="p">,</span>
+    <span class="n">update_method</span><span class="o">=</span><span class="s2">&quot;steepest&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">set_update_method</span></code> configures the <strong>weight update method</strong> for optimizing network parameters. The string you pass is normalized with <code class="docutils literal notranslate"><span class="pre">.lower()</span></code> and must match one of the spellings below (these are the Python API names; cLens documentation sometimes uses forms like <code class="docutils literal notranslate"><span class="pre">dougsMomentum</span></code> or <code class="docutils literal notranslate"><span class="pre">deltaBarDelta</span></code> — in PyLens use the quoted strings).</p>
+<p>The function <strong>instantiates the matching optimizer</strong> on the network. If <code class="docutils literal notranslate"><span class="pre">update_method</span></code> is not recognized, PyLens falls back to the <strong>global network default</strong> (<code class="docutils literal notranslate"><span class="pre">PAR_N_algorithm</span></code>).</p>
+<p><strong>``”steepest”`` (default)</strong> — Pure gradient descent in weight space (no momentum from prior steps).</p>
+<p><strong>``”momentum”``</strong> — Each weight change blends the current gradient step with a fraction of the previous step, controlled by the optimizer’s momentum parameter. The effective step size can grow roughly like <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">/</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">momentum)</span></code> compared to plain steepest descent.</p>
+<p><strong>``”dougs momentum”``</strong> — Like standard momentum, but the <strong>pre-momentum</strong> weight step vector is <strong>capped</strong> so its length does not exceed 1.0. After adding momentum, the combined update can still grow up to about <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">/</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">momentum)</span></code>. This often allows <strong>larger stable learning rates</strong> early in training than plain momentum.</p>
+<p><strong>``”delta bar delta”``</strong> — Per-link adaptive learning rates. Each link keeps a multiplier (see the optimizer / link fields such as <code class="docutils literal notranslate"><span class="pre">link_learning_rate</span></code>). When consecutive updates for a weight move in a consistent direction vs. when they reverse, the multiplier is adjusted using the optimizer’s <code class="docutils literal notranslate"><span class="pre">rate_increment</span></code> and <code class="docutils literal notranslate"><span class="pre">rate_decrement</span></code> (see <a class="reference internal" href="../overview_of_code.html"><span class="doc">Overview of the Code</span></a> and optimizer parameters). The base <code class="docutils literal notranslate"><span class="pre">lr</span></code> you pass to <code class="docutils literal notranslate"><span class="pre">set_update_method</span></code> still scales the overall step.</p>
+<p><strong>``”adam”``</strong> — Adam optimizer (PyTorch path uses the corresponding torch implementation where applicable).</p>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>lr</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): The learning rate used for the optimizer.</p></li>
+<li><p><strong>update_method</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">&quot;steepest&quot;</span></code>): The weight update method to use. Options: <code class="docutils literal notranslate"><span class="pre">&quot;steepest&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;momentum&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;dougs</span> <span class="pre">momentum&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;delta</span> <span class="pre">bar</span> <span class="pre">delta&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;adam&quot;</span></code>.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Steepest descent (default), common for small demos:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;steepest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2. Momentum with a learning rate of 0.01:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">update_method</span><span class="o">=</span><span class="s2">&quot;momentum&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>3. Doug’s momentum (bounded pre-momentum step):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;dougs momentum&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>4. Delta–bar–delta (per-weight learning rates):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;delta bar delta&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>5. Adam:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">update_method</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>6. Invalid method name — falls back to</strong> <code class="docutils literal notranslate"><span class="pre">PAR_N_algorithm</span></code> <strong>:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">set_update_method</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">update_method</span><span class="o">=</span><span class="s2">&quot;invalid_method&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="train.html"><span class="doc">train</span></a>: Train the network using a specified algorithm</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

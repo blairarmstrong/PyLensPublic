@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview of the Code &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributors" href="contributors.html" />
+    <link rel="prev" title="Introduction" href="introduction_for_programmers.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview of the Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#network-classes">Network Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network">Network</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#simple-recurrent-backpropagation-through-time-network">Simple Recurrent Backpropagation Through Time Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#continuous-network">Continuous Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boltzmann-machine">Boltzmann Machine</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#groups">Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-transformations">Input transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#output-transformations">Output transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#links">Links</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fully-connected-links">Fully connected links</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#one-to-one-connected-links">One-to-one connected links</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#randomly-connected-links">Randomly connected links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#optimizers">Optimizers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#example-classes">Example Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example-set">Example Set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#event">Event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-iterator">Example Iterator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gui-classes">GUI Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main-viewer">Main viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unit-viewer">Unit viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#link-viewer">Link viewer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graph-viewer">Graph viewer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="introduction_for_programmers.html" title="previous chapter">Introduction</a></li>
+      <li>Next: <a href="contributors.html" title="next chapter">Contributors</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="overview-of-the-code">
+<h1>Overview of the Code<a class="headerlink" href="#overview-of-the-code" title="Link to this heading">¶</a></h1>
+<p>This page describes the structure of the most important class objects used in PyLens. PyLens includes three major sets of objects. The first set is the network objects, which include the neural network object and other objects responsible for neural network representation, computation, and training. The second set is the example objects, which represent training and testing example sets in a structure suitable for cognitive modeling. The third set is the GUI objects, which visualize the neural network units, layers, weights, and graphs, and provide command buttons.</p>
+<section id="network-classes">
+<h2>Network Classes<a class="headerlink" href="#network-classes" title="Link to this heading">¶</a></h2>
+<p>The <cite>backend</cite> contains network, groups (layers), links (weights), and
+optimizer classes.</p>
+<section id="network">
+<h3>Network<a class="headerlink" href="#network" title="Link to this heading">¶</a></h3>
+<p>This is the backbone neural network object. It connects other components, such as groups (layers), input/output transformations, and links (weights).</p>
+<section id="simple-recurrent-backpropagation-through-time-network">
+<h4>Simple Recurrent Backpropagation Through Time Network<a class="headerlink" href="#simple-recurrent-backpropagation-through-time-network" title="Link to this heading">¶</a></h4>
+</section>
+<section id="continuous-network">
+<h4>Continuous Network<a class="headerlink" href="#continuous-network" title="Link to this heading">¶</a></h4>
+</section>
+<section id="boltzmann-machine">
+<h4>Boltzmann Machine<a class="headerlink" href="#boltzmann-machine" title="Link to this heading">¶</a></h4>
+</section>
+</section>
+<section id="groups">
+<h3>Groups<a class="headerlink" href="#groups" title="Link to this heading">¶</a></h3>
+<p>This is the object representing a group (layer) of units.</p>
+</section>
+<section id="input-transformations">
+<h3>Input transformations<a class="headerlink" href="#input-transformations" title="Link to this heading">¶</a></h3>
+<p>This is the object that applies an input transformation to a group of units.</p>
+</section>
+<section id="output-transformations">
+<h3>Output transformations<a class="headerlink" href="#output-transformations" title="Link to this heading">¶</a></h3>
+<p>This is the object that applies an output transformation from a group of units, also called an activation function.</p>
+</section>
+<section id="links">
+<h3>Links<a class="headerlink" href="#links" title="Link to this heading">¶</a></h3>
+<p>This is the object representing the links (weights) between two groups (layers) of units.</p>
+<section id="fully-connected-links">
+<h4>Fully connected links<a class="headerlink" href="#fully-connected-links" title="Link to this heading">¶</a></h4>
+</section>
+<section id="one-to-one-connected-links">
+<h4>One-to-one connected links<a class="headerlink" href="#one-to-one-connected-links" title="Link to this heading">¶</a></h4>
+</section>
+<section id="randomly-connected-links">
+<h4>Randomly connected links<a class="headerlink" href="#randomly-connected-links" title="Link to this heading">¶</a></h4>
+</section>
+</section>
+<section id="optimizers">
+<h3>Optimizers<a class="headerlink" href="#optimizers" title="Link to this heading">¶</a></h3>
+<p>This is the object representing the weights between two groups (layers) of units.</p>
+</section>
+</section>
+<section id="example-classes">
+<h2>Example Classes<a class="headerlink" href="#example-classes" title="Link to this heading">¶</a></h2>
+<p>There are three example class objects: example set, example, and event. The example iterator iterates over the examples in an example set.</p>
+<section id="example-set">
+<h3>Example Set<a class="headerlink" href="#example-set" title="Link to this heading">¶</a></h3>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+</section>
+<section id="event">
+<h3>Event<a class="headerlink" href="#event" title="Link to this heading">¶</a></h3>
+</section>
+<section id="example-iterator">
+<h3>Example Iterator<a class="headerlink" href="#example-iterator" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<section id="gui-classes">
+<h2>GUI Classes<a class="headerlink" href="#gui-classes" title="Link to this heading">¶</a></h2>
+<section id="main-viewer">
+<h3>Main viewer<a class="headerlink" href="#main-viewer" title="Link to this heading">¶</a></h3>
+</section>
+<section id="unit-viewer">
+<h3>Unit viewer<a class="headerlink" href="#unit-viewer" title="Link to this heading">¶</a></h3>
+</section>
+<section id="link-viewer">
+<h3>Link viewer<a class="headerlink" href="#link-viewer" title="Link to this heading">¶</a></h3>
+</section>
+<section id="graph-viewer">
+<h3>Graph viewer<a class="headerlink" href="#graph-viewer" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>graphObject &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="graphobject">
+<span id="graph-object"></span><h1>graphObject<a class="headerlink" href="#graphobject" title="Link to this heading">¶</a></h1>
+<p>Opens a live-updating graph to visualize the value of a network object or variable.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">graphObject</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">plot_variable</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">graphObject</span></code> creates a <strong>real-time graph</strong> that tracks the value of a specified <strong>network object or variable</strong> during simulation. This provides a <strong>visual representation of training progress</strong>, unit activations, or error trends.</p>
+<p>If no variable is specified, <strong>error</strong> is used as the default.</p>
+<p>### <strong>Tracked Objects</strong>
+The <code class="docutils literal notranslate"><span class="pre">plot_variable</span></code> argument defines what the graph tracks. Examples include:
+- <strong>“error”</strong> → Monitors the network’s training error.
+- <strong>“group.hidden.output”</strong> → Tracks the output of all units in the hidden layer.
+- <strong>“unit.2.input”</strong> → Displays input values for unit 2.
+- <strong>“group(3).unit(2).output”</strong> → Plots the activation of a specific unit.</p>
+<p>### <strong>Update Frequency</strong>
+The graph updates at a fixed interval (<cite>interval=100ms</cite> by default).
+Possible update triggers include:
+- <strong>TICKS</strong> → Updates after each tick.
+- <strong>EVENTS</strong> → Updates based on defined events.
+- <strong>EXAMPLES</strong> → Updates after each training example.
+- <strong>WEIGHT_UPDATES</strong> → Updates after weight changes.
+- <strong>PROGRESS_REPORTS</strong> <em>(default)</em> → Updates periodically during training.
+- <strong>TRAINING_AND_TESTING</strong> → Updates at both training and test phases.
+- <strong>USER_SIGNALS</strong> → Updates when triggered manually.</p>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>parent</strong> (<code class="docutils literal notranslate"><span class="pre">Tk</span></code>): The Tkinter window or parent widget in which the graph is embedded.</p></li>
+<li><p><strong>network</strong> (<code class="docutils literal notranslate"><span class="pre">Network</span></code>): The active network whose values will be tracked.</p></li>
+<li><p><strong>plot_variable</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): The <strong>network parameter</strong> (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;error&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;group.hidden.output&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;unit.2.input&quot;</span></code>) to be visualized.</p></li>
+</ul>
+</section>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Automatic Plot Updates</strong> → The graph refreshes every <code class="docutils literal notranslate"><span class="pre">100ms</span></code> (default) or based on an update trigger.</p></li>
+<li><p><strong>Supports Multiple Traces</strong> → Tracks multiple variables at once.</p></li>
+<li><p><strong>Interactive Toolbar</strong> → Allows zooming, panning, and saving figures.</p></li>
+<li><p><strong>Customizable Axes</strong> → Dynamically adjusts graph limits as new data arrives.</p></li>
+<li><p><strong>Graceful Shutdown</strong> → Ensures proper cleanup when the graph window is closed.</p></li>
+</ul>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Graph the network error over time:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">graphObject</span><span class="p">(</span><span class="n">simulator</span><span class="p">,</span> <span class="n">my_network</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>2. Visualize the output of units 0, 1, and 2 every tick:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">graphObject</span><span class="p">(</span><span class="n">simulator</span><span class="p">,</span> <span class="n">my_network</span><span class="p">,</span> <span class="s2">&quot;out:0.output out:1.output out:2.output&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">train</span></code>: Trains the network and generates data for visualization.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">test</span></code>: Evaluates the network and updates graph traces.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">reset_network</span></code>: Resets the simulation and clears stored values.</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

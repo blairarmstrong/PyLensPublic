@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>check_worker_status &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="check-worker-status">
+<span id="id1"></span><h1>check_worker_status<a class="headerlink" href="#check-worker-status" title="Link to this heading">¶</a></h1>
+<p>Check the status of parallel workers</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ray<span class="w"> </span>status
+ray<span class="w"> </span>worker<span class="w"> </span>list
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
+<p>To check the status of parallel training, open a new terminal, run the following commands:</p>
+<p><code class="docutils literal notranslate"><span class="pre">ray</span> <span class="pre">status</span></code> outputs the status of node (main server of the network)</p>
+<p><code class="docutils literal notranslate"><span class="pre">ray</span> <span class="pre">actor</span> <span class="pre">list</span></code> outputs the status of parallel workers (they are Ray actors).</p>
+<p>For more information of ray command to check status, visit <a class="reference external" href="https://docs.ray.io/en/latest/ray-observability/user-guides/cli-sdk.html">https://docs.ray.io/en/latest/ray-observability/user-guides/cli-sdk.html</a></p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p><strong>1. Check node status</strong></p>
+<p>Command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ray<span class="w"> </span>status
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ray<span class="w"> </span><span class="nv">status</span>
+
+<span class="o">========</span><span class="w"> </span>Autoscaler<span class="w"> </span>status:<span class="w"> </span><span class="m">2026</span>-01-01<span class="w"> </span><span class="m">01</span>:00:00.000000<span class="w"> </span><span class="o">========</span>
+Node<span class="w"> </span>status
+---------------------------------------------------------------
+Active:
+<span class="w"> </span><span class="m">1</span><span class="w"> </span>node_85b891eb9522ecfed10ecaa1914a5a796bed831e533705e68309ccb0
+Pending:
+<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>pending<span class="w"> </span>nodes<span class="o">)</span>
+Recent<span class="w"> </span>failures:
+<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>failures<span class="o">)</span>
+
+Resources
+---------------------------------------------------------------
+Usage:
+<span class="w"> </span><span class="m">0</span>.0/8.0<span class="w"> </span>CPU
+<span class="w"> </span>0B/6.58GiB<span class="w"> </span>memory
+<span class="w"> </span>0B/2.00GiB<span class="w"> </span>object_store_memory
+
+Demands:
+<span class="w"> </span><span class="o">(</span>no<span class="w"> </span>resource<span class="w"> </span>demands<span class="o">)</span>
+</pre></div>
+</div>
+<p>Here we have one node that is active.</p>
+<p><strong>2. check worker status</strong></p>
+<p>Command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ray<span class="w"> </span>actor<span class="w"> </span>list
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ray<span class="w"> </span>actor<span class="w"> </span><span class="nv">list</span>
+
+<span class="o">========</span><span class="w"> </span>List:<span class="w"> </span><span class="m">2026</span>-01-01<span class="w"> </span><span class="m">01</span>:00:00.000000<span class="w"> </span><span class="o">========</span>
+Stats:
+------------------------------
+Total:<span class="w"> </span><span class="m">3</span>
+
+Table:
+------------------------------
+<span class="w">    </span>ACTOR_ID<span class="w">                          </span>CLASS_NAME<span class="w">       </span>STATE<span class="w">      </span>JOB_ID<span class="w">  </span>NAME<span class="w">    </span>NODE_ID<span class="w">                                                     </span>PID<span class="w">  </span>RAY_NAMESPACE
+<span class="w"> </span><span class="m">0</span><span class="w">  </span>01fa2fd6bcd33c1bedf15c2001000000<span class="w">  </span>ParallelNetwork<span class="w">  </span>ALIVE<span class="w">    </span><span class="m">01000000</span><span class="w">          </span>85b891eb9522ecfed10ecaa1914a5a796bed831e533705e68309ccb0<span class="w">  </span><span class="m">85513</span><span class="w">  </span>1ed16000-8282-4436-bb0
+<span class="m">2</span>-255d5b868836
+<span class="w"> </span><span class="m">1</span><span class="w">  </span>283bf1bec46d46cb98d2188901000000<span class="w">  </span>ParallelNetwork<span class="w">  </span>ALIVE<span class="w">    </span><span class="m">01000000</span><span class="w">          </span>85b891eb9522ecfed10ecaa1914a5a796bed831e533705e68309ccb0<span class="w">  </span><span class="m">85507</span><span class="w">  </span>1ed16000-8282-4436-bb0
+<span class="m">2</span>-255d5b868836
+<span class="w"> </span><span class="m">2</span><span class="w">  </span>d484e6b3f1285ad97a8de57d01000000<span class="w">  </span>ParallelNetwork<span class="w">  </span>ALIVE<span class="w">    </span><span class="m">01000000</span><span class="w">          </span>85b891eb9522ecfed10ecaa1914a5a796bed831e533705e68309ccb0<span class="w">  </span><span class="m">85509</span><span class="w">  </span>1ed16000-8282-4436-bb0
+<span class="m">2</span>-255d5b868836
+</pre></div>
+</div>
+<p>Here we have 3 parallel works connected to the same node, each with a separate PID.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../parallel.html"><span class="doc">Parallel training</span></a>: Overview of parallel training in PyLens</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pre-Commit &#8212; PyLens  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=5e2b3e69" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=897499d9" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLens</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">USER GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to PyLens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginner_tutorial.html">Beginner’s Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_tutorial.html">Coding Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GUI/index.html">Graphical User Interface (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats/index.html">File Formats and Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="group_types.html">Special Topics: Group Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_types.html">Special Topics: Network Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">Special Topics: Parallel Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_reference/index.html">Command Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPER'S GUIDE</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction_for_programmers.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_of_code.html">Overview of the Code</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">ABOUT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pre-commit">
+<h1>Pre-Commit<a class="headerlink" href="#pre-commit" title="Link to this heading">¶</a></h1>
+<p>Pre-Commit is a library that can do checked prior to committing.</p>
+<p>You can implement exiting pre-commit hooks and you can also create your custom hooks.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>The two commands that are needed:</p>
+<dl class="simple">
+<dt>::</dt><dd><p>pip3 install pre-commit</p>
+</dd>
+</dl>
+<p>This command uses pip3 to install the pre-commit library</p>
+<dl class="simple">
+<dt>::</dt><dd><p>pre-commit install</p>
+</dd>
+</dl>
+<p>This command installs the git hook scripts</p>
+<p>In PyLens, these two command lines are added into the requirements.txt and MakeFile.</p>
+<p>To install pre-commit in PyLens, simply run ‘make’ or ‘make requirements’ and ‘make pre-commit’</p>
+</section>
+<section id="creating-pre-commit-configurations">
+<h2>Creating Pre-Commit Configurations<a class="headerlink" href="#creating-pre-commit-configurations" title="Link to this heading">¶</a></h2>
+<p>Currently, the pre-Commit Configurations are within the file “.pre-commit-config.yaml”</p>
+<p>The “repos:” on line 1 allows us to add multiple git hook repositories to include in our test.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>repo: local</p></li>
+</ul>
+</div></blockquote>
+<p>Allows us to run test scripts within the local repository.</p>
+<p>Then, we will add hooks inside of “hooks:”</p>
+<p>Each hook contains a name and ID, which will be displayed on command line.</p>
+<blockquote>
+<div><p>entry:</p>
+</div></blockquote>
+<p>is the command that you will be running for the test.</p>
+<blockquote>
+<div><p>venv/bin/python3 pre-commit_hooks/xor_hook.py</p>
+</div></blockquote>
+<p>The line above runs python3 in the virtual environment, and it runs the xor_hook.py in pre-commit_hooks directory.</p>
+<p>There are other keys that you can add to the hooks.</p>
+<p>verbose - will print output even the test passes</p>
+<p>always_run - will always run this hook even if there are no matching files</p>
+<p>More keys are listed here:
+<a class="reference external" href="https://pre-commit.com/#plugins">https://pre-commit.com/#plugins</a></p>
+</section>
+<section id="creating-unit-tests">
+<h2>Creating Unit Tests<a class="headerlink" href="#creating-unit-tests" title="Link to this heading">¶</a></h2>
+<p>It is fairly simple to create unit test.</p>
+<p>You will only need to create a script that exits with code 0 if test passes and code 1 if test fails.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &#169;2020, CAP Lab, University of Toronto.
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
