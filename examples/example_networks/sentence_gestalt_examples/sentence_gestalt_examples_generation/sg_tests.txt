@@ -1,0 +1,167 @@
+// These are the esg (emergent stochastic / sentence generator) rules
+// See emer/emergent/esg for details on syntax etc.
+// test sentences
+
+// the | means to go in sequential order instead of generating at random
+Sentences | {
+	ActiveSemantic
+	ActiveSyntactic	
+	PassiveSemantic
+	PassiveSyntactic
+	ActiveControl
+	Ambiguity1	
+	Ambiguity2
+	ConceptInstantiation
+	RoleElaboration1
+	RoleElaboration2
+	OnlineUpdate
+	OnlineUpdateControl
+	Conflict
+}
+
+// Seq 0: should be able to predict everything, including that mod = instrument
+ActiveSemantic {
+	=Agent=Schoolgirl
+	=Action=Stirred
+	=Patient=Koolaid
+	=Mod=Instrument
+	=Instrument=Spoon
+	=FinalQ=Patient
+	'schoolgirl' 'stirred' 'koolaid' 'with' 'spoon'
+}
+
+// Seq 1: Should be able to predict that teacher was recipient?
+ActiveSyntactic {
+	=Agent=Busdriver
+	=Action=Gave
+	=Patient=RoseN
+	=Mod=Recipient
+	=Recipient=Teacher
+	=FinalQ=Agent
+	'busdriver' 'gave' 'rosen' 'to' 'teacher'
+}
+
+// Seq 2: Passive form -- the Case=Passive causes it to render as passive
+PassiveSemantic {
+	=Case=Passive
+	=Agent=Busdriver
+	=Action=Spread
+	=Patient=Jelly
+	=Mod=Instrument
+	=Instrument=Knife
+	=FinalQ=Patient
+	'busdriver' 'spread' 'jelly' 'with' 'knife'
+}
+
+// Seq 3: Passive, can it get agent and patient right?
+PassiveSyntactic {
+	=Case=Passive
+	=Agent=Busdriver
+	=Action=Kissed
+	=Patient=Teacher
+	=Mod=Location
+	=Location=Park
+	=FinalQ=Agent
+	'busdriver' 'kissed' 'teacher' 'in' 'park'
+}
+
+// Seq 4: Active version of previous passive syntactic case
+ActiveControl {
+	=Agent=Busdriver
+	=Action=Kissed
+	=Patient=Teacher
+	=Mod=Location
+	=Location=Park
+	=FinalQ=Patient
+	'busdriver' 'kissed' 'teacher' 'in' 'park'
+}
+
+// Seq 5: Ambiguity: threw = threwtossed (busdriver), ball = ballsphere
+Ambiguity1 {
+	=Agent=Busdriver
+	=Action=ThrewTossed
+	=Patient=BallSphere
+	=Mod=Location
+	=Location=Park
+	=FinalQ=Patient
+	'busdriver' 'threwtossed' 'ballsphere' 'in' 'park'
+}
+
+// Seq 6: Ambiguity: threw = threwhosted (teacher), ball = ballparty
+Ambiguity2 {
+	=Agent=Teacher
+	=Action=ThrewHosted
+	=Patient=BallParty
+	=Mod=Location
+	=Location=Livingroom
+	=FinalQ=Patient
+	'teacher' 'threwhosted' 'ballparty' 'in' 'livingroom'
+}
+
+// Seq 7: Instantiate ambiguous someone reference
+ConceptInstantiation {
+	=Agent=Teacher
+	=Action=Kissed
+	=Patient=PitcherPers // could also be Busdriver
+	=Mod=Location
+	=Location=Park
+	=FinalQ=Patient
+	'teacher' 'kissed' 'someone' 'in' 'park'
+}
+
+// Seq 8: Elaborate instrument with something -> knife
+RoleElaboration1 {
+	=Agent=Busdriver
+	=Action=Ate
+	=Patient=Steak
+	=Mod=Instrument
+	=Instrument=Knife
+	=FinalQ=Patient
+	'busdriver' 'ate' 'steak' 'with' 'something'
+}
+
+// Seq 9: Elaborate instrument with something -> spoon?
+RoleElaboration2 {
+	=Agent=PitcherPers
+	=Action=Ate
+	=Patient=Icecream
+	=Mod=Instrument
+	=Instrument=Spoon
+	=FinalQ=Patient
+	'pitcherpers' 'ate' 'something' 'with' 'spoon'
+}
+
+// Seq 10: Update child = schoolgirl based on daintiness
+OnlineUpdate {
+	=Agent=Schoolgirl
+	=Action=Ate
+	=Patient=Soup
+	=Mod=Adverb
+	=Adverb=Daintiness
+	=FinalQ=Agent
+	'child' 'ate' 'soup' 'with' 'daintiness'
+}
+
+// Seq 11: Explicit contradictory input for daintiness
+OnlineUpdateControl {
+	=Agent=PitcherPers
+	=Action=Ate
+	=Patient=Soup
+	=Mod=Adverb
+	=Adverb=Daintiness
+	=FinalQ=Agent
+	'pitcherpers' 'ate' 'soup' 'with' 'daintiness'
+}
+
+// Seq 12: Icedtea is always in Livingroom!
+Conflict {
+	=Agent=Busdriver
+	=Action=Drank
+	=Patient=Icedtea
+	=Mod=Location
+	=Location=Kitchen
+	=FinalQ=Action
+	'adult' 'drank' 'icedtea' 'in' 'kitchen'
+}
+
+

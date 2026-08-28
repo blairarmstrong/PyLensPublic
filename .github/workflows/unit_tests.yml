@@ -1,0 +1,130 @@
+name: Run Python Tests
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e .
+      - name: Install xvfb (for headless GUI support)
+        run: sudo apt-get install -y xvfb
+      - name: xor network with different training algorithms
+        run: python unit_tests/test_xor_with_different_update_algorithms.py
+      - name: xor network with one serial and two parallel training
+        run: python unit_tests/test_serial_and_two_parallel_training.py
+      - name: Continuous xor network
+        run: python unit_tests/test_continuous_xor.py
+      - name: xor network with unit cost
+        run: python unit_tests/test_standard_xor_with_unitcost.py
+      - name: Continuous xor network with unit cost
+        run: python unit_tests/test_continuous_xor_with_unitcost.py
+      - name: continuous network set time
+        run: python unit_tests/test_set_time/test_continuous_set_time.py
+      - name: boltzmann network set time
+        run: python unit_tests/test_set_time/test_boltzmann_set_time.py
+      - name: srbptt network set time
+        run: python unit_tests/test_set_time/test_srbptt_set_time.py
+      - name: encoder network with weight decay
+        run: python unit_tests/test_encoder_with_weight_decay.py
+      - name: filler network
+        run: python unit_tests/test_filler_example2.py
+      - name: srn network
+        run: python unit_tests/test_srn.py
+      - name: srn double layer network
+        run: python unit_tests/test_srn_double_layer.py
+      - name: negation network
+        run: python unit_tests/test_negation.py
+      - name: rand10x40 network
+        run: python unit_tests/test_rand10x40.py
+      - name: filler srbptt network
+        run: python unit_tests/test_filler_srbptt.py
+      - name: xor boltzmann
+        run: python unit_tests/test_boltzmann/test_boltz_xor.py
+      - name: digits boltzmann
+        run: python unit_tests/test_boltzmann/test_boltz_big.py
+      - name: reconstruction boltzmann
+        run: python unit_tests/test_boltzmann/test_boltz_complete2.py
+      - name: multi-event boltzmann
+        run: python unit_tests/test_boltzmann/test_boltz_on_off.py
+      - name: task hook
+        run: python unit_tests/task_hook.py
+      - name: link freeze & thaw
+        run: python unit_tests/test_freeze_thaw.py
+      - name: link lesion
+        run: python unit_tests/test_lesion_link.py
+      - name: unit lesion
+        run: python unit_tests/test_lesion_unit.py
+      - name: save load weight -- xor
+        run: python unit_tests/test_save_load_weights/test_xor.py
+      - name: save load weight -- srn
+        run: python unit_tests/test_save_load_weights/test_srn.py
+      - name: save load weight -- rand10x40
+        run: python unit_tests/test_save_load_weights/test_rand10x40.py
+      - name: bias clamp output
+        run: python unit_tests/test_output_transforms/test_bias_clamp.py
+      - name: exponential output
+        run: python unit_tests/test_output_transforms/test_exponential.py
+      - name: gaussian output
+        run: python unit_tests/test_output_transforms/test_gaussian.py
+      - name: hard clamp output
+        run: python unit_tests/test_output_transforms/test_hard_clamp.py
+      - name: copy output
+        run: python unit_tests/test_output_transforms/test_out_copy.py
+      - name: cropped output
+        run: python unit_tests/test_output_transforms/test_out_cropped.py
+      - name: norm output
+        run: python unit_tests/test_output_transforms/test_out_norm.py
+      - name: winner output
+        run: python unit_tests/test_output_transforms/test_out_winner.py
+      - name: sigmoid output
+        run: python unit_tests/test_output_transforms/test_out_sigmoid.py
+      - name: softmax output
+        run: python unit_tests/test_output_transforms/test_soft_max.py
+      - name: tanh output
+        run: python unit_tests/test_output_transforms/test_tanh.py
+      - name: ternary output
+        run: python unit_tests/test_output_transforms/test_ternary.py
+      - name: wark clamp output
+        run: python unit_tests/test_output_transforms/test_weak_clamp.py
+      - name: MSE error
+        run: python unit_tests/test_error_functions/test_MSE.py
+      - name: cross entropy error
+        run: python unit_tests/test_error_functions/test_cross_entropy.py
+      - name: divergence error
+        run: python unit_tests/test_error_functions/test_adder_with_divergence_error.py
+      - name: Run connection functions tests
+        run: xvfb-run -a python unit_tests/test_connection_func.py
+      - name: Run viewer tests with virtual display
+        run: xvfb-run -a python unit_tests/test_viewers/test_main_viewer.py
+      - name: Run graph viewer tests
+        run: xvfb-run -a python unit_tests/test_viewers/test_graph_viewer.py
+      - name: Run unit viewer tests
+        run: xvfb-run -a python unit_tests/test_viewers/test_unit_viewer.py
+      - name: Run link viewer tests
+        run: xvfb-run -a python unit_tests/test_viewers/test_link_viewer.py
+      - name: pytorch backend xor
+        run: python unit_tests/test_pytorch/test_pytorch_xor.py
+      - name: pytorch backend filler
+        run: python unit_tests/test_pytorch/test_pytorch_filler.py
+      - name: pytorch backend filler srbptt
+        run: python unit_tests/test_pytorch/test_pytorch_filler_srbptt.py
+      - name: pytorch backend rand10x40
+        run: python unit_tests/test_pytorch/test_pytorch_rand10x40.py
+      - name: pytorch backend boltz
+        run: python unit_tests/test_pytorch/test_pytorch_boltz_big.py

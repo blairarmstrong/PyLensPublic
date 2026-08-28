@@ -1,0 +1,62 @@
+.. PyLens documentation master file, created by
+   sphinx-quickstart on Sat Jul  4 17:40:42 2020.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to PyLens!
+==================================
+
+PyLens is a Python-based tool for simulating language, memory, and other cognitive phenomena using neural networks.
+
+.. image:: images/unit-viewer-output-4.png
+	:alt: Example of PyLens graphical interface showing the units of a neural network
+
+
+Contact
+=======
+
+We welcome feedback, questions, and bug reports. You can contact us directly:
+
+* **Jiangtian Li** — jiangtianli91@gmail.com
+* **Blair Armstrong** — blair.armstrong@utoronto.ca
+
+You can also report bugs, request features, or leave feedback by opening an issue on our GitHub repository.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: USER GUIDE
+   :class: hidden-toc
+
+   introduction
+   installation
+   beginner_tutorial
+   coding_tutorial
+   GUI/index
+   file_formats/index
+   group_types
+   network_types
+   parallel
+   command_reference/index
+   
+.. toctree::
+   :maxdepth: 4
+   :caption: DEVELOPER'S GUIDE
+   :class: hidden-toc
+
+   introduction_for_programmers
+   overview_of_code
+
+.. toctree::
+   :maxdepth: 1
+   :caption: ABOUT
+   :class: hidden-toc
+   
+   contributors
+
+.. 
+	Indices and tables
+	==================
+
+	* :ref:`genindex`
+	* :ref:`modindex`
+	* :ref:`search`
