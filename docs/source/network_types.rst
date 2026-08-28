@@ -1,6 +1,8 @@
 Special Topics: Network Types
 ==============================
 
+This documentation is adapted from the original Lens documentation.
+
 Standard Networks
 -----------------
 

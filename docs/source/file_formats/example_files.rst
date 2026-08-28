@@ -1,6 +1,8 @@
 Example Files
 ========================
 
+This documentation is adapted from the original Lens documentation.
+
 Text Format
 ------------------
 

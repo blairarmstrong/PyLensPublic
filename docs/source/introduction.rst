@@ -1,7 +1,7 @@
 Introduction to PyLens 
 =====================
 
-PyLens is a flexible neural network simulator written in Python that is based on the Lens neural network simulator. PyLens is able to handle large, complex simulations but is also reasonably easy for novices to use. PyLens has three main design objectives:
+PyLens is a flexible neural network simulator written in Python that is based on the Lens neural network simulator (Rohde, 1999). PyLens is able to handle large, complex simulations but is also reasonably easy for novices to use. PyLens has three main design objectives:
 
 * **Wide Range of Supported Neural Networks**. Currently, PyLens supports a wide range of neural networks that are commonly used in cognitive modeling. These include feedforward networks, simple recurrent networks, recurrent networks with backpropagation through time, continuous neural networks, and Boltzmann machines. Some of these networks, such as continuous neural networks and Boltzmann machines, are often not supported in AI-oriented neural network packages such as PyTorch and TensorFlow. Users can also freely combine components of these different networks and customize the networks they want in Python scripts.
 

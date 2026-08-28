@@ -2,10 +2,11 @@ name: Run Python Tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,7 +24,9 @@ jobs:
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
           python -m pip install -e .
       - name: Install xvfb (for headless GUI support)
-        run: sudo apt-get install -y xvfb
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
       - name: xor network with different training algorithms
         run: python unit_tests/test_xor_with_different_update_algorithms.py
       - name: xor network with one serial and two parallel training
