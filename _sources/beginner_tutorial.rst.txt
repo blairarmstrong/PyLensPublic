@@ -24,7 +24,7 @@ Preparation
 
    .. code-block:: bash
 
-      cd .../PyLens [replace ... with actual folder path]
+      cd .../PyLensPublic [replace ... with actual folder path]
 
 3. **Ensure Required Data and Weights**:
    Verify that the following files exist in your PyLens installation (or cloned) folder:

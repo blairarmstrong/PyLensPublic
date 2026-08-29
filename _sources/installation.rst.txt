@@ -52,10 +52,10 @@ Step 2: Clone the PyLens Repository
 
    .. code-block:: bash
 
-      cd PyLens
+      cd PyLensPublic
 
 .. tip::
-   1. Alternatively, download the repository ZIP file from GitHub and unzip it. Then, cd into the unzipped ``PyLens`` directory.
+   1. Alternatively, download the repository ZIP file from GitHub and unzip it. Then, cd into the unzipped ``PyLensPublic`` directory.
    2. If you don’t have Git installed, you can `download Git <https://git-scm.com/downloads>`__ and install it.  
 
 Step 3: Create a Virtual Environment
@@ -86,7 +86,7 @@ Creating a virtual environment isolates the packages required for PyLens, preven
 Step 4: Install PyLens and Dependencies
 ---------------------------------------
 
-1. Ensure you are in the ``PyLens`` directory and have your conda environment (``pylens_env``) active.
+1. Ensure you are in the ``PyLensPublic`` directory and have your conda environment (``pylens_env``) active.
 2. Install PyLens using ``pip`` (which comes with Python):
 
    .. code-block:: bash
