@@ -242,7 +242,7 @@ class Network:
         self.debug = debug
         self.debug_errors = []
         self.debug_weights = []
-        self.link_types = ["uniform", "gaussian", "kaiming", "elman"]
+        self.link_types = []
         self.links_dict = {}
 
 
@@ -1231,8 +1231,8 @@ class Network:
         transform.source_group = src
         transform.source_field = field
     
-    def connect_groups(self, outgoing_group, incoming_group, link_type="uniform", 
-                       rand_mean=0, rand_range=None, proj_type="full", 
+    def connect_groups(self, outgoing_group, incoming_group, initialization="uniform", 
+                       rand_mean=0, rand_range=None, proj_type="full", link_type=None, 
                        lesion_rate=None, dropout_rate=None, 
                        perma_lesion_rate=None, bidirectional=False):
         """
@@ -1240,6 +1240,7 @@ class Network:
 
         Args:
             link_type (str): the type of link to create between the groups
+            initialization (str): weight initialization method ('uniform', 'gaussian', or 'kaiming')
             rand_mean (float): the mean of the random weights
             rand_range (float): the range of the random weights
             dropout_rate (float): the probability of dropping out a unit in the group
@@ -1253,7 +1254,8 @@ class Network:
         self.record_action("connect_groups", 
                            outgoing_group=outgoing_group, 
                            incoming_group=incoming_group, 
-                           link_type=link_type, 
+                           initialization=initialization, 
+                           link_type=link_type,
                            rand_mean=rand_mean, 
                            rand_range=rand_range, 
                            proj_type=proj_type, 
@@ -1267,29 +1269,33 @@ class Network:
 
         g1, g2 = self._group_pair_from_names(outgoing_group, incoming_group)
 
-        if link_type == "elman":
+        if proj_type == "elman":
             return self.elman_connect(outgoing_group, incoming_group)
 
-        new_link = LinkFactory.construct_link(g1, g2, link_type, 
+        new_link = LinkFactory.construct_link(g1, g2, initialization, 
                                               rand_mean=rand_mean, 
                                               rand_range=rand_range,
                                               proj_type=proj_type, 
+                                              link_type=link_type,
                                               dropout_rate=dropout_rate,
                                               perma_lesion_rate=perma_lesion_rate)
         g1.link_next(new_link)
         g2.link_previous(new_link)
-        if link_type not in self.links_dict.keys():
-            self.links_dict[link_type] = [new_link]
-        else:
-            self.links_dict[link_type].append(new_link)
-        if link_type not in self.link_types:
-            self.link_types.append(link_type)
+
+        if link_type is not None:
+            if link_type not in self.links_dict.keys():
+                self.links_dict[link_type] = [new_link]
+            else:
+                self.links_dict[link_type].append(new_link)
+            if link_type not in self.link_types:
+                self.link_types.append(link_type)
 
         if bidirectional:
-            new_link = LinkFactory.construct_link(g2, g1, link_type, 
+            new_link = LinkFactory.construct_link(g2, g1, initialization, 
                                                   rand_mean=rand_mean, 
                                                   rand_range=rand_range, 
                                                   proj_type=proj_type, 
+                                                  link_type=link_type,
                                                   dropout_rate=dropout_rate, 
                                                   perma_lesion_rate=perma_lesion_rate)
             g2.link_next(new_link)
@@ -1300,10 +1306,11 @@ class Network:
                   outgoing_unit_idx: list,     # indices within outgoing group
                   incoming_group: str,
                   incoming_unit_idx: list,     # indices within incoming group
-                  link_type: str = "uniform",
+                  initialization: str = "uniform",
                   rand_mean: float = 0.0,
                   rand_range: float | None = None,
                   proj_type: str = "full",
+                  link_type=None,
                   lesion_rate: float | None = None,
                   dropout_rate: float | None = None,
                   perma_lesion_rate: float | None = None,
@@ -1324,10 +1331,11 @@ class Network:
             outgoing_unit_idx=outgoing_unit_idx,
             incoming_group=incoming_group,
             incoming_unit_idx=incoming_unit_idx,
-            link_type=link_type,
+            initialization=initialization,
             rand_mean=rand_mean,
             rand_range=rand_range,
             proj_type=proj_type,
+            link_type=link_type,
             lesion_rate=lesion_rate,
             dropout_rate=dropout_rate,
             perma_lesion_rate=perma_lesion_rate,
@@ -1357,10 +1365,11 @@ class Network:
         else:
             # Construct the link via factory
             link = LinkFactory.construct_link(
-                g_out, g_in, link_type,
+                g_out, g_in, initialization,
                 rand_mean=rand_mean,
                 rand_range=rand_range,
                 proj_type=proj_type,
+                link_type=link_type,
                 dropout_rate=dropout_rate,
                 perma_lesion_rate=perma_lesion_rate
             )
@@ -1412,10 +1421,11 @@ class Network:
         if bidirectional:
             self.connect_units(incoming_group, incoming_unit_idx,
                             outgoing_group, outgoing_unit_idx,
-                            link_type=link_type,
+                            initialization=initialization,
                             rand_mean=rand_mean,
                             rand_range=rand_range,
                             proj_type=proj_type,
+                            link_type=link_type,
                             lesion_rate=lesion_rate,
                             dropout_rate=dropout_rate,
                             perma_lesion_rate=perma_lesion_rate,
@@ -1427,10 +1437,11 @@ class Network:
                           outgoing_group: str,
                           incoming_group: str,
                           target_unit_idx: list,        # indices within incoming group
-                          link_type: str = "uniform",
+                          initialization: str = "uniform",
                           rand_mean: float = 0.0,
                           rand_range: float | None = None,
                           proj_type: str = "full",
+                          link_type=None,
                           lesion_rate: float | None = None,
                           dropout_rate: float | None = None,
                           perma_lesion_rate: float | None = None,
@@ -1446,10 +1457,11 @@ class Network:
 
         return self.connect_units(outgoing_group, all_out_idx,
                                 incoming_group, target_unit_idx,
-                                link_type=link_type,
+                                initialization=initialization,
                                 rand_mean=rand_mean,
                                 rand_range=rand_range,
                                 proj_type=proj_type,
+                                link_type=link_type,
                                 lesion_rate=lesion_rate,
                                 dropout_rate=dropout_rate,
                                 perma_lesion_rate=perma_lesion_rate,

@@ -22,14 +22,14 @@ sg.add_group(55, name="filler", group_type="output", input_transforms=["dot"], o
 
 # Apparently this order matters for recurrent network
 # Or else weights get stored in the wrong order
-sg.connect_groups(outgoing_group="word", incoming_group="hidden1", link_type="uniform", proj_type="full")
-sg.connect_groups(outgoing_group="previous_gestalt", incoming_group="hidden1", link_type="uniform", proj_type="full")
-sg.connect_groups(outgoing_group="hidden1", incoming_group="gestalt", link_type="uniform", proj_type="full")
-sg.connect_groups(outgoing_group="gestalt", incoming_group="previous_gestalt", link_type="elman", proj_type="one-to-one")
+sg.connect_groups(outgoing_group="word", incoming_group="hidden1", initialization="uniform", proj_type="full")
+sg.connect_groups(outgoing_group="previous_gestalt", incoming_group="hidden1", initialization="uniform", proj_type="full")
+sg.connect_groups(outgoing_group="hidden1", incoming_group="gestalt", initialization="uniform", proj_type="full")
+sg.connect_groups(outgoing_group="gestalt", incoming_group="previous_gestalt", proj_type="elman")
 
-sg.connect_groups(outgoing_group="gestalt", incoming_group="hidden2", link_type="uniform", proj_type="full")
-sg.connect_groups(outgoing_group="role", incoming_group="hidden2", link_type="uniform", proj_type="full")
-sg.connect_groups(outgoing_group="gestalt", incoming_group="filler", link_type="uniform", proj_type="full")
+sg.connect_groups(outgoing_group="gestalt", incoming_group="hidden2", initialization="uniform", proj_type="full")
+sg.connect_groups(outgoing_group="role", incoming_group="hidden2", initialization="uniform", proj_type="full")
+sg.connect_groups(outgoing_group="gestalt", incoming_group="filler", initialization="uniform", proj_type="full")
 
 sg.load_example_set("examples/example_networks/sentence_gestalt_examples/sentence_gestalt.ex")
 sg.load_example_set("examples/example_networks/sentence_gestalt_examples/sentence_gestalt_test.ex", training=False, testing=True)

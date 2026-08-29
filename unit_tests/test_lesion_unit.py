@@ -57,7 +57,7 @@ def test_lesion_hidden_unit():
     xor_net_one.connect_groups(
         outgoing_group="input",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 
@@ -65,7 +65,7 @@ def test_lesion_hidden_unit():
     xor_net_one.connect_groups(
         outgoing_group="hidden",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 

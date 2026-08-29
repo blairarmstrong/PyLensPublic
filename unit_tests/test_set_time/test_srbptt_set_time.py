@@ -34,12 +34,12 @@ def filler_srbptt_runner(parallel):
 
     # Apparently this order matters for srbptt
     # Or else weights get stored in the wrong order
-    filler_net.connect_groups(outgoing_group="elman", incoming_group="hidden", link_type="uniform", proj_type="full")
-    filler_net.connect_groups(outgoing_group="chars", incoming_group="hidden", link_type="uniform", proj_type="full",
+    filler_net.connect_groups(outgoing_group="elman", incoming_group="hidden", initialization="uniform", proj_type="full")
+    filler_net.connect_groups(outgoing_group="chars", incoming_group="hidden", initialization="uniform", proj_type="full",
                               dropout_rate=dropout_rate, perma_lesion_rate=perma_lesion_rate)
-    filler_net.connect_groups(outgoing_group="hidden", incoming_group="output", link_type="uniform", proj_type="full")
+    filler_net.connect_groups(outgoing_group="hidden", incoming_group="output", initialization="uniform", proj_type="full")
 
-    filler_net.connect_groups(outgoing_group="hidden", incoming_group="elman", link_type="elman", proj_type="one-to-one")
+    filler_net.connect_groups(outgoing_group="hidden", incoming_group="elman", proj_type='elman')
 
     filler_net.toggle_plots(False)
     # load example set

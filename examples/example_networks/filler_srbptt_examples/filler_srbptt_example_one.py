@@ -41,13 +41,13 @@ filler_net.add_group(
 filler_net.connect_groups(
     outgoing_group="elman",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
 )
 filler_net.connect_groups(
     outgoing_group="chars",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
     lesion_rate=0,
     dropout_rate=0,
@@ -56,15 +56,14 @@ filler_net.connect_groups(
 filler_net.connect_groups(
     outgoing_group="hidden",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
 )
 
 filler_net.connect_groups(
     outgoing_group="hidden",
     incoming_group="elman",
-    link_type="elman",
-    proj_type="one-to-one",
+    proj_type="elman",
 )
 
 # load example set

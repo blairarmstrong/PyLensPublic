@@ -35,7 +35,7 @@ digits_net_one.add_group(
 digits_net_one.connect_groups(
     outgoing_group="input",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
     bidirectional=True
 )
@@ -43,14 +43,14 @@ digits_net_one.connect_groups(
 digits_net_one.connect_groups(
     outgoing_group="hidden",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full"
 )
 
 digits_net_one.connect_groups(
     outgoing_group="hidden",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
     bidirectional=True
 )
@@ -58,7 +58,7 @@ digits_net_one.connect_groups(
 digits_net_one.connect_groups(
     outgoing_group="output",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full"
 )
 

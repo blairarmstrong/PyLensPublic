@@ -14,10 +14,6 @@ class LinkRandom(Link):
 
     """
 
-    # Usage example: Network.connect_groups("first_layer", "second_layer", link_type="inhibitory", proj_type="random", drop_rate=0.7)
-    # In this case, the sparse matrix will be used as masks
-    # Usage example: Network.connect_groups("first_layer", "second_layer", link_type="inhibitory", proj_type="random", drop_rate=0.2)
-    # In this case the dense matrix will be used
 
     # Programmer's guide on sparse vs dense mask choice:
     # Dot product
@@ -52,8 +48,6 @@ class LinkRandom(Link):
     # :type max_weights: float
     # :param min_weights: An lower bound on values in weight matrix
     # :type min_weights: float
-    # :param link_type: Default to ‘exhibitory’, can be used to filter list of links that has specific type
-    # :type link_type: str
     # :param random_mask: The sparse mask/numpy array of 0 and 1 such that 0 means masking specific value.
     # :type random_mask: str
 
@@ -68,16 +62,17 @@ class LinkRandom(Link):
     last_weight_delta: object
     max_weights: float
     min_weights: float
-    link_type: str
+    initialization: str
+    link_type: str |None
     random_mask: object
 
-    def __init__(self, outgoing_group, incoming_group, weights, dropout_rate=None, perma_lesion_rate=None, link_type=None):
+    def __init__(self, outgoing_group, incoming_group, weights, dropout_rate=None, perma_lesion_rate=None, initialization=None, link_type=None):
         super().__init__(outgoing_group, incoming_group, weights, dropout_rate=dropout_rate,
-                         perma_lesion_rate=perma_lesion_rate, link_type=link_type)
+                         perma_lesion_rate=perma_lesion_rate, initialization=initialization, link_type=link_type)
         link_default = LinkParameters()
         self.link_learning_rate = link_default.PAR_L_learning_rate
         self.perma_lesion_rate = perma_lesion_rate
-        self.link_type=link_type
+        self.initialization=initialization
         self.proj_type = 'random'
         if len(self.weights.shape) == 1:
             row = self.weights.shape[0]
@@ -154,7 +149,7 @@ class LinkRandom(Link):
                     self.connection_mask) is not af.ndarray else self.connection_mask * self.weight_derivs
 
     @classmethod
-    def uniform(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None, perma_lesion_rate=None, link_type=None):
+    def uniform(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None, perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes weights from a uniform random distribution.
 
@@ -171,11 +166,11 @@ class LinkRandom(Link):
         """
         weights = af.random_uniform(mean - range, mean + range, (outgoing_group.num_units, incoming_group.num_units))
         return LinkRandom(outgoing_group, incoming_group, weights, dropout_rate,
-                          perma_lesion_rate, link_type=link_type)
+                          perma_lesion_rate, initialization=initialization, link_type=link_type)
 
     @classmethod
     def gaussian(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None,
-                 perma_lesion_rate=None, link_type=None):
+                 perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes weights from a Gaussian random distribution.
 
@@ -191,11 +186,11 @@ class LinkRandom(Link):
             LinkRandom: An instance of LinkRandom with Gaussian-initialized weights.
         """
         weights = af.random_normal(loc=mean, scale=range, size=(outgoing_group.num_units, incoming_group.num_units))
-        return LinkRandom(outgoing_group, incoming_group, weights, dropout_rate, perma_lesion_rate, link_type=link_type)
+        return LinkRandom(outgoing_group, incoming_group, weights, dropout_rate, perma_lesion_rate, initialization=initialization, link_type=link_type)
 
     @classmethod
     def kaiming_normal(cls, outgoing_group, incoming_group, dropout_rate=None,
-                       perma_lesion_rate=None, link_type=None):
+                       perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes weights using Kaiming normal distribution.
 
@@ -211,7 +206,7 @@ class LinkRandom(Link):
         weights = af.random_normal(-1, 1, (outgoing_group.num_units, incoming_group.num_units)) * math.sqrt(
             2 / outgoing_group.num_units)
         return LinkRandom(outgoing_group, incoming_group, weights, dropout_rate,
-                          perma_lesion_rate, link_type=link_type)
+                          perma_lesion_rate, initialization=initialization, link_type=link_type)
 
     @classmethod
     def load(cls, outgoing_group, incoming_group, weights, dropout_rate=None, perma_lesion_rate=None):

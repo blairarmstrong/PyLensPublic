@@ -54,28 +54,28 @@ task_net_one.add_group(
 task_net_one.connect_groups(
     outgoing_group="task",
     incoming_group="taskHidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full"
 )
 
 task_net_one.connect_groups(
     outgoing_group="taskHidden",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="one-to-one"
 )
 
 task_net_one.connect_groups(
     outgoing_group="input",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="one-to-one"
 )
 
 task_net_one.connect_groups(
     outgoing_group="hidden",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full"
 )
 

@@ -47,15 +47,24 @@ class LinkFactory:
         link.from_json(outgoing_group, incoming_group, data)
 
     @staticmethod
-    def construct_link(outgoing_group, incoming_group, link_type, rand_mean=0, rand_range=1, proj_type="full",
-                       dropout_rate=None, perma_lesion_rate=None):
+    def construct_link(
+            outgoing_group, 
+            incoming_group, 
+            initialization, 
+            rand_mean=0, 
+            rand_range=1, 
+            proj_type="full", 
+            link_type=None,
+            dropout_rate=None, 
+            perma_lesion_rate=None
+            ):
         """
         Constructs a new link based on the specified type and parameters.
 
         Args:
             outgoing_group
             incoming_group
-            link_type (str): The type of link ('uniform', 'gaussian', 'kaiming').
+            initialization (str): The random initialization of link ('uniform', 'gaussian', 'kaiming').
             rand_mean (float, optional): Mean value for random initialization. Defaults to 0.
             rand_range (float, optional): Range value for random initialization. Defaults to 1.
             proj_type (str, optional): The projection type ('full', 'one-to-one', 'random'). Defaults to "full".
@@ -67,18 +76,19 @@ class LinkFactory:
         """
         proj_types = {"full": LinkFull, 'one-to-one': LinkOneToOne, 'random': LinkRandom}
         link_class = proj_types[proj_type]
-        if link_type == "uniform":
+        if initialization == "uniform":
             return link_class.uniform(outgoing_group, incoming_group, rand_mean, rand_range, dropout_rate=dropout_rate,
-                                      perma_lesion_rate=perma_lesion_rate, link_type=link_type)
-        elif link_type == "gaussian":
+                                      perma_lesion_rate=perma_lesion_rate, initialization=initialization, link_type=link_type)
+        elif initialization == "gaussian":
             return link_class.gaussian(outgoing_group, incoming_group, rand_mean, rand_range, dropout_rate=dropout_rate,
-                                       perma_lesion_rate=perma_lesion_rate, link_type=link_type)
-        elif link_type == "kaiming":
+                                       perma_lesion_rate=perma_lesion_rate, initialization=initialization, link_type=link_type)
+        elif initialization == "kaiming":
             return link_class.kaiming_normal(outgoing_group, incoming_group, dropout_rate=dropout_rate,
-                                             perma_lesion_rate=perma_lesion_rate, link_type=link_type)
-        else:   # type as a unique identifier, default to uniform link
-            return link_class.uniform(outgoing_group, incoming_group, rand_mean, rand_range, dropout_rate=dropout_rate,
-                                      perma_lesion_rate=perma_lesion_rate, link_type=link_type)
+                                             perma_lesion_rate=perma_lesion_rate, initialization=initialization, link_type=link_type)
+        else:
+            raise ValueError(
+                f"Unknown initialization method: {initialization}"
+            )
 
     @staticmethod
     def store_data_type_converter(obj):

@@ -27,8 +27,6 @@ class LinkFull(Link):
     # :type max_weights: float
     # :param min_weights: An lower bound on values in weight matrix
     # :type min_weights: float
-    # :param link_type: Default to ‘exhibitory’, can be used to filter list of links that has specific type
-    # :type link_type: str
 
     weights: object
     weight_derivs: object
@@ -41,18 +39,18 @@ class LinkFull(Link):
     last_weight_delta: object
     max_weights: float
     min_weights: float
-    link_type: str
+    initialization: str
+    link_type: str | None
 
-    def __init__(self, outgoing_group, incoming_group, weights, dropout_rate=None, perma_lesion_rate=None, link_type=None):
+    def __init__(self, outgoing_group, incoming_group, weights, dropout_rate=None, perma_lesion_rate=None, initialization=None, link_type=None):
         super().__init__(outgoing_group, incoming_group, weights, dropout_rate=dropout_rate,
-                         perma_lesion_rate=perma_lesion_rate, link_type=link_type)
+                         perma_lesion_rate=perma_lesion_rate, initialization=initialization, link_type=link_type)
         self.link_params = LinkParameters()
         self.link_learning_rate = self.link_params.PAR_L_learning_rate
         self.proj_type = 'full'
-        self.link_type = link_type
 
     @classmethod
-    def uniform(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None, perma_lesion_rate=None, link_type=None):
+    def uniform(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None, perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes weights from a uniform random distribution.
 
@@ -69,10 +67,10 @@ class LinkFull(Link):
         """
         weights = af.random_uniform(mean - range, mean + range, (outgoing_group.num_units, incoming_group.num_units))
         return LinkFull(outgoing_group, incoming_group, weights, dropout_rate,
-                        perma_lesion_rate, link_type=link_type)
+                        perma_lesion_rate, initialization=initialization, link_type=link_type)
 
     @classmethod
-    def gaussian(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None, perma_lesion_rate=None, link_type=None):
+    def gaussian(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None, perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes weights from a Gaussian random distribution.
 
@@ -89,10 +87,10 @@ class LinkFull(Link):
         """
         weights = af.random_normal(loc=mean, scale=range, size=(outgoing_group.num_units, incoming_group.num_units))
         return LinkFull(outgoing_group, incoming_group, weights, dropout_rate,
-                        perma_lesion_rate, link_type=link_type)
+                        perma_lesion_rate, initialization=initialization, link_type=link_type)
 
     @classmethod
-    def kaiming_normal(cls, outgoing_group, incoming_group, dropout_rate=None, perma_lesion_rate=None, link_type=None):
+    def kaiming_normal(cls, outgoing_group, incoming_group, dropout_rate=None, perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes weights using Kaiming normal distribution.
 
@@ -108,7 +106,7 @@ class LinkFull(Link):
         weights = af.random_normal(-1, 1, (outgoing_group.num_units, incoming_group.num_units)) * math.sqrt(
             2 / outgoing_group.num_units)
         return LinkFull(outgoing_group, incoming_group, weights, dropout_rate,
-                        perma_lesion_rate, link_type=link_type)
+                        perma_lesion_rate, initialization=initialization, link_type=link_type)
 
     # TODO: remove
     @classmethod

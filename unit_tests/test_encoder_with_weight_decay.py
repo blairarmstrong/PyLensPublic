@@ -40,12 +40,12 @@ def encoder_runner(parallel, update_method="steepest"):
 
     encoder.connect_groups(outgoing_group="input",
                            incoming_group="hidden",
-                           link_type="uniform",
+                           initialization="uniform",
                            proj_type="full")
 
     encoder.connect_groups(outgoing_group="hidden",
                            incoming_group="output",
-                           link_type="uniform",
+                           initialization="uniform",
                            proj_type="full")
 
     # encoder.load_example_set("unit_tests/encoder.sparse.ex")

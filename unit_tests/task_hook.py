@@ -68,7 +68,7 @@ def task_test():
     task_net_one.connect_groups(
         outgoing_group="task",
         incoming_group="taskHidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 
@@ -76,7 +76,7 @@ def task_test():
     task_net_one.connect_groups(
         outgoing_group="taskHidden",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="one-to-one"
     )
 
@@ -84,7 +84,7 @@ def task_test():
     task_net_one.connect_groups(
         outgoing_group="input",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="one-to-one"
     )
 
@@ -92,7 +92,7 @@ def task_test():
     task_net_one.connect_groups(
         outgoing_group="hidden",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 

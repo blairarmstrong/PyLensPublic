@@ -54,7 +54,7 @@ def rand_runner(parallel=False, extra_maxTime=False, num_worker=1):
     rand10x40.connect_groups(
         outgoing_group="input",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 
@@ -62,7 +62,7 @@ def rand_runner(parallel=False, extra_maxTime=False, num_worker=1):
     rand10x40.connect_groups(
         outgoing_group="output",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 
@@ -71,7 +71,7 @@ def rand_runner(parallel=False, extra_maxTime=False, num_worker=1):
     rand10x40.connect_groups(
         outgoing_group="hidden",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 

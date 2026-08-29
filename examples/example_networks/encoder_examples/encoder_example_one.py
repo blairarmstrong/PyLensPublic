@@ -38,11 +38,11 @@ encoder.add_group(8,
                   error_function="cross_entropy")
 encoder.connect_groups(outgoing_group="input",
                        incoming_group="hidden",
-                       link_type="uniform",
+                       initialization="uniform",
                        proj_type="full")
 encoder.connect_groups(outgoing_group="hidden",
                        incoming_group="output",
-                       link_type="uniform",
+                       initialization="uniform",
                        proj_type="full")
 
 encoder.load_example_set("examples/lens_example_input/encoder.sparse.ex")

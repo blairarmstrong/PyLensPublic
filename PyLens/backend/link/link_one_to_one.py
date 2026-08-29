@@ -24,16 +24,16 @@ class LinkOneToOne(Link):
     last_weight_delta: object
     max_weights: float
     min_weights: float
-    link_type: str
+    initialization: str
+    link_type: str | None
 
     def __init__(self, outgoing_group, incoming_group, weights, dropout_rate=None,
-                 perma_lesion_rate=None, link_type=None):
+                 perma_lesion_rate=None, initialization=None, link_type=None):
         super().__init__(outgoing_group, incoming_group, weights, dropout_rate=dropout_rate,
-                         perma_lesion_rate=perma_lesion_rate, link_type=link_type)
+                         perma_lesion_rate=perma_lesion_rate, initialization=initialization, link_type=link_type)
         link_parameters = LinkParameters()
         self.link_learning_rate = link_parameters.PAR_L_learning_rate
         self.proj_type = 'one-to-one'
-        self.link_type = link_type
         # the two layer must have same number of hidden units for one to one to be possible
         assert outgoing_group.num_units == incoming_group.num_units, 'Number of hidden unit must match for one to one connection'
 
@@ -95,7 +95,7 @@ class LinkOneToOne(Link):
 
     @classmethod
     def uniform(cls, outgoing_group, incoming_group, mean, range, dropout_rate=None,
-                perma_lesion_rate=None, link_type=None):
+                perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes 1D weights from a uniform random distribution.
 
@@ -115,7 +115,7 @@ class LinkOneToOne(Link):
         # weights = af.diag(weights)
         # weights = diags(weights, 0)
         link = LinkOneToOne(outgoing_group, incoming_group, weights, dropout_rate,
-                            perma_lesion_rate, link_type=link_type)
+                            perma_lesion_rate, initialization=initialization, link_type=link_type)
         # weights are frozen by default for 1-to-1
         link.freeze()
         return link
@@ -123,7 +123,7 @@ class LinkOneToOne(Link):
     @classmethod
     def gaussian(cls, outgoing_group, incoming_group, mean, range,
                  dropout_rate=None,
-                 perma_lesion_rate=None, link_type=None):
+                 perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes 1D weights from a Gaussian random distribution.
 
@@ -142,14 +142,14 @@ class LinkOneToOne(Link):
         # weights = af.diag(weights)
         # weights = diags(weights, 0)
         link = LinkOneToOne(outgoing_group, incoming_group, weights, dropout_rate,
-                            perma_lesion_rate, link_type=link_type)
+                            perma_lesion_rate, initialization=initialization, link_type=link_type)
         # weights are frozen by default for 1-to-1
         link.freeze()
         return link
 
     @classmethod
     def kaiming_normal(cls, outgoing_group, incoming_group,  dropout_rate=None,
-                       perma_lesion_rate=None, link_type=None):
+                       perma_lesion_rate=None, initialization=None, link_type=None):
         """
         Initializes 1D weights using Kaiming normal distribution.
 
@@ -167,7 +167,7 @@ class LinkOneToOne(Link):
         # weights = af.diag(weights)
         # weights = diags(weights, 0)
         link = LinkOneToOne(outgoing_group, incoming_group, weights, dropout_rate,
-                            perma_lesion_rate, link_type=link_type)
+                            perma_lesion_rate, initialization=initialization, link_type=link_type)
         # weights are frozen by default for 1-to-1
         link.freeze()
         return link

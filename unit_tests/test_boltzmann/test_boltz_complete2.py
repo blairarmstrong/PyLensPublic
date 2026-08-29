@@ -40,7 +40,7 @@ def boltz_complete2_unit_test(parallel=False):
     reconstruction_net_one.connect_groups(
         outgoing_group="input",
         incoming_group="input",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full",
     )
 
@@ -48,7 +48,7 @@ def boltz_complete2_unit_test(parallel=False):
     reconstruction_net_one.connect_groups(
         outgoing_group="input",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full",
         bidirectional=True
     )
@@ -57,7 +57,7 @@ def boltz_complete2_unit_test(parallel=False):
     reconstruction_net_one.connect_groups(
         outgoing_group="output",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full",
     )
 

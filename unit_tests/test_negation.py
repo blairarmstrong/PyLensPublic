@@ -46,21 +46,21 @@ def negation_test():
     negation_net.connect_groups(
         outgoing_group="input",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full")
 
     # connects the hidden layer to the output layer; uniform links; full projection
     negation_net.connect_groups(
         outgoing_group="hidden",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full")
 
     # connects the input layer to the output layer; uniform links; full projection
     negation_net.connect_groups(
         outgoing_group="input",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full")
 
 

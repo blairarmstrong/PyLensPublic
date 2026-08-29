@@ -1708,15 +1708,15 @@ if __name__ == "__main__":
                          input_transforms=["dot"],
                          output_transforms=["sigmoid"])
 
-    # rand10_net.connect_groups(outgoing_group="first", incoming_group="second", link_type="uniform", proj_type="one-to-one")
+    # rand10_net.connect_groups(outgoing_group="first", incoming_group="second", initialization="uniform", proj_type="one-to-one")
     rand10_net.connect_groups(outgoing_group="first", incoming_group="second",
-                              link_type="uniform", proj_type="random",
+                              initialization="uniform", proj_type="random",
                               lesion_rate=lesion_rate,
                               dropout_rate=dropout_rate,
                               perma_lesion_rate=perma_lesion_rate)
-    # rand10_net.connect_groups(outgoing_group="first", incoming_group="second", link_type="uniform", proj_type="full")
+    # rand10_net.connect_groups(outgoing_group="first", incoming_group="second", initialization="uniform", proj_type="full")
     rand10_net.connect_groups(outgoing_group="second", incoming_group="third",
-                              link_type="uniform", proj_type="full")
+                              initialization="uniform", proj_type="full")
 
     # load example set
     path = os.getcwd()

@@ -42,25 +42,24 @@ def filler_test(parallel):
 
     filler_net.connect_groups(outgoing_group="chars",
                               incoming_group="hidden",
-                              link_type="uniform",
+                              initialization="uniform",
                               proj_type="full",
                               dropout_rate=dropout_rate,
                               perma_lesion_rate=perma_lesion_rate)
 
     filler_net.connect_groups(outgoing_group="elman",
                               incoming_group="hidden",
-                              link_type="uniform",
+                              initialization="uniform",
                               proj_type="full")
 
     filler_net.connect_groups(outgoing_group="hidden",
                               incoming_group="output",
-                              link_type="uniform",
+                              initialization="uniform",
                               proj_type="full")
 
     filler_net.connect_groups(outgoing_group="hidden",
                               incoming_group="elman",
-                              link_type="elman",
-                              proj_type="one-to-one")
+                              proj_type="elman")
 
     # load example set
     filler_net.load_example_set("./examples/example_networks/filler_examples/filler_example2.ex")

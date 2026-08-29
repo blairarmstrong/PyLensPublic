@@ -33,14 +33,14 @@ reconstruction_net_one.add_group(
 reconstruction_net_one.connect_groups(
     outgoing_group="input",
     incoming_group="input",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
 )
 
 reconstruction_net_one.connect_groups(
     outgoing_group="input",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
     bidirectional=True
 )
@@ -48,7 +48,7 @@ reconstruction_net_one.connect_groups(
 reconstruction_net_one.connect_groups(
     outgoing_group="output",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
 )
 

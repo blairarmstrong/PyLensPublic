@@ -38,23 +38,22 @@ def adder_test(parallel):
 
     adder_net.connect_groups(outgoing_group="elman",
                               incoming_group="hidden",
-                              link_type="uniform",
+                              initialization="uniform",
                               proj_type="full")
 
     adder_net.connect_groups(outgoing_group="input",
                               incoming_group="hidden",
-                              link_type="uniform",
+                              initialization="uniform",
                               proj_type="full")
 
     adder_net.connect_groups(outgoing_group="hidden",
                               incoming_group="output",
-                              link_type="uniform",
+                              initialization="uniform",
                               proj_type="full")
 
     adder_net.connect_groups(outgoing_group="hidden",
                               incoming_group="elman",
-                              link_type="elman",
-                              proj_type="one-to-one")
+                             proj_type="elman")
 
     # load example set
     adder_net.load_example_set("examples/example_networks/adder_examples/adder10.ex")

@@ -36,8 +36,6 @@ class Link:
     # :type max_weights: float
     # :param min_weights: An lower bound on values in weight matrix
     # :type min_weights: float
-    # :param link_type: Default to ‘exhibitory’, can be used to filter list of links that has specific type
-    # :type link_type: str
 
     weights: object
     weight_derivs: object
@@ -49,7 +47,8 @@ class Link:
     last_weight_delta: object
     max_weights: float
     min_weights: float
-    link_type: str
+    initialization: str
+    link_type: str | None
 
     weights = None
     weight_derivs = None
@@ -61,7 +60,7 @@ class Link:
     frozen = False
     freeze_mask = None
 
-    def __init__(self, outgoing_group, incoming_group, weights, link_type='exhibitory',
+    def __init__(self, outgoing_group, incoming_group, weights, initialization="uniform", link_type=None,
                  dropout_rate=None, perma_lesion_rate=None):
         self.baseType = os.getenv('BASETYPE')
         link_params = LinkParameters()
@@ -73,6 +72,7 @@ class Link:
         self.last_weight_delta = af.zeros(self.weights.shape)
         self.max_weights = link_params.PAR_L_max_weights
         self.min_weights = link_params.PAR_L_min_weights
+        self.initialization = initialization
         self.link_type = link_type
         self.dropout_rate = dropout_rate
         self.perma_lesion_rate = perma_lesion_rate
@@ -162,9 +162,9 @@ class Link:
             mean (float, optional): Mean of the weight distribution. Defaults to 0.
             rand_range (float, optional): Range of the weight distribution. Defaults to 1.
         """
-        if self.link_type == "gaussian":
+        if self.initialization == "gaussian":
             weights = af.random_normal(loc=mean, scale=rand_range, size=self.weights.shape)
-        elif self.link_type == "kaiming":
+        elif self.initialization == "kaiming":
             weights = self.kaiming_normal(self.outgoing_group, self.incoming_group, dropout_rate=self.dropout_rate,
                                           perma_lesion_rate=self.perma_lesion_rate).weights
         else:

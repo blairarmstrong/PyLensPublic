@@ -20,14 +20,13 @@ def srn_runner():
     srn.add_group(2, name="output", group_type="output", input_transforms=["dot"],
                          output_transforms=["sigmoid"], error_function="cross_entropy")
 
-    srn.connect_groups(outgoing_group="input", incoming_group="hidden", link_type="uniform", proj_type="full",
+    srn.connect_groups(outgoing_group="input", incoming_group="hidden", initialization="uniform", proj_type="full",
                               lesion_rate=lesion_rate, dropout_rate=dropout_rate, perma_lesion_rate=perma_lesion_rate)
-    srn.connect_groups(outgoing_group="elman2", incoming_group="hidden", link_type="uniform", proj_type="full")
-    srn.connect_groups(outgoing_group="hidden", incoming_group="output", link_type="uniform", proj_type="full")
+    srn.connect_groups(outgoing_group="elman2", incoming_group="hidden", initialization="uniform", proj_type="full")
+    srn.connect_groups(outgoing_group="hidden", incoming_group="output", initialization="uniform", proj_type="full")
 
-    srn.connect_groups(outgoing_group="hidden", incoming_group="elman1", link_type="elman", proj_type="one-to-one")
-    srn.connect_groups(outgoing_group="elman1", incoming_group="elman2", link_type="elman", proj_type="one-to-one")
-
+    srn.connect_groups(outgoing_group="hidden", incoming_group="elman1", proj_type="elman")
+    srn.connect_groups(outgoing_group="elman1", incoming_group="elman2", proj_type="elman")
     # Disable plots
     srn.toggle_plots(plots=False)
 

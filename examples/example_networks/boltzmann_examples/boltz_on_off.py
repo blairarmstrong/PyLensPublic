@@ -39,7 +39,7 @@ on_off_net.add_group(
 on_off_net.connect_groups(
     outgoing_group="input",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
     bidirectional=True
 )
@@ -47,14 +47,14 @@ on_off_net.connect_groups(
 on_off_net.connect_groups(
     outgoing_group="hidden",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full"
 )
 
 on_off_net.connect_groups(
     outgoing_group="hidden",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
     bidirectional=True
 )
@@ -62,7 +62,7 @@ on_off_net.connect_groups(
 on_off_net.connect_groups(
     outgoing_group="output",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full"
 )
 

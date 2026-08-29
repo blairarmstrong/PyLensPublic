@@ -60,7 +60,7 @@ def test_freeze_weights():
     xor_net_one.connect_groups(
         outgoing_group="input",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 
@@ -68,7 +68,7 @@ def test_freeze_weights():
     xor_net_one.connect_groups(
         outgoing_group="hidden",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 
@@ -278,7 +278,7 @@ def test_freeze_weights_link_indices_all():
     xor_net_one.freeze_weights(
         groups="hidden",
         link_indices=[(1, 0), (1, 1), (0, 0), (0, 1)],
-        link_type="uniform",
+        initialization="uniform",
     )
     # Add bias-link freezing to mirror legacy test's bias_indices effect.
     xor_net_one.freeze_weights(groups="hidden", units_indices=[0, 1])
@@ -356,7 +356,7 @@ def test_thaw_weights_link_indices_all():
     xor_net_one.freeze_weights(
         groups="hidden",
         link_indices=[(1, 0), (1, 1), (0, 0), (0, 1)],
-        link_type="uniform",
+        initialization="uniform",
     )
     # Freeze bias-link columns too for parity with legacy behavior.
     xor_net_one.freeze_weights(groups="hidden", units_indices=[0, 1])
@@ -366,7 +366,7 @@ def test_thaw_weights_link_indices_all():
     xor_net_one.thaw_weights(
         groups="hidden",
         link_indices=[(1, 0), (1, 1), (0, 0), (0, 1)],
-        link_type="uniform",
+        initialization="uniform",
     )
     xor_net_one.thaw_weights(groups="hidden", units_indices=[0, 1])
     xor_net_one.toggle_plots(False)

@@ -63,14 +63,14 @@ def xor_runner(parallel):
     xor_net_one.connect_groups(
         outgoing_group="input",
         incoming_group="hidden1",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
     
     xor_net_one.connect_groups(
         outgoing_group="hidden1",
         incoming_group="hidden2",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 
@@ -78,7 +78,7 @@ def xor_runner(parallel):
     xor_net_one.connect_groups(
         outgoing_group="hidden2",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
     

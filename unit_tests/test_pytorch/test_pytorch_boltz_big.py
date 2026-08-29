@@ -44,7 +44,7 @@ def boltz_big_unit_test(parallel=False):
     digits_net_one.connect_groups(
         outgoing_group="input",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full",
         bidirectional=True
     )
@@ -52,14 +52,14 @@ def boltz_big_unit_test(parallel=False):
     digits_net_one.connect_groups(
         outgoing_group="hidden",
         incoming_group="hidden",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
     # connects the hidden layer to the output layer; uniform links; full projection; bidirectional
     digits_net_one.connect_groups(
         outgoing_group="hidden",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full",
         bidirectional=True
     )
@@ -67,7 +67,7 @@ def boltz_big_unit_test(parallel=False):
     digits_net_one.connect_groups(
         outgoing_group="output",
         incoming_group="output",
-        link_type="uniform",
+        initialization="uniform",
         proj_type="full"
     )
 

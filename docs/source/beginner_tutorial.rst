@@ -24,7 +24,7 @@ Preparation
 
    .. code-block:: bash
 
-      cd .../PyLens [replace ... with actual folder path]
+      cd .../PyLensPublic [replace ... with actual folder path]
 
 3. **Ensure Required Data and Weights**:
    Verify that the following files exist in your PyLens installation (or cloned) folder:
@@ -207,13 +207,13 @@ If you want a deeper look at how the XOR network is set up in ``examples/example
       xor_net_one.connect_groups(
           outgoing_group="input",
           incoming_group="hidden",
-          link_type="uniform",
+          initialization="uniform",
           proj_type="full"
       )
       xor_net_one.connect_groups(
           outgoing_group="hidden",
           incoming_group="output",
-          link_type="uniform",
+          initialization="uniform",
           proj_type="full"
       )
 

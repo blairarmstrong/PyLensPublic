@@ -17,8 +17,8 @@ if __name__ == "__main__":
                            output_transforms=["sigmoid"])
     training_net.add_group(name="third", num_units=3698, group_type="output", input_transforms=["dot"],
                            output_transforms=["sigmoid"])
-    training_net.connect_groups(outgoing_group="first", incoming_group="second", link_type="uniform")
-    training_net.connect_groups(outgoing_group="second", incoming_group="third", link_type="uniform")
+    training_net.connect_groups(outgoing_group="first", incoming_group="second", initialization="uniform")
+    training_net.connect_groups(outgoing_group="second", incoming_group="third", initialization="uniform")
     training_net.load_example_set(
         example_set_name="TRAINING_EX", proc=False,
         file_name="../exp_english_distribution=uniform_frequencyMinimum=1_dropType=linear_distributionType=probabilistic_dropAmount=0_shuffle=True.ex.txt",

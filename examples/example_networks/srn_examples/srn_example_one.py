@@ -36,7 +36,7 @@ srn.add_group(
 srn.connect_groups(
     outgoing_group="input",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
     lesion_rate=0,
     dropout_rate=0,
@@ -45,21 +45,20 @@ srn.connect_groups(
 srn.connect_groups(
     outgoing_group="elman",
     incoming_group="hidden",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
 )
 srn.connect_groups(
     outgoing_group="hidden",
     incoming_group="output",
-    link_type="uniform",
+    initialization="uniform",
     proj_type="full",
 )
 
 srn.connect_groups(
     outgoing_group="hidden",
     incoming_group="elman",
-    link_type="elman",
-    proj_type="one-to-one",
+    proj_type="elman",
 )
 
 # Disable plots
