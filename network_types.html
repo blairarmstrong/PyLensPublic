@@ -106,6 +106,7 @@
             
   <section id="special-topics-network-types">
 <h1>Special Topics: Network Types<a class="headerlink" href="#special-topics-network-types" title="Link to this heading">¶</a></h1>
+<p>This documentation is adapted from the original Lens documentation.</p>
 <section id="standard-networks">
 <h2>Standard Networks<a class="headerlink" href="#standard-networks" title="Link to this heading">¶</a></h2>
 <p><strong>Standard networks</strong> are feed-forward networks in that information propagates all the way through the network during the forward pass on each tick. In such networks, groups are updated in the order in which they appear in the network’s group array. A group update in this case consists of computing its inputs and immediately computing its outputs. This differs from continuous networks which have all groups update their inputs and then have all groups compute their outputs. Therefore, we say that continuous networks have synchronous update and standard network (including simple recurrent networks) have sequential update.</p>

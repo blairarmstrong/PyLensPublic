@@ -1,9 +1,12 @@
 Special Topics: Group Types
 ==============================
 
+This documentation is adapted from the original Lens documentation.
+
 Group (layer) types are divided into four classes. There are the basic types, input types, output types, and cost types. The basic types are simply a set of flags that include the basic types, such as ``input``, ``output``, ``bias``, and ``elman``, and any other types that don't happen to fit the other categories.
 
 The input, output, and cost types, on the other hand, actually reflect particular transformation functions. These functions will be executed in the order in which the types were specified. 
+
 
 Basic Types
 ------------
