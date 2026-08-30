@@ -11,6 +11,8 @@ PyLens is a Python-based tool for simulating language, memory, and other cogniti
 .. image:: images/unit-viewer-output-4.png
 	:alt: Example of PyLens graphical interface showing the units of a neural network
 
+`View PyLens Code on GitHub <https://github.com/blairarmstrong/PYLens>`_
+
 
 Contact
 =======
