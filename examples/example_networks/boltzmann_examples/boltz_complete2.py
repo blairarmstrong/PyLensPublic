@@ -73,4 +73,6 @@ reconstruction_net_one.set_update_method(learning_rate, update_method)
 
 reconstruction_net_one.train(100, batch_size, report_interval)
 
+sim_one.use_gui(reconstruction_net_one)
+
 

@@ -59,7 +59,6 @@ class BoltzmannMachine(Network):
         self.final_gain = network_params.PAR_N_finalGain
         self.anneal_time = network_params.PAR_N_annealTime
         self.ticks_per_event = []
-        print(f"After super().__init__: {self.network_type}")
 
     @property
     def event_list(self)->list:
@@ -255,13 +254,6 @@ class BoltzmannMachine(Network):
             group (Group): The group whose outputs need initialization.
         """
         if group.group_type != 'bias':
-            # if group.external_input is not None:
-            #     group.output_matrix = group.external_input
-            # elif group.target is not None:
-            #     group.output_matrix = group.target
-            # else:
-            #     group.output_matrix.fill(self.initOutput)
-            # group.output_matrix_cache = copy.copy(group.output_matrix)
             for i in range(group.num_units):
                 if not np.isnan(group.external_input[i]):
                     group.output_matrix[i] = group.external_input[i]
@@ -281,8 +273,7 @@ class BoltzmannMachine(Network):
         clamp_strength = group.clamp_strength if not np.isnan(group.clamp_strength) else self.clamp_strength
         retain_strength = 1.0 - self.clamp_strength
         initOutput = (group.initOutput if group.initOutput is not None else self.initOutput) * clamp_strength
-        # if group.external_input is None:
-        #     group.output_matrix = initOutput * clamp_strength + group.output_matrix * retain_strength
+
         for i in range(group.num_units):
             if np.isnan(group.external_input[i]):
                 group.output_matrix[i] = float(initOutput)  + group.output_matrix[i] * retain_strength
@@ -354,9 +345,6 @@ class BoltzmannMachine(Network):
                 ticks_on_event += 1
                 time_on_phase = ticks_on_phase / self.ticks_per_interval
 
-                # print("time_on_phase: ", time_on_phase)
-                # print("grace_time: ", grace_time)
-                # print("min_time: ", min_time)
                 if tick == self.time_intervals * self.ticks_per_interval: 
                     phase_done = True
                 elif time_on_phase < min_time:

@@ -118,8 +118,6 @@ class Group:
     error_scale = group_params.PAR_G_errorScale
 
     # lookup table matching different transforms to their respective classes
-    # activations = {"sigmoid": Sigmoid, "hard_clamp": Hard_Clamp, "soft_clamp": Soft_Clamp, "linear": Linear, "soft_max": SoftMax, "noise": Noise, "cropped" : Cropped,
-    #                "gaussian": Gaussian, "out_integr": Out_Integr}
     activations = {"sigmoid": Sigmoid, "hard_clamp": Hard_Clamp,
                    "linear": Linear, "soft_max": SoftMax, "noise": Noise,
                    "cropped": Cropped, "gaussian": Gaussian,
@@ -132,7 +130,6 @@ class Group:
                    "boltzmann": BoltzmannOutput}
     # No Backward Activation Function
     no_back_out = {"Out_Copy", "Interact_integr"}
-    # input_types = {"dot": Dot_Product, "product": Product, "elman_clamp": Elman_Clamp, "in_integr": In_Integr}
     input_types = {"dot": Dot_Product, "product": Product,
                    "soft_clamp": Soft_Clamp,"in_copy": In_Copy,
                    "in_integr": In_Integr, "distance": Distance,
@@ -438,11 +435,6 @@ class Group:
         Returns:
             ndarray: The computed output derivatives.
         """
-        # outputs = af.zeros(self.num_units)
-        # for transform in reversed(self.output_transforms):
-        #     transform_class = self.activations[transform](self)
-        #     outputs = transform_class.backward(self.input_matrix, self.output_derivs)
-        # return outputs
         self.output_derivs += self.outputderivCache
         # Make a copy to fix assignment destination is read-only
         if self.network.parallel_mode:

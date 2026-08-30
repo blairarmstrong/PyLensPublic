@@ -201,8 +201,6 @@ class Network:
 
         self.target = 0
 
-        # self.update_method = None
-        # self.optimizer = SteepestOptimizer(self, learning_rate)
         self.stats_plotter = StatsPlotter(self, points_on_plot=0,
                                           stats_plotted=None, plot_colors=None,
                                           report_interval=1)
@@ -452,11 +450,6 @@ class Network:
             use (boolean)
         """
         self.use_keyboard = use
-        # if self.use_keyboard:
-        #     self.use_keyboard = False
-        #     return
-        # self.use_keyboard = True
-        # return
 
     def add_plotting_stats(self, stats_plotted=None):
         """
@@ -3057,11 +3050,6 @@ class Network:
         Args:
             q (List): the list of data to plot
         """
-        # curr_time = time()
-        # if curr_time - self.clock_time < self.plot_update_time:
-        #     return
-        #
-        # self.clock_time = curr_time
         while not self.stop_event.is_set():
             if self.stats_plotter.live_update_closed:
                 break
@@ -3080,15 +3068,11 @@ class Network:
         Args:
             s (str): the string to dispatch
         """
-        # stop_event.clear()
         # seperate handller for graph update: 
         try:
             self.simulator.update_display_caller(self.last_example_trained, s)
         except Exception as e:
             logging.info(repr(e))
-        # retval = stop_event.wait(4)
-        # if not retval:
-        #     print("exited wait() because time limit is reached, should not reach here!!!")
 
     def execute_input(self):
         """
@@ -3626,12 +3610,10 @@ Instead, use set_properties(), e.g.:
             batch_err (float): the overall network error
         """
 
-        # batch_errors is a list of numpy arrays, so we have to sum over it twice
         if batch_error is None:
             return 0.0
         batch_err = sum(batch_error)
         return batch_err
-        # return np.sum(batch_error)
     
     def sum_batch_unit_cost(self, batch_unit_cost):
         """
@@ -3657,7 +3639,6 @@ Instead, use set_properties(), e.g.:
             batch_err (float): the overall network error
         """
 
-        # batch_errors is a list of numpy arrays, so we have to sum over it twice
         return sum(self.batch_errors)
 
     def weight_cost(self):
@@ -3668,8 +3649,6 @@ Instead, use set_properties(), e.g.:
         Returns:
             weight_cost (float): the sum of the squared weight values
         """
-        # print("NETWORK SQUARED WEIGHTS")
-        # print(self.report_stats["squared_weights"] / 2)
         return self.stats_plotter.report_stats["squared_weights"] / 2
 
     def gradient_linearity(self):
@@ -3703,18 +3682,11 @@ Instead, use set_properties(), e.g.:
         """
         error_groups = []
         error_derivs = []
-        # print("output groups:", output_groups)
         for i, output in enumerate(output_groups):
-            # cost = MeanSquareError()
             cost = self.cost_functions[i]
-            # print("output matrix: {}".format(output.output_matrix))
             error, adj_targets = cost.forward(output.output_matrix, target, frequency)
-            # output.error_scale
             error_groups.append(error)
-            # send output group object to access error scale attribute in backward
             error_derivs.append(cost.backward(output.output_matrix, adj_targets, frequency))
-            # print("error_groups: {}, error_derivs: {}".format(error_groups, error_derivs))
-            # Record target in history for GUI visualization
 
             # Make a copy to fix assignment destination is read-only
             if self.parallel_mode:
@@ -3995,12 +3967,10 @@ Instead, use set_properties(), e.g.:
                             if link.incoming_group.group_type != "elman":
                                 try:
                                     wt = [eval(num) for num in f.readline().strip().split()]
-                                    # print("wt: ", wt)
                                     if len(wt) == 1:
                                         wt = [wt[0], 0, 1]
                                     elif len(wt) == 2:
                                         wt = [wt[0], wt[1], 1]
-                                    # print("one to one link alpha :", wt[2])
                                     link_alpha.append(wt[2])
                                     if len(link.weights.shape) == 1:
                                         link.weights[out_unit_idx] = wt[0]
@@ -4010,17 +3980,10 @@ Instead, use set_properties(), e.g.:
                                         link.last_weight_delta[in_unit_idx, out_unit_idx] = wt[1]
                                 except:
                                     print("incorrect weight file")
-                                # print("wt: {}".format(wt))
-
-                            # Weights = 1
-                            # Delta = 0
-                            # Last Delta = 0
-                            # Alpha = 1
 
                         else:
                             for in_unit_idx in range(link.weights.shape[0]):
                                 try:
-                                    # print(f.readline().strip().split())
                                     wt = [eval(num) for num in f.readline().strip().split()]
 
                                     if len(wt) == 1:

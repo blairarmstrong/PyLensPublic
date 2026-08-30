@@ -84,3 +84,4 @@ digits_net_one.set_update_method(learning_rate, update_method)
 
 digits_net_one.train(num_updates, batch_size, report_interval)
 
+sim_one.use_gui(digits_net_one)

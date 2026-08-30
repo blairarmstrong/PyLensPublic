@@ -21,10 +21,7 @@ class BoltzmannInput(Input_Transform):
             af: Computed input matrix.
         """
         input_matrix = af.zeros(prev_links[0].incoming_group.num_units) 
-        # if ((self.group.external_input is None and self.group.target is None) 
-        #      or not self.group.network.in_grace_period):
-        #     for link in prev_links:
-        #         input_matrix += af.dot(link.outgoing_group.output_matrix, link.weights)
+
         for i in range(self.group.num_units):
             if np.isnan(self.group.external_input[i]) and ( 
                 np.isnan(self.group.target[i]) or not self.group.network.in_grace_period
