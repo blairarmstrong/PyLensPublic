@@ -11,7 +11,7 @@ def boltz_big_unit_test(parallel=False):
     update_method = "steepest"
 
     # create simulator
-    sim_one = Simulator(name="simulator", baseType='numpy')
+    sim_one = Simulator(name="simulator", baseType='pytorch')
 
     # create sample network
     digits_net_one = sim_one.create_net(name='dbm', time_intervals=4,

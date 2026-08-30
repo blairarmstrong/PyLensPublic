@@ -1,7 +1,7 @@
 from .link_full import LinkFull
 from .link_random import LinkRandom
 from .link_one_to_one import LinkOneToOne
-import numpy as np
+from ..array_factory import Array_factory as af
 from scipy.sparse.csc import csc_matrix
 
 
@@ -104,7 +104,7 @@ class LinkFactory:
         Raises:
             TypeError: If the object type is not supported for conversion.
         """
-        if isinstance(obj, np.ndarray):
+        if isinstance(obj, af.ndarray):
             return obj.tolist()
         if isinstance(obj, csc_matrix):
             return obj.A.tolist()

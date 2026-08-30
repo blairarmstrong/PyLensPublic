@@ -11,8 +11,6 @@ from .array_factory import Array_factory as af
 from .network import Network
 from .output_transforms.boltzmann import BoltzmannOutput
 
-import numpy as np
-
 network_params = NetworkParameters()
 
 class BoltzmannMachine(Network):
@@ -255,9 +253,9 @@ class BoltzmannMachine(Network):
         """
         if group.group_type != 'bias':
             for i in range(group.num_units):
-                if not np.isnan(group.external_input[i]):
+                if not af.isnan(group.external_input[i]):
                     group.output_matrix[i] = group.external_input[i]
-                elif not np.isnan(group.target[i]):
+                elif not af.isnan(group.target[i]):
                     group.output_matrix[i] = group.target[i]
                 else:
                     group.output_matrix[i] = self.initOutput
@@ -270,12 +268,12 @@ class BoltzmannMachine(Network):
         Args:
             group (Group): The group whose outputs need resetting.
         """
-        clamp_strength = group.clamp_strength if not np.isnan(group.clamp_strength) else self.clamp_strength
+        clamp_strength = group.clamp_strength if not af.isnan(group.clamp_strength) else self.clamp_strength
         retain_strength = 1.0 - self.clamp_strength
         initOutput = (group.initOutput if group.initOutput is not None else self.initOutput) * clamp_strength
 
         for i in range(group.num_units):
-            if np.isnan(group.external_input[i]):
+            if af.isnan(group.external_input[i]):
                 group.output_matrix[i] = float(initOutput)  + group.output_matrix[i] * retain_strength
         group.output_matrix_cache = copy.copy(group.output_matrix)
 
@@ -361,11 +359,10 @@ class BoltzmannMachine(Network):
                 if phase_done:
                     if phase == "positive":
                         for group in self.groups[:]:
-                            self.cache_output_derivs(group)
+                            # Cache positive-phase outputs for the contrastive Hebbian update.
+                            self.cache_outputs_as_derivs(group)
                             if network_params.PAR_N_reset_on_example:
                                 self.reset_boltzmann_outputs(group)
-                        # going to exit the while loop right after positive phase
-                        # need to populate the list
                         if ticks_on_phase == self.time_intervals * self.ticks_per_interval:
                             self.ticks_per_event.append(ticks_on_event)
                         ticks_on_phase = 0
@@ -375,12 +372,14 @@ class BoltzmannMachine(Network):
                         event_result += self.store_outputs_and_targets(tick)
                     else:
                         for outg in self.output_groups:
+                            # For Boltzmann, this output error is not used for training
                             self.errors, self.error_derivs = self.compute_cost([outg],
                                                                                outg.target,
                                                                                example.frequency,
                                                                                tick)
                             example.example_train_error.append(sum(self.errors))
                             self.unit_cost, self.unit_cost_derivs = self.compute_unit_output_cost([outg])
+
                             # Accumulate errors over the batch
                             if self.batch_errors is None:
                                 self.batch_errors = self.errors
@@ -394,6 +393,8 @@ class BoltzmannMachine(Network):
                                 self.batch_unit_costs = [i + j for i, j in zip(self.batch_unit_costs, 
                                                         self.unit_cost)]
 
+                        # Compute Boltzmann weight derivatives using the contrast between
+                        # positive- and negative-phase unit coactivations.
                         for group in self.groups[:]:
                             group.compute_input_back()
 
@@ -445,12 +446,12 @@ class BoltzmannMachine(Network):
                 # pre load_input and load_target of event in order to properly reset_output
                 self.load_event(event)
                 for targ in event.target_group:
-                    target_str += ' '.join(map(str, targ.astype(int)))
+                    target_str += ' '.join(map(str, af.astype(targ, int)))
                     target_str += " "
                     
                 for group in self.groups[:]:
                     self.initialize_boltzmann_outputs(group)
-                    self.cache_output_derivs(group)
+                    self.cache_outputs_as_derivs(group)
                     if network_params.PAR_N_reset_on_example:
                         self.reset_boltzmann_outputs(group)
 
@@ -558,17 +559,11 @@ class BoltzmannMachine(Network):
         self.gain = self.final_gain + (self.init_gain - self.final_gain) \
                     * 0.5 ** (ticks / (self.anneal_time * self.ticks_per_interval))
 
-    def cache_output_derivs(self, group: Group) -> None:
+    def cache_outputs_as_derivs(self, group: Group) -> None:
         """
-        Caches the output derivatives of a group to be used in weight updates.
-
-        Args:
-            group (Group): The group whose output derivatives are to be stored.
+        Copies the group's current outputs into its output derivative buffer.
         """
-        group.output_derivs[:] = group.output_matrix * group.lesion_mask if group.lesion_mask is not None else group.output_matrix
-        group.output_derivs[:] = group.output_derivs * group.dropout_mask if group.dropout_mask is not None else group.output_matrix
-
-        group.outputderivCache = copy.copy(group.output_derivs)
+        group.output_derivs[:] = group.output_matrix
 
     def store_outputs_and_targets(self, tick: int) -> list:
         """

@@ -1,5 +1,4 @@
 from ..clamping import Clamping
-import numpy as np
 import copy
 from ..array_factory import Array_factory as af
 
@@ -15,12 +14,12 @@ class Weak_Clamp(Clamping):
 
         strength = (
             self.group.network.clamp_strength
-            if np.isnan(self.group.clamp_strength)
+            if af.isnan(self.group.clamp_strength)
             else self.group.clamp_strength
         )
 
         for i in range(self.group.num_units):
-            if not np.isnan(self.group.external_input[i]):
+            if not af.isnan(self.group.external_input[i]):
                 x[i] += strength * (
                     self.group.external_input[i] - x[i]
                 )
@@ -30,7 +29,7 @@ class Weak_Clamp(Clamping):
         return x
 
     def backward(self, x, output_derivs):
-        strength = self.group.network.clamp_strength if np.isnan(self.group.clamp_strength) else self.group.clamp_strength
+        strength = self.group.network.clamp_strength if af.isnan(self.group.clamp_strength) else self.group.clamp_strength
         scale = 1 - strength
 
         original_output = self.unitHistoryData[self.group.curr_tick]

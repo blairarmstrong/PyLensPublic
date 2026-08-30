@@ -1,5 +1,4 @@
 from .modifying import Modifying
-import numpy as np
 from ..array_factory import Array_factory as af
 import copy
 

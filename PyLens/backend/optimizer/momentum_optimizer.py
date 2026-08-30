@@ -1,5 +1,5 @@
 from .optimizer import Optimizer
-import numpy as np
+from ..array_factory import Array_factory as af
 
 
 class MomentumOptimizer(Optimizer):
@@ -67,11 +67,11 @@ class MomentumOptimizer(Optimizer):
             # Apply max/min constraints if defined
             max_weights = group.incoming_links[i].max_weights
             min_weights = group.incoming_links[i].min_weights
-            max_truth_np = np.greater(group.incoming_links[i].weights, group.incoming_links[i].max_weights)
-            min_truth_np = np.less(group.incoming_links[i].weights, group.incoming_links[i].min_weights)
-            if not np.isnan(max_weights) and not False in max_truth_np:
+            max_truth_np = af.greater(group.incoming_links[i].weights, group.incoming_links[i].max_weights)
+            min_truth_np = af.less(group.incoming_links[i].weights, group.incoming_links[i].min_weights)
+            if not af.isnan(max_weights) and not False in max_truth_np:
                 group.incoming_links[i].update_weight(group.incoming_links[i].max_weights)
-            if not np.isnan(min_weights) and not False in min_truth_np:
+            if not af.isnan(min_weights) and not False in min_truth_np:
                 group.incoming_links[i].update_weight(group.incoming_links[i].min_weights)
             group.incoming_links[i].last_weight_delta = delta_weight
             # moved reset weight derivs to network train example beginning of iteration for GUI visualization

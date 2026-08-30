@@ -4,8 +4,6 @@ from .input_transform import Input_Transform
 from ..array_factory import Array_factory as af
 from ..link.link import Link
 
-import numpy as np
-
 class BoltzmannInput(Input_Transform):
     def __init__(self, group: "Group"):
         super().__init__("BoltzmannInput", group)
@@ -23,8 +21,8 @@ class BoltzmannInput(Input_Transform):
         input_matrix = af.zeros(prev_links[0].incoming_group.num_units) 
 
         for i in range(self.group.num_units):
-            if np.isnan(self.group.external_input[i]) and ( 
-                np.isnan(self.group.target[i]) or not self.group.network.in_grace_period
+            if af.isnan(self.group.external_input[i]) and ( 
+                af.isnan(self.group.target[i]) or not self.group.network.in_grace_period
                 ):
                 for link in prev_links:
                     input_matrix[i] += af.dot(link.outgoing_group.output_matrix, link.weights[:, i])
@@ -39,6 +37,12 @@ class BoltzmannInput(Input_Transform):
             *args: Additional arguments for the backward computation.
         """
         for link in prev_links:
-            # Reverse sign for hebbian learning update because of optimizer weight substraction
-            link.weight_derivs += link.outgoing_group.output_matrix[:, np.newaxis] @ link.incoming_group.output_matrix[np.newaxis, :]   \
-                                  - link.outgoing_group.output_derivs[:, np.newaxis] @ link.incoming_group.output_derivs[np.newaxis, :]
+            # Reverse sign for Hebbian learning update because of optimizer weight subtraction
+            # compute outer product for coactivation in hebbian learning
+            # output_derivs stores the outputs in the positive phase
+            link.weight_derivs += (
+                link.outgoing_group.output_matrix[:, None]
+                @ link.incoming_group.output_matrix[None, :]
+                - link.outgoing_group.output_derivs[:, None]
+                @ link.incoming_group.output_derivs[None, :]
+            )
