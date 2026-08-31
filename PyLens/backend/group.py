@@ -377,7 +377,7 @@ class Group:
         self.external_input = af.array(input_matrix)
         self.input_set = True
 
-    def previous_target(self, target_matrix):
+    def set_target(self, target_matrix):
         """
         Sets the target matrix.
 

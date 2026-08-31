@@ -96,7 +96,10 @@ class SRBPTTNetwork(Network):
 
                 # Comput cost
                 self.errors, self.error_derivs = self.compute_cost(
-                    self.output_groups, target, example.frequency, tick)
+                    self.output_groups, 
+                    example.frequency, 
+                    tick
+                    )
 
 
         return group_outputs

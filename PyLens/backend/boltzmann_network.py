@@ -316,6 +316,11 @@ class BoltzmannMachine(Network):
             if phase == "new_event":
                 # pre load_input and load_target of event in order to properly reset_output
                 self.load_event(event)
+
+                # GUI/history bookkeeping
+                for group in self.input_groups:
+                    group.external_input_history.append(group.external_input)
+
                 for targ in event.target_group:
                     target_str += ' '.join(map(str, af.astype(targ, int)))
                     target_str += " "
@@ -371,27 +376,27 @@ class BoltzmannMachine(Network):
                         tick += 1
                         event_result += self.store_outputs_and_targets(tick)
                     else:
-                        for outg in self.output_groups:
-                            # For Boltzmann, this output error is not used for training
-                            self.errors, self.error_derivs = self.compute_cost([outg],
-                                                                               outg.target,
-                                                                               example.frequency,
-                                                                               tick)
-                            example.example_train_error.append(sum(self.errors))
-                            self.unit_cost, self.unit_cost_derivs = self.compute_unit_output_cost([outg])
+                        # For Boltzmann, this output error is not used for training
+                        self.errors, self.error_derivs = self.compute_cost(
+                                self.output_groups,
+                                example.frequency, 
+                                tick
+                                )
+                        example.example_train_error.append(sum(self.errors))
+                        self.unit_cost, self.unit_cost_derivs = self.compute_unit_output_cost(self.output_groups)
 
-                            # Accumulate errors over the batch
-                            if self.batch_errors is None:
-                                self.batch_errors = self.errors
-                            else:
-                                self.batch_errors = [i + j for i, j in zip(self.batch_errors,
-                                                     self.errors)]
-                            # Accumulate unit costs over the batch
-                            if self.batch_unit_costs is None:
-                                self.batch_unit_costs = self.unit_cost
-                            else:
-                                self.batch_unit_costs = [i + j for i, j in zip(self.batch_unit_costs, 
-                                                        self.unit_cost)]
+                        # Accumulate errors over the batch
+                        if self.batch_errors is None:
+                            self.batch_errors = self.errors
+                        else:
+                            self.batch_errors = [i + j for i, j in zip(self.batch_errors,
+                                                 self.errors)]
+                        # Accumulate unit costs over the batch
+                        if self.batch_unit_costs is None:
+                            self.batch_unit_costs = self.unit_cost
+                        else:
+                            self.batch_unit_costs = [i + j for i, j in zip(self.batch_unit_costs, 
+                                                    self.unit_cost)]
 
                         # Compute Boltzmann weight derivatives using the contrast between
                         # positive- and negative-phase unit coactivations.
@@ -445,6 +450,11 @@ class BoltzmannMachine(Network):
             if phase == "new_event":
                 # pre load_input and load_target of event in order to properly reset_output
                 self.load_event(event)
+
+                # GUI/history bookkeeping
+                for group in self.input_groups:
+                    group.external_input_history.append(group.external_input)
+
                 for targ in event.target_group:
                     target_str += ' '.join(map(str, af.astype(targ, int)))
                     target_str += " "
@@ -487,25 +497,25 @@ class BoltzmannMachine(Network):
                     event_done = False
 
                 if event_done:
-                    for outg in self.output_groups:
-                        self.test_errors, self.test_error_derivs = self.compute_cost([outg],
-                                                                                     outg.target,
-                                                                                     example.frequency,
-                                                                                     tick)
-                        example.example_test_error += (sum(self.test_errors))
-                        self.test_unit_cost, self.test_unit_cost_derivs = self.compute_unit_output_cost(self.output_groups)
-                        # Accumulate test_test_errors over the batch
-                        if self.batch_test_errors is None:
-                            self.batch_test_errors = self.test_errors
-                        else:
-                            self.batch_test_errors = [i + j for i, j in zip(self.batch_test_errors,
-                                                      self.test_errors)]
-                        # Accumulate unit costs over the batch
-                        if self.batch_test_unit_cost is None:
-                            self.batch_test_unit_cost = self.test_unit_cost
-                        else:
-                            self.batch_test_unit_cost = [i + j for i, j in zip(self.batch_test_unit_cost, 
-                                                        self.test_unit_cost)]
+                    self.test_errors, self.test_error_derivs = self.compute_cost(
+                            self.output_groups,
+                            example.frequency, 
+                            tick
+                            )
+                    example.example_test_error += (sum(self.test_errors))
+                    self.test_unit_cost, self.test_unit_cost_derivs = self.compute_unit_output_cost(self.output_groups)
+                    # Accumulate test_test_errors over the batch
+                    if self.batch_test_errors is None:
+                        self.batch_test_errors = self.test_errors
+                    else:
+                        self.batch_test_errors = [i + j for i, j in zip(self.batch_test_errors,
+                                                  self.test_errors)]
+                    # Accumulate unit costs over the batch
+                    if self.batch_test_unit_cost is None:
+                        self.batch_test_unit_cost = self.test_unit_cost
+                    else:
+                        self.batch_test_unit_cost = [i + j for i, j in zip(self.batch_test_unit_cost, 
+                                                    self.test_unit_cost)]
 
                     phase = "new_event"
                     self.ticks_per_event.append(ticks_on_event)
@@ -524,31 +534,6 @@ class BoltzmannMachine(Network):
 
         return event_result, sum(self.test_errors), sum(self.test_unit_cost)
 
-    def load_target(self, target_matrix: Union[list, af]) -> None:
-        """
-        Loads the target values into the output groups.
-
-        Args:
-            target_matrix (Union[list, af]): A matrix representing the desired output values.
-        """
-        target_matrix = af.array(target_matrix)
-        for i in range(len(self.output_groups)):
-            self.output_groups[i].previous_target(target_matrix[i])
-    
-    def load_event(self, event: Event) -> None:
-        """
-        Loads an event’s input and target data into the corresponding input and output groups.
-
-        Args:
-            event (Event): The event object containing input and target information.
-        """
-        self.load_input(event.input_group)
-        self.load_target(event.target_group)
-        # Add external input to history for unit viewer
-        for group in self.groups[:]:
-            if group.group_type == "input":
-                group.external_input_history.append(group.external_input) 
-
     def gain_step(self, ticks: int) -> None:
         """
         Adjusts the network gain using exponential decay for annealing.
@@ -556,8 +541,11 @@ class BoltzmannMachine(Network):
         Args:
             ticks (int): The number of ticks in the current phase of training.
         """
-        self.gain = self.final_gain + (self.init_gain - self.final_gain) \
-                    * 0.5 ** (ticks / (self.anneal_time * self.ticks_per_interval))
+        self.gain = (
+            self.final_gain
+            + (self.init_gain - self.final_gain)
+            * 0.5 ** (ticks / (self.anneal_time * self.ticks_per_interval))
+        )
 
     def cache_outputs_as_derivs(self, group: Group) -> None:
         """

@@ -199,8 +199,6 @@ class Network:
         self.target_radius = optimizer_params.PAR_O_targetRadius
         self.zero_error_radius = optimizer_params.PAR_O_zeroErrorRadius
 
-        self.target = 0
-
         self.stats_plotter = StatsPlotter(self, points_on_plot=0,
                                           stats_plotted=None, plot_colors=None,
                                           report_interval=1)
@@ -2339,14 +2337,24 @@ class Network:
         Args:
             input_matrix (List): The matrix of data inputted into the network
         """
-        # input_matrix = af.array(input_matrix)
-        # for group in self.input_groups:
         for i in range(len(self.input_groups)):
             try:
                 self.input_groups[i].set_external_input(input_matrix[i])
             except IndexError:
-                print("error: number of input groups {} does not match examples {}".format(len(self.input_groups),
-                                                                                           len(input_matrix)))
+                print("error: number of input groups {} does not match examples {}".format(
+                    len(self.input_groups), 
+                    len(input_matrix))
+                      )
+
+    def load_target(self, target_matrix):
+        """Loads target values into the output groups."""
+        for group, target in zip(self.output_groups, target_matrix):
+            group.set_target(target)
+
+    def load_event(self, event):
+        """Loads an event's inputs and targets into the network."""
+        self.load_input(event.input_group)
+        self.load_target(event.target_group)
 
     def load_example_set(self, file_name: str, name="example", proc=False, 
                          default_input=0, active_input=1, default_target=0, 
@@ -2610,8 +2618,8 @@ class Network:
         if event.pre_proc_name is not None:
             event.pre_proc()
 
-        target = af.array(event.target_group[0])
-        self.target = target
+        target = self.output_groups[0].target
+
         if self.network_type == 'standard':
             self.reset_derivs()
         group_outputs = self.forward(tick) # continuous network, srbptt, and other networks have different self.forward methods.
@@ -2627,8 +2635,10 @@ class Network:
         group_outputs.append(target)
         input_result.append([s.tolist() for s in group_outputs])
 
-        self.errors, self.error_derivs = self.compute_cost(self.output_groups, target, 
-                                                           example.frequency, tick)
+        self.errors, self.error_derivs = self.compute_cost(
+                self.output_groups, 
+                example.frequency, 
+                tick)
         self.unit_cost, self.unit_cost_derivs = self.compute_unit_output_cost(self.output_groups)
         example.example_train_error.append(sum(self.errors))
 
@@ -2690,7 +2700,7 @@ class Network:
         """
 
         input_result = []
-        target = af.array(event.target_group[0])
+        target = self.output_groups[0].target
 
         self.reset_derivs()
         group_outputs = self.forward(tick)
@@ -2705,8 +2715,11 @@ class Network:
 
         group_outputs.append(target)
         input_result.append([s.tolist() for s in group_outputs])
-        self.test_errors, self.test_error_derivs = self.compute_cost(self.output_groups, target,
-                                                                     example.frequency, tick)
+        self.test_errors, self.test_error_derivs = self.compute_cost(
+                self.output_groups, 
+                example.frequency, 
+                tick
+                )
         self.test_unit_cost, self.test_unit_cost_derivs = self.compute_unit_output_cost(self.output_groups)
         example.example_test_error += sum(self.test_errors)
 
@@ -2745,17 +2758,19 @@ class Network:
         else:
             first_tick = 0
         ticks_on_event = 0
-        event_num = 0
         event_result = []
-        min_time = 0
+        training_errors = []
+        unit_costs = []
+        target_str = ""
 
         if example.pre_proc_name is not None:
             example.pre_proc()
-        target_str = ""
 
         # Reset the outputs and integrators
-        # pre load_input of first event in order to properly reset_output
-        self.load_input(example.event[0].input_group)
+        # pre load of first event in order to properly reset_output
+        event_index = 0
+        event = example.event[event_index]
+        self.load_event(event)
         for group in self.groups[:]:
             self.reset_outputs(group)
             self.reset_forwardintegrators(group)
@@ -2770,16 +2785,6 @@ class Network:
                     group.output_history[first_tick-1] = group.output_matrix
                     group.input_history[first_tick-1] = group.input_matrix
 
-        training_errors = []
-        unit_costs = []
-        event_index = 0
-        event = example.event[event_index]
-
-        for targ in event.target_group:
-            target_str += ' '.join(map(str, af.astype(targ, int).tolist()))
-            target_str += " "
-
-        # set max_time
         if event.max_time is not None:
             max_time = event.max_time
         elif example.set.max_time is not None:
@@ -2790,8 +2795,17 @@ class Network:
         for tick in range(first_tick, self.max_ticks):
             if event_index >= len(example.event):
                 break
-            self.load_input(event.input_group)
+
+            # Record the target once when this event begins.
+            if ticks_on_event == 0:
+                for targ in event.target_group:
+                    target_str += ' '.join(
+                        map(str, af.astype(targ, int).tolist())
+                    )
+                    target_str += " "
+
             self.current_tick = tick
+
             if test:
                 event_result += self.standard_net_test_tick(event, tick, example)
                 if self.test_error_criterion or self.test_group_criterion_reached:
@@ -2801,23 +2815,32 @@ class Network:
                 event_result += result
                 training_errors.append(error)
                 unit_costs.append(unit_cost)
+
             ticks_on_event += 1
             time_on_event = ticks_on_event / self.ticks_per_interval
-
-            if time_on_event >= max_time or tick >= self.max_ticks - 1:
-                # event done
-                event_index += 1
-                if event_index < len(example.event):
-                    event = example.event[event_index]
-                ticks_on_event = 0
-                # break
 
             # stores external input history
             if test:
                 for g in self.groups:
                     if g.group_type == "input":
                         g.external_input_history.append(g.external_input)
-                        break
+
+            if time_on_event >= max_time or tick >= self.max_ticks - 1:
+                # event done
+                event_index += 1
+                ticks_on_event = 0
+
+                if event_index < len(example.event):
+                    event = example.event[event_index]
+                    self.load_event(event)
+
+                    # set max_time
+                    if event.max_time is not None:
+                        max_time = event.max_time
+                    elif example.set.max_time is not None:
+                        max_time = example.set.max_time
+                    else:
+                        max_time = self.max_example_time
 
         self.ticks_on_example = self.current_tick + 1
 
@@ -3666,13 +3689,12 @@ Instead, use set_properties(), e.g.:
         else:
             return grad_lin / af.sqrt(last_delta_len * deriv_len)
 
-    def compute_cost(self, output_groups, target, frequency, tick):
+    def compute_cost(self, output_groups, frequency, tick):
         """
         Computes the cost of the networks prediction
 
         Args:
             output_groups (Group): these are all of the groups in the network of type output
-            target (Object): this is the actual value
             frequency (float): frequency of the example for this cost calculation
             tick (int): current network tick
         
@@ -3682,18 +3704,31 @@ Instead, use set_properties(), e.g.:
         """
         error_groups = []
         error_derivs = []
+
         for i, output in enumerate(output_groups):
+            target = output.target
             cost = self.cost_functions[i]
-            error, adj_targets = cost.forward(output.output_matrix, target, frequency)
+
+            error, adj_targets = cost.forward(
+                output.output_matrix,
+                target,
+                frequency,
+            )
             error_groups.append(error)
-            error_derivs.append(cost.backward(output.output_matrix, adj_targets, frequency))
+            error_derivs.append(
+                cost.backward(
+                    output.output_matrix,
+                    adj_targets,
+                    frequency,
+                )
+            )
 
-            # Make a copy to fix assignment destination is read-only
             if self.parallel_mode:
-                self.output_groups[i].target_history = self.output_groups[i].target_history.copy()
-            self.output_groups[i].target_history[tick] = target
+                output.target_history = output.target_history.copy()
 
-        return (error_groups, error_derivs)
+            output.target_history[tick] = target
+
+        return error_groups, error_derivs
 
     def compute_unit_output_cost(self, output_groups):
         """

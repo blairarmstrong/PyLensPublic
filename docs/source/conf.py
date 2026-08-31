@@ -15,7 +15,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 # -- Project information -----------------------------------------------------
 
 project = 'PyLens'
-copyright = '2020, CAP Lab, University of Toronto'
+copyright = '2026, CAP Lab, University of Toronto'
 author = 'CAP Lab'
 
 
