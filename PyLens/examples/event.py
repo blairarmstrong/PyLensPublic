@@ -110,15 +110,54 @@ class Event:
             self.target_group_name.append(group.name)
         event_string = event_list.strip()
 
-        if sparse_mode:
-            if not self.parse_sparse_format(event_string):
+        # Find I:, i:, T:, t:, B:, b: sequentially.
+        matches = list(re.finditer(r'(?<!\S)([IiTtBb]):', event_string))
+
+        inputs_seen = False
+        targets_seen = False
+
+        for i, match in enumerate(matches):
+            unit_type = match.group(1)
+
+            start = match.start()
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(event_string)
+
+            section = event_string[start:end].strip()
+
+            # CLens: uppercase = dense, lowercase = sparse
+            if unit_type.isupper():
+                if self.parse_dense_format(section, fill_missing=False) is False:
+                    return False
+            else:
+                if self.parse_sparse_format(section, fill_missing=False) is False:
+                    return False
+
+            if unit_type in ("I", "i", "B", "b"):
+                inputs_seen = True
+
+            if unit_type in ("T", "t", "B", "b"):
+                targets_seen = True
+
+        # Fill unspecified inputs/targets only after everything has been parsed.
+        if not inputs_seen:
+            if self.add_unit_groups(
+                    True,
+                    self.input_group_len,
+                    [],
+                    self.input_group_name) is False:
                 return False
 
-        else:
-            if not self.parse_dense_format(event_string):
+        if not targets_seen:
+            if self.add_unit_groups(
+                    False,
+                    self.target_group_len,
+                    [],
+                    self.target_group_name) is False:
                 return False
+
         return True
-    def parse_dense_format(self, event_string: str) -> bool:
+
+    def parse_dense_format(self, event_string: str, fill_missing=True) -> bool:
         """ Assuming dense format for event_string, reads the string and sets values for
         the unit groups of this event accordingly. Return true if successful, else false.
 
@@ -181,7 +220,7 @@ class Event:
                                             self.target_group_name) is False:
                         return False
 
-        if "B" not in event_dict:
+        if fill_missing and "B" not in event_dict:
             if "I" not in event_dict:
                 if self.add_unit_groups(True, self.input_group_len, [], self.input_group_name) is False:
                     return False
@@ -190,7 +229,7 @@ class Event:
                     return False
         return True
 
-    def parse_sparse_format(self, event_string: str) -> bool:
+    def parse_sparse_format(self, event_string: str, fill_missing=True) -> bool:
         """ Assuming dense format for event_string, reads the string and sets values for
         the unit groups of this event accordingly. Return true if successful, else false.
 
@@ -229,7 +268,7 @@ class Event:
                         if self.add_unit_groups(True, self.input_group_len, unit_lst,
                                                 self.input_group_name) is False:
                             return False
-                    elif unit_type in ("t", "b"):
+                    if unit_type in ("t", "b"):
                         unit_lst = [str(self.default_target) for _ in range(sum(self.target_group_len))]
                         for i, value in enumerate(external_inputs):
                             if self.get_sparse_units_list(False, unit_lst, unit_indexes[i],
@@ -254,7 +293,7 @@ class Event:
                         if self.add_unit_groups(False, self.target_group_len, unit_lst,
                                                 self.target_group_name) is False:
                             return False
-            if "b" not in event_dict:
+            if fill_missing and "b" not in event_dict:
                 if "i" not in event_dict:
                     if self.add_unit_groups(True, self.input_group_len, [],
                                             self.input_group_name) is False:

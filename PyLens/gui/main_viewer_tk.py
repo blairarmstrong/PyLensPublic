@@ -1305,7 +1305,7 @@ class main_viewer_tk():
         A helper function that uses a hook function in the backend.
         """
         print(self.train_batch_size.get())
-        self.input_net.test(self.train_batch_size.get())
+        self.input_net.test(self.train_batch_size.get(), reset_error=True)
 
     def start_training_thread(self):
         """

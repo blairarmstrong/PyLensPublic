@@ -56,10 +56,11 @@ class UnitGroup:
             # print("unit value: {}".format(unit_value))
             if unit_value == "-":
                 self.group = af.append(self.group, [float("NaN")])
-            elif unit_value.isdigit():
-                self.group = af.append(self.group, [int(unit_value)])
             else:
-                return False
+                try:
+                    self.group = af.append(self.group, [float(unit_value)])
+                except (TypeError, ValueError):
+                    return False
         else:
             if doing_inputs:  # if the Range is an input
                 self.group = af.append(self.group, [self.event.default_input])

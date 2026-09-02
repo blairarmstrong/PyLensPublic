@@ -3023,8 +3023,11 @@ class Network:
                         self.dispatch("example", stop_event)
                     self.update_graphs(update_no=self.examples_token_trained+i, updates_before=self.examples_token_trained, s="example")
                     if test:
-                        print("Example " + str(example_set.example_iterator.curr.value) + " Test Error: ", example.example_test_error)
-
+                        example_index = example_set.example.index(example)
+                        print(
+                            "Example " + str(example_index) + " Test Error: ",
+                            example.example_test_error
+                        )
 
                 else:
                     # retrieve result and errors from each worker
@@ -3545,7 +3548,6 @@ Instead, use set_properties(), e.g.:
         """
         assert self.testing_set
         assert self.learning_rate > 0.0
-        assert self.learning_rate > 0.0
         assert 0.0 <= self.optimizer.momentum < 1.0
         assert 0.0 <= self.optimizer.weight_decay < 1.0
 
@@ -3570,7 +3572,7 @@ Instead, use set_properties(), e.g.:
         print("Final Testing Error: ")
         if self.batch_test_errors is not None:
             testing_error = sum(self.batch_test_errors)
-            self.stats_plotter._print_report_field(testing_error)
+            self.stats_plotter._print_report_field(testing_error, last_field=True)
 
         return testing_error
 
