@@ -15,10 +15,11 @@ Usage
    net.connect_groups(
        outgoing_group,
        incoming_group,
-       link_type="uniform",
+       initialization="uniform",
        rand_mean=0,
        rand_range=None,
        proj_type="full",
+       link_type=None,
        lesion_rate=None,
        dropout_rate=None,
        perma_lesion_rate=None,
@@ -35,6 +36,7 @@ The ``proj_type`` parameter controls connectivity pattern. Current supported val
 - **full**: Dense projection from every sending unit to every receiving unit.
 - **random**: Random sparse projection (implementation-defined density).
 - **one-to-one**: Connect corresponding units pairwise.
+- **elman**: Connect a source to elman conext group through ``elman_connect()``.
 
 The ``rand_mean`` and ``rand_range`` parameters control how new link weights are initialized. Typically, the weights will be chosen randomly from a uniform distribution with center (``rand_mean``) and half-width (``rand_range``). If these parameters are omitted, the network default randomization settings may be used.
 
@@ -49,13 +51,15 @@ Arguments
 
 - **incoming_group** (``str``): Name (or unique identifier) of the group receiving the connections.
 
-- **link_type** (``str``, optional, default ``"uniform"``): Type or label assigned to the created links.
+- **initialization** (``str``, optional, default ``uniform``): Random initialization of the weights between groups.
 
 - **rand_mean** (``float``, optional, default ``0``): Mean (center) of the distribution used to initialize newly created weights.
 
 - **rand_range** (``float``, optional, default ``None``): Half-width (range) of the distribution for the link weights, i.e., weights are initialized in the interval ``[rand_mean - rand_range, rand_mean + rand_range]``. If ``None``, the network default is used.
 
 - **proj_type** (``str``, optional, default ``"full"``): Connectivity pattern. Supported values are ``"full"``, ``"random"``, and ``"one-to-one"``.
+
+- **link_type** (``str``, optional): Type or label assigned to the created links.
 
 - **lesion_rate** (``float``, optional, default ``None``): Rate at which connections or units are lesioned (disabled). If ``None``, no lesioning is applied at connection time.
 

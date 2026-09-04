@@ -102,10 +102,11 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span>
     <span class="n">outgoing_group</span><span class="p">,</span>
     <span class="n">incoming_group</span><span class="p">,</span>
-    <span class="n">link_type</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+    <span class="n">initialization</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
     <span class="n">rand_mean</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">rand_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">proj_type</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">,</span>
+    <span class="n">link_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">lesion_rate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">dropout_rate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">perma_lesion_rate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -122,6 +123,7 @@
 <li><p><strong>full</strong>: Dense projection from every sending unit to every receiving unit.</p></li>
 <li><p><strong>random</strong>: Random sparse projection (implementation-defined density).</p></li>
 <li><p><strong>one-to-one</strong>: Connect corresponding units pairwise.</p></li>
+<li><p><strong>elman</strong>: Connect a source to elman conext group through <code class="docutils literal notranslate"><span class="pre">elman_connect()</span></code>.</p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">rand_mean</span></code> and <code class="docutils literal notranslate"><span class="pre">rand_range</span></code> parameters control how new link weights are initialized. Typically, the weights will be chosen randomly from a uniform distribution with center (<code class="docutils literal notranslate"><span class="pre">rand_mean</span></code>) and half-width (<code class="docutils literal notranslate"><span class="pre">rand_range</span></code>). If these parameters are omitted, the network default randomization settings may be used.</p>
 <p>By default, newly created links have a type designated by <code class="docutils literal notranslate"><span class="pre">link_type</span></code>.</p>
@@ -132,10 +134,11 @@
 <ul class="simple">
 <li><p><strong>outgoing_group</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): Name (or unique identifier) of the group from which the links will originate.</p></li>
 <li><p><strong>incoming_group</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): Name (or unique identifier) of the group receiving the connections.</p></li>
-<li><p><strong>link_type</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">&quot;uniform&quot;</span></code>): Type or label assigned to the created links.</p></li>
+<li><p><strong>initialization</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">uniform</span></code>): Random initialization of the weights between groups.</p></li>
 <li><p><strong>rand_mean</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">0</span></code>): Mean (center) of the distribution used to initialize newly created weights.</p></li>
 <li><p><strong>rand_range</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): Half-width (range) of the distribution for the link weights, i.e., weights are initialized in the interval <code class="docutils literal notranslate"><span class="pre">[rand_mean</span> <span class="pre">-</span> <span class="pre">rand_range,</span> <span class="pre">rand_mean</span> <span class="pre">+</span> <span class="pre">rand_range]</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, the network default is used.</p></li>
 <li><p><strong>proj_type</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code>): Connectivity pattern. Supported values are <code class="docutils literal notranslate"><span class="pre">&quot;full&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;random&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;one-to-one&quot;</span></code>.</p></li>
+<li><p><strong>link_type</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>, optional): Type or label assigned to the created links.</p></li>
 <li><p><strong>lesion_rate</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): Rate at which connections or units are lesioned (disabled). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, no lesioning is applied at connection time.</p></li>
 <li><p><strong>dropout_rate</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): Probability of dropping (ignoring) the output of a connection. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, no dropout is applied.</p></li>
 <li><p><strong>perma_lesion_rate</strong> (<code class="docutils literal notranslate"><span class="pre">float</span></code>, optional, default <code class="docutils literal notranslate"><span class="pre">None</span></code>): Similar to <em>lesion_rate</em> but might indicate permanent or persistent lesioning. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, no permanent lesions are applied.</p></li>

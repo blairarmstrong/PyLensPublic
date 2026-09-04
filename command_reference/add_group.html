@@ -144,7 +144,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;hidden&quot;</span></code> (default)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;output&quot;</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;bias&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;elman&quot;</span></code> (optional special case)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;elman&quot;</span></code></p></li>
 </ul>
 </li>
 <li><p><strong>input_transforms</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>, optional): A list of input transform names. Common values include:</p>
@@ -161,9 +161,9 @@
 </li>
 <li><p><strong>output_transforms</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>, optional): A list of output transform names. Common values include:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;linear&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;sigmoid&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;tanh&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;soft_max&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;hard_clamp&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;noise&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;cropped&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;gaussian&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&quot;exponential&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;elman_clamp&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;out_integr&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;out_copy&quot;</span></code></p></li>
+<li><p>basic transform: <code class="docutils literal notranslate"><span class="pre">&quot;linear&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;sigmoid&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;tanh&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;soft_max&quot;</span></code></p></li>
+<li><p>clamping: <code class="docutils literal notranslate"><span class="pre">&quot;hard_clamp&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;noise&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;cropped&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;gaussian&quot;</span></code></p></li>
+<li><p>modifier: <code class="docutils literal notranslate"><span class="pre">&quot;exponential&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;elman_clamp&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;out_integr&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;out_copy&quot;</span></code></p></li>
 </ul>
 <p>If unspecified, defaults are chosen based on <code class="docutils literal notranslate"><span class="pre">group_type</span></code>.</p>
 </li>
@@ -172,6 +172,8 @@ The function used to compute the error for <em>output</em> groups. Typical optio
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;squared&quot;</span></code> for sum-of-squares error</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;cross_entropy&quot;</span></code> for cross-entropy error</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;cosine&quot;</span></code> for cosine error which calculates the 1.0 - the cosine of the angle between the output and target vectors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;divergence&quot;</span></code> for Kullback–Leibler divergence</p></li>
 </ul>
 <p>If omitted, the system may pick a default based on <code class="docutils literal notranslate"><span class="pre">output_transforms</span></code>.</p>
 </li>
@@ -189,7 +191,15 @@ Whether this group should receive bias inputs from the network’s bias group. I
 </ul>
 </li>
 <li><p><strong>unit_cost_function</strong> (optional):
-A function to compute an additional penalty or cost on each unit’s activation. No default; if unspecified, no per-unit cost is applied.</p></li>
+A function to compute an additional penalty or cost on each unit’s activation. No default; if unspecified, no per-unit cost is applied.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;conv_quad&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;cosine&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;linear&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;logistic&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;quadratic&quot;</span></code></p></li>
+</ul>
+</li>
 </ul>
 </section>
 <section id="examples">
