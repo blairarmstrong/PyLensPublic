@@ -92,7 +92,7 @@ Examples
        outgoing_unit_idx=[0, 2],
        incoming_group="hidden",
        incoming_unit_idx=[1, 3],
-       link_type="uniform",
+       initialization="uniform",
        proj_type="random",
        lesion_rate=0.1,
        bidirectional=True
