@@ -28,7 +28,7 @@ Description
 
 .. note::
 
-   ``simulator`` is the top level object in PyLens, which links all the deployed neural networks objects and the associated GUI objects. It is created by ``from src.simulator import Simulator; simulator = Simulator()``
+   ``simulator`` is the top level object in PyLens, which links all the deployed neural networks objects and the associated GUI objects. It is created by ``from PyLens.simulator import Simulator; simulator = Simulator()``
 
 The network type can be one of:
 

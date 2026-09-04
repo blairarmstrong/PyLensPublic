@@ -49,3 +49,19 @@ dl.py.method > dt {
     border-left: 4px solid #dddddd;
     white-space: normal;
 }
+
+@media screen and (max-width: 940px) {
+    div.document {
+        display: flex;
+        flex-direction: column;
+    }
+
+    div.documentwrapper {
+        order: 1;
+    }
+
+    div.sphinxsidebar {
+        order: 2;
+        margin: 20px -30px -20px -30px;
+    }
+}

@@ -21,61 +21,13 @@ class CosineError(Error):
         frequency (int): Frequency for scaling the error.
     """
 
-    name = None
-    x = None
-    error_scale = 1
-    frequency = 1
+    # name = None
+    # x = None
+    # error_scale = 1
+    # frequency = 1
 
     def __init__(self, group):
         super().__init__("Cosine Error", group)
-
-    def forward(self, outputs, targets, frequency):
-        """
-        Computes the forward pass of the CosineError.
-
-        Parameters:
-            outputs (ndarray): The predicted output vector.
-            targets (ndarray): The target vector.
-            frequency (int): Frequency factor used to scale the error.
-
-        Returns:
-            tuple: A tuple containing:
-                - error (float): The calculated cosine error.
-                - adjusted targets (ndarray): The adjusted target vector (if applicable).
-        """
-        self.frequency = frequency
-        t = targets
-        o = outputs
-
-        self.error_scale = self.group.error_scale
-        tr = self.target_radius
-        zr = self.zero_error_radius
-        tpi = self.group.network.ticks_per_interval
-        pef = self.group.network.pseudoExampleFreq
-
-        if tr != 0.0 or zr != 0.0:
-            t = self.adjusted_target_group(o, t, tr, 0, zr)
-
-        cosine = self.func(o, t)
-
-        error = cosine * self.error_scale / tpi * (
-            frequency if pef else 1)
-
-        error *= self.error_scale / tpi * (
-            frequency if pef else 1)
-
-        return error, t
-
-    # def scale(self, cosine, error_scale, frequency):
-    #     cosine *= (frequency if self.network.pseudoExampleFreq else 1) * error_scale
-    #
-    #     error = (1 - cosine) * error_scale / self.network.ticks_per_interval * (
-    #         frequency if self.network.pseudoExampleFreq else 1)
-    #
-    #     error *= error_scale / self.network.ticks_per_interval * (
-    #         frequency if self.network.pseudoExampleFreq else 1)
-    #
-    #     return error
 
     def func(self, outputs, targets):
         """
@@ -91,15 +43,54 @@ class CosineError(Error):
         Returns:
             float: 1.0 - cosine similarity between the output and target vectors.
         """
-        # TODO do we need to iterate and sum?
-        if (af.norm(outputs) * af.norm(targets)) == 0:
-            cosine = 0
-        else:
-            cosine = af.dot(outputs, targets) / af.norm(outputs) * af.norm(targets)
+        out_norm = af.norm(outputs)
+        tar_norm = af.norm(targets)
 
-        cosine *= (self.frequency if self.group.network.pseudoExampleFreq else 1) * self.error_scale
+        if out_norm * tar_norm == 0:
+            return 0.0
 
-        return 1-cosine
+        return af.dot(outputs, targets) / (out_norm * tar_norm)
+
+    def forward(self, outputs, targets, frequency):
+        """
+        Computes the forward pass of the CosineError.
+
+        Parameters:
+            outputs (ndarray): The predicted output vector.
+            targets (ndarray): The target vector.
+            frequency (int): Frequency factor used to scale the error.
+
+        Returns:
+            tuple: A tuple containing:
+                - error (float): The calculated cosine error.
+                - adjusted targets (ndarray): The adjusted target vector (if applicable).
+        """
+        t = targets
+        o = outputs
+
+        error_scale = self.group.error_scale
+        tr = self.target_radius
+        zr = self.zero_error_radius
+        tpi = self.group.network.ticks_per_interval
+        pef = self.group.network.pseudoExampleFreq
+
+        if tr != 0.0 or zr != 0.0:
+            t = self.adjusted_target_group(o, t, tr, 0, zr)
+
+        freq_scale = frequency if pef else 1.0
+
+        cosine = self.func(o, t)
+        cosine *= freq_scale * error_scale
+
+        error = (
+            (1.0 - cosine)
+            * error_scale
+            / tpi
+            * freq_scale
+        )
+        return error, t
+
+
 
     def backward(self, outputs, targets, frequency):
         '''
@@ -113,16 +104,28 @@ class CosineError(Error):
         Returns:
             ndarray: Gradient of the cosine error with respect to the outputs.
         '''
-        if (af.norm(outputs) * af.norm(targets)) == 0:
-            cosine = 0
-        else:
-            cosine = af.dot(outputs, targets) / af.norm(outputs) * af.norm(targets)
-        invdotprod = 1 / af.dot(outputs, targets)
-        invsqoutlen = 1 / af.sum(af.square(outputs))
+        error_scale = self.group.error_scale
+        pef = self.group.network.pseudoExampleFreq
+        freq_scale = frequency if pef else 1.0
+
+        cosine = self.func(outputs, targets)
+
+        # Same scaled cosine stored in CLens CosineData
+        cosine *= freq_scale * error_scale
+
         if cosine == 0.0:
             return af.zeros_like(outputs)
-        return cosine * (outputs * invsqoutlen - targets * invdotprod)
 
+        dotprod = af.dot(outputs, targets)
+        sqoutlen = af.sum(af.square(outputs))
+
+        invdotprod = 1.0 / dotprod
+        invsqoutlen = 1.0 / sqoutlen
+
+        return cosine * (
+            outputs * invsqoutlen
+            - targets * invdotprod
+        )
 
 if __name__ == "__main__":
     pass

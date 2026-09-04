@@ -24,15 +24,15 @@ Description
 
 The function **instantiates the matching optimizer** on the network. If ``update_method`` is not recognized, PyLens falls back to the **global network default** (``PAR_N_algorithm``).
 
-**``"steepest"`` (default)** — Pure gradient descent in weight space (no momentum from prior steps).
+``"steepest"`` (default) — Pure gradient descent in weight space (no momentum from prior steps).
 
-**``"momentum"``** — Each weight change blends the current gradient step with a fraction of the previous step, controlled by the optimizer’s momentum parameter. The effective step size can grow roughly like ``1 / (1 - momentum)`` compared to plain steepest descent.
+``"momentum"`` — Each weight change blends the current gradient step with a fraction of the previous step, controlled by the optimizer’s momentum parameter. The effective step size can grow roughly like ``1 / (1 - momentum)`` compared to plain steepest descent.
 
-**``"dougs momentum"``** — Like standard momentum, but the **pre-momentum** weight step vector is **capped** so its length does not exceed 1.0. After adding momentum, the combined update can still grow up to about ``1 / (1 - momentum)``. This often allows **larger stable learning rates** early in training than plain momentum.
+``"dougs momentum"`` — Like standard momentum, but the **pre-momentum** weight step vector is **capped** so its length does not exceed 1.0. After adding momentum, the combined update can still grow up to about ``1 / (1 - momentum)``. This often allows **larger stable learning rates** early in training than plain momentum.
 
-**``"delta bar delta"``** — Per-link adaptive learning rates. Each link keeps a multiplier (see the optimizer / link fields such as ``link_learning_rate``). When consecutive updates for a weight move in a consistent direction vs. when they reverse, the multiplier is adjusted using the optimizer’s ``rate_increment`` and ``rate_decrement`` (see :doc:`../overview_of_code` and optimizer parameters). The base ``lr`` you pass to ``set_update_method`` still scales the overall step.
+``"delta bar delta"`` — Per-link adaptive learning rates. Each link keeps a multiplier (see the optimizer / link fields such as ``link_learning_rate``). When consecutive updates for a weight move in a consistent direction vs. when they reverse, the multiplier is adjusted using the optimizer’s ``rate_increment`` and ``rate_decrement`` (see :doc:`../overview_of_code` and optimizer parameters). The base ``lr`` you pass to ``set_update_method`` still scales the overall step.
 
-**``"adam"``** — Adam optimizer (PyTorch path uses the corresponding torch implementation where applicable).
+``"adam"`` — Adam optimizer (PyTorch path uses the corresponding torch implementation where applicable).
 
 Arguments
 ---------

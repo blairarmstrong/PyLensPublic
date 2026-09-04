@@ -1222,18 +1222,27 @@ class Network:
         transform.source_group = src
         transform.source_field = field
     
-    def connect_groups(self, outgoing_group, incoming_group, initialization="uniform", 
-                       rand_mean=0, rand_range=None, proj_type="full", link_type=None, 
-                       lesion_rate=None, dropout_rate=None, 
-                       perma_lesion_rate=None, bidirectional=False):
+    def connect_groups(self, 
+                       outgoing_group, 
+                       incoming_group, 
+                       initialization="uniform", 
+                       rand_mean=0, 
+                       rand_range=None, 
+                       proj_type="full", 
+                       link_type=None, 
+                       lesion_rate=None, 
+                       dropout_rate=None, 
+                       perma_lesion_rate=None, 
+                       bidirectional=False):
         """
         Connect two groups together in the network
 
         Args:
-            link_type (str): the type of link to create between the groups
             initialization (str): weight initialization method ('uniform', 'gaussian', or 'kaiming')
             rand_mean (float): the mean of the random weights
             rand_range (float): the range of the random weights
+            proj_type (str): the projection type between the groups
+            link_type (str): the type of link defined by the user
             dropout_rate (float): the probability of dropping out a unit in the group
             perma_lesion_rate (float): the rate at which the units in the group are permanently lesioned
             bidirectional (boolean): whether the connection is bidirectional or not
@@ -1246,10 +1255,10 @@ class Network:
                            outgoing_group=outgoing_group, 
                            incoming_group=incoming_group, 
                            initialization=initialization, 
-                           link_type=link_type,
                            rand_mean=rand_mean, 
                            rand_range=rand_range, 
                            proj_type=proj_type, 
+                           link_type=link_type,
                            lesion_rate=lesion_rate, 
                            dropout_rate=dropout_rate, 
                            perma_lesion_rate=perma_lesion_rate, 

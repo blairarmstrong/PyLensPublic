@@ -16,10 +16,11 @@ Usage
        outgoing_group,
        incoming_group,
        target_unit_idx,
-       link_type="uniform",
+       initialization="uniform",
        rand_mean=0.0,
        rand_range=None,
        proj_type="full",
+       link_type=None,
        lesion_rate=None,
        dropout_rate=None,
        perma_lesion_rate=None,
@@ -48,13 +49,15 @@ Arguments
 
 - **target_unit_idx** (``list``): List of indices of the units in the incoming group that receive the connections.
 
-- **link_type** (``str``, optional, default ``"uniform"``): Type or label assigned to the created links.
+- **initialization** (``str``, optional, default ``uniform``): Random initialization of the weights between groups.
 
 - **rand_mean** (``float``, optional, default ``0``): Mean (center) of the distribution used to initialize newly created weights.
 
 - **rand_range** (``float``, optional, default ``None``): Half-width (range) of the distribution for the link weights, i.e., weights are initialized in the interval ``[rand_mean - rand_range, rand_mean + rand_range]``. If ``None``, the network default is used.
 
 - **proj_type** (``str``, optional, default ``"full"``): Specifies the connectivity pattern. Common values are: ``"full"``, ``"random"``, ``"fixed_in"``, ``"fixed_out"``, ``"fair"``, ``"fan"``, ``"one_to_one"``, etc.
+
+- **link_type** (``str``, optional, default ``None``): Type or label assigned to the created links.
 
 - **lesion_rate** (``float``, optional, default ``None``): Rate at which connections or units are lesioned (disabled). If ``None``, no lesioning is applied at connection time.
 
@@ -85,7 +88,7 @@ Examples
        outgoing_group="input",
        incoming_group="hidden",
        target_unit_idx=[0, 1, 2],
-       link_type="uniform",
+       initialization="uniform",
        lesion_rate=0.1,
        dropout_rate=0.2
    )

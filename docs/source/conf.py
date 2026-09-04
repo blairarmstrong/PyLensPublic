@@ -46,7 +46,7 @@ python_maximum_signature_line_length = 60
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'furo'
 
 html_theme_options = {
     'show_powered_by': False,

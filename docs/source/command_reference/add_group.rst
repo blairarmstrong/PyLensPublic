@@ -62,7 +62,7 @@ Arguments
   - ``"hidden"`` (default)
   - ``"output"``
   - ``"bias"``
-  - ``"elman"`` (optional special case)
+  - ``"elman"`` 
 
 - **input_transforms** (``list``, optional): A list of input transform names. Common values include:
   
@@ -78,9 +78,9 @@ Arguments
 
 - **output_transforms** (``list``, optional): A list of output transform names. Common values include:
   
-  - ``"linear"``, ``"sigmoid"``, ``"tanh"``, ``"soft_max"``
-  - ``"hard_clamp"``, ``"noise"``, ``"cropped"``, ``"gaussian"``
-  - ``"exponential"``, ``"elman_clamp"``, ``"out_integr"``, ``"out_copy"``
+  - basic transform: ``"linear"``, ``"sigmoid"``, ``"tanh"``, ``"soft_max"``
+  - clamping: ``"hard_clamp"``, ``"noise"``, ``"cropped"``, ``"gaussian"``
+  - modifier: ``"exponential"``, ``"elman_clamp"``, ``"out_integr"``, ``"out_copy"``
   
   If unspecified, defaults are chosen based on ``group_type``.
 
@@ -89,6 +89,8 @@ Arguments
   
   - ``"squared"`` for sum-of-squares error
   - ``"cross_entropy"`` for cross-entropy error
+  - ``"cosine"`` for cosine error which calculates the 1.0 - the cosine of the angle between the output and target vectors. 
+  - ``"divergence"`` for Kullback–Leibler divergence
   
   If omitted, the system may pick a default based on ``output_transforms``.
 
@@ -109,6 +111,12 @@ Arguments
 
 - **unit_cost_function** (optional):
   A function to compute an additional penalty or cost on each unit’s activation. No default; if unspecified, no per-unit cost is applied.
+
+  - ``"conv_quad"`` 
+  - ``"cosine"``
+  - ``"linear"`` 
+  - ``"logistic"`` 
+  - ``"quadratic"``
 
 Examples
 --------

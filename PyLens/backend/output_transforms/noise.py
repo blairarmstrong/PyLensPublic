@@ -31,5 +31,8 @@ class Noise(Modifying):
     def forward(self, x):
         return self.func(x)
 
-    def backward(self, x, y):
-        return self.unitHistoryData[self.group.curr_tick]
+    def backward(self, x, output_derivs):
+        self.group.output_matrix = af.copy(
+            self.unitHistoryData[self.group.curr_tick]
+        )
+        return output_derivs
