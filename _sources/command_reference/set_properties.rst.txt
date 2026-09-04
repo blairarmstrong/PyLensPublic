@@ -42,7 +42,7 @@ Examples
         ]
     )
 
-This ``set_properties()`` call is equivalent to running the following lines in non-parallel mode, **but it enables parallel training.**
+This ``set_properties()`` call is equivalent to running the following lines in non-parallel mode, **but it is required to enables proper parallel training.**
 
 .. code-block:: python
 

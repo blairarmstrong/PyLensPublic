@@ -165,7 +165,7 @@ Output Modifying Transformations
 Cost Types
 ----------
 
- There are actually two very different kinds of cost functions: error functions and unit output cost functions. The error functions are based on the similarity of the outputs and targets. The unit output cost functions simply charge the unit for producing certain outputs, such as non-binary ones. The error functions assess no error when the target is NaN.
+There are actually two very different kinds of cost functions: error functions and unit output cost functions. The error functions are based on the similarity of the outputs and targets. The unit output cost functions simply charge the unit for producing certain outputs, such as non-binary ones. The error functions assess no error when the target is NaN.
 
 Error Types
 ^^^^^^^^^^^^

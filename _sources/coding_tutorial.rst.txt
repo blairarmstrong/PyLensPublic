@@ -43,40 +43,40 @@ Next, we specify the network structure by following these steps:
  
 1. **Create a new network** named ``digits_net``. By default, the network contains a **bias** group consisting of a single bias unit, which (again by default) will be connected to each unit in the hidden and output layers.
 
-    .. code-block:: python
+.. code-block:: python
 
-        digits_net = sim_one.create_net(name='digits')
+    digits_net = sim_one.create_net(name='digits')
 
 2. **Add an input layer** (or group) consisting of 20 units. The ``num_cols`` argument accounts for the fact that the input is represented in a grid-like structure with four columns, as explained above.
     
-    .. code-block:: python
+.. code-block:: python
 
-        digits_net.add_group(
-            20,
-            name="input",
-            group_type="input",
-            num_cols=4,
-        )
+    digits_net.add_group(
+        20,
+        name="input",
+        group_type="input",
+        num_cols=4,
+    )
 
 3. **Add one hidden layer** with 20 units each. By default, hidden groups use a ``dot`` input transform and a ``sigmoid`` output transform.
     
-    .. code-block:: python
+.. code-block:: python
 
-        digits_net.add_group(
-                20,
-                name="hidden",
-                group_type="hidden",
-        )
+    digits_net.add_group(
+            20,
+            name="hidden",
+            group_type="hidden",
+    )
 
 4. Finally, **add an output layer** consisting of 3 units. Again by default, the output group uses a ``dot`` input transform and a ``sigmoid`` output transform. Based on the output transform, the network will automatically select an error function. Here, it defaults to ``cross-entropy`` error.
 
-    .. code-block:: python
+.. code-block:: python
 
-        digits_net.add_group(
-            3,
-            name="output",
-            group_type="output",
-        )
+    digits_net.add_group(
+        3,
+        name="output",
+        group_type="output",
+    )
 
 Connecting the Layers
 -------------------------------------
@@ -84,21 +84,22 @@ Connecting the Layers
 We next create links between the layers by following these steps:
 
 1. **Connect the input layer to the hidden layer**.    
-    .. code-block:: python
 
-        digits_net.connect_groups(
-            outgoing_group="input",
-            incoming_group="hidden",
-        )
+.. code-block:: python
+
+    digits_net.connect_groups(
+        outgoing_group="input",
+        incoming_group="hidden",
+    )
 
 2. **Connect the hidden layer to the output layer**, again using full projection.
     
-    .. code-block:: python
+.. code-block:: python
 
-        digits_net.connect_groups(
-            outgoing_group="hidden",
-            incoming_group="output",
-        )
+    digits_net.connect_groups(
+        outgoing_group="hidden",
+        incoming_group="output",
+    )
 
 Loading an Example Set
 -------------------------------------

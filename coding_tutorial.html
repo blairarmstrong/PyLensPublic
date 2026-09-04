@@ -289,17 +289,16 @@
 <section id="creating-network-layers">
 <h2>Creating Network Layers<a class="headerlink" href="#creating-network-layers" title="Link to this heading">¶</a></h2>
 <p>Next, we specify the network structure by following these steps:</p>
-<ol class="arabic">
-<li><p><strong>Create a new network</strong> named <code class="docutils literal notranslate"><span class="pre">digits_net</span></code>. By default, the network contains a <strong>bias</strong> group consisting of a single bias unit, which (again by default) will be connected to each unit in the hidden and output layers.</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span> <span class="o">=</span> <span class="n">sim_one</span><span class="o">.</span><span class="n">create_net</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;digits&#39;</span><span class="p">)</span>
+<ol class="arabic simple">
+<li><p><strong>Create a new network</strong> named <code class="docutils literal notranslate"><span class="pre">digits_net</span></code>. By default, the network contains a <strong>bias</strong> group consisting of a single bias unit, which (again by default) will be connected to each unit in the hidden and output layers.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span> <span class="o">=</span> <span class="n">sim_one</span><span class="o">.</span><span class="n">create_net</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;digits&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-<li><p><strong>Add an input layer</strong> (or group) consisting of 20 units. The <code class="docutils literal notranslate"><span class="pre">num_cols</span></code> argument accounts for the fact that the input is represented in a grid-like structure with four columns, as explained above.</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
+<ol class="arabic simple" start="2">
+<li><p><strong>Add an input layer</strong> (or group) consisting of 20 units. The <code class="docutils literal notranslate"><span class="pre">num_cols</span></code> argument accounts for the fact that the input is represented in a grid-like structure with four columns, as explained above.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
     <span class="mi">20</span><span class="p">,</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span>
     <span class="n">group_type</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span>
@@ -307,57 +306,48 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-<li><p><strong>Add one hidden layer</strong> with 20 units each. By default, hidden groups use a <code class="docutils literal notranslate"><span class="pre">dot</span></code> input transform and a <code class="docutils literal notranslate"><span class="pre">sigmoid</span></code> output transform.</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
+<ol class="arabic simple" start="3">
+<li><p><strong>Add one hidden layer</strong> with 20 units each. By default, hidden groups use a <code class="docutils literal notranslate"><span class="pre">dot</span></code> input transform and a <code class="docutils literal notranslate"><span class="pre">sigmoid</span></code> output transform.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
         <span class="mi">20</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
         <span class="n">group_type</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-<li><p>Finally, <strong>add an output layer</strong> consisting of 3 units. Again by default, the output group uses a <code class="docutils literal notranslate"><span class="pre">dot</span></code> input transform and a <code class="docutils literal notranslate"><span class="pre">sigmoid</span></code> output transform. Based on the output transform, the network will automatically select an error function. Here, it defaults to <code class="docutils literal notranslate"><span class="pre">cross-entropy</span></code> error.</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
+<ol class="arabic simple" start="4">
+<li><p>Finally, <strong>add an output layer</strong> consisting of 3 units. Again by default, the output group uses a <code class="docutils literal notranslate"><span class="pre">dot</span></code> input transform and a <code class="docutils literal notranslate"><span class="pre">sigmoid</span></code> output transform. Based on the output transform, the network will automatically select an error function. Here, it defaults to <code class="docutils literal notranslate"><span class="pre">cross-entropy</span></code> error.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span>
     <span class="mi">3</span><span class="p">,</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
     <span class="n">group_type</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-</ol>
 </section>
 <section id="connecting-the-layers">
 <h2>Connecting the Layers<a class="headerlink" href="#connecting-the-layers" title="Link to this heading">¶</a></h2>
 <p>We next create links between the layers by following these steps:</p>
-<ol class="arabic">
-<li><dl>
-<dt><strong>Connect the input layer to the hidden layer</strong>.</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span>
+<ol class="arabic simple">
+<li><p><strong>Connect the input layer to the hidden layer</strong>.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span>
     <span class="n">outgoing_group</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">,</span>
     <span class="n">incoming_group</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-</dd>
-</dl>
-</li>
-<li><p><strong>Connect the hidden layer to the output layer</strong>, again using full projection.</p>
-<blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span>
+<ol class="arabic simple" start="2">
+<li><p><strong>Connect the hidden layer to the output layer</strong>, again using full projection.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">digits_net</span><span class="o">.</span><span class="n">connect_groups</span><span class="p">(</span>
     <span class="n">outgoing_group</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
     <span class="n">incoming_group</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div></blockquote>
-</li>
-</ol>
 </section>
 <section id="loading-an-example-set">
 <h2>Loading an Example Set<a class="headerlink" href="#loading-an-example-set" title="Link to this heading">¶</a></h2>

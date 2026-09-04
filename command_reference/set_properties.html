@@ -294,7 +294,7 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>This <code class="docutils literal notranslate"><span class="pre">set_properties()</span></code> call is equivalent to running the following lines in non-parallel mode, <strong>but it enables parallel training.</strong></p>
+<p>This <code class="docutils literal notranslate"><span class="pre">set_properties()</span></code> call is equivalent to running the following lines in non-parallel mode, <strong>but it is required to enables proper parallel training.</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># set network properties</span>
 <span class="n">net</span><span class="o">.</span><span class="n">group_criterion_threshold</span> <span class="o">=</span> <span class="mf">0.001</span>
 <span class="n">net</span><span class="o">.</span><span class="n">test_group_criterion_threshold</span> <span class="o">=</span> <span class="mf">0.001</span>
