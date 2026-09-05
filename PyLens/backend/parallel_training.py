@@ -1,11 +1,7 @@
-# from .network import Network
-# from .continuous_network import ContinuousNetwork
-# from .srbptt_network import SRBPTTNetwork
 import ray
 from .parameters import NetworkParameters
 from .parameters import ExampleParameters
 from .parameters import OptimizerParameters
-import warnings
 from .array_factory import Array_factory as af
 
 network_params = NetworkParameters()

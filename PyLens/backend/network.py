@@ -2666,8 +2666,8 @@ class Network:
             # here it transfers the derivatives to output groups, the backprop for the groups are then done by net_train_example_back()
             for i in range(len(self.output_groups)):
                 self.output_groups[i].output_derivs = self.error_derivs[i] + self.unit_cost_derivs[i]
-                if self.parallel_mode:
-                    self.output_groups[i].output_derivs_history = self.output_groups[i].output_derivs_history.copy()
+                # if self.parallel_mode:
+                #     self.output_groups[i].output_derivs_history = self.output_groups[i].output_derivs_history.copy()
                 self.output_groups[i].output_derivs_history[tick] = self.error_derivs[i] + self.unit_cost_derivs[i]
         else:
             output_derivs = self.compute_back()
@@ -2788,9 +2788,6 @@ class Network:
         if self.network_type == 'continuous':
             for group in self.groups[:]:
                 if group.group_type != "bias":
-                    if self.parallel_mode:
-                        group.output_history = group.output_history.copy()
-                        group.input_history = group.input_history.copy()
                     group.output_history[first_tick-1] = group.output_matrix
                     group.input_history[first_tick-1] = group.input_matrix
 
@@ -3734,9 +3731,6 @@ Instead, use set_properties(), e.g.:
                 )
             )
 
-            if self.parallel_mode:
-                output.target_history = output.target_history.copy()
-
             output.target_history[tick] = target
 
         return error_groups, error_derivs
@@ -3797,9 +3791,6 @@ Instead, use set_properties(), e.g.:
         elif group.group_type == 'bias':
             pass
         else:
-            # Make a copy of output matrix to fix "assignment destination is read-only"
-            if self.parallel_mode:
-                group.output_matrix = af.copy(group.output_matrix)
             af.fill(group.output_matrix, init_output)
             group.output_matrix_cache = af.copy(group.output_matrix)
 
@@ -3812,8 +3803,6 @@ Instead, use set_properties(), e.g.:
         """
         for transform in group.output_transforms:
             if transform.name == 'Out_Integr':
-                if self.parallel_mode:
-                    transform.unitData = transform.unitData.copy()
                 af.fill(transform.unitData, group.initOutput)
         for transform in group.input_transforms:
             if transform.name == 'In_Integr':

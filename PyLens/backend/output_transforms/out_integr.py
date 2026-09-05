@@ -13,8 +13,6 @@ class Out_Integr(Modifying):
 
     def func(self, x):
         lastoutput = self.unitData
-        if self.group.network.parallel_mode:
-            self.unitHistoryData = self.unitHistoryData.copy()
         self.unitHistoryData[self.group.curr_tick] = x
         self.unitData += self.dt * (x - lastoutput)
 

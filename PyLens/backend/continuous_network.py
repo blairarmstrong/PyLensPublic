@@ -97,8 +97,6 @@ class ContinuousNetwork(Network):
             example (object): The training example to process.
         """
         for group in self.groups:
-            if self.parallel_mode:
-                group.outputderivCache = group.outputderivCache.copy()
             af.fill(group.outputderivCache, 0)
             for transform in group.output_transforms:
                 if transform.name in {'Out_Integr'}:

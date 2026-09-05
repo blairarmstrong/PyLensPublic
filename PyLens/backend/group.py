@@ -436,9 +436,6 @@ class Group:
             ndarray: The computed output derivatives.
         """
         self.output_derivs += self.outputderivCache
-        # Make a copy to fix assignment destination is read-only
-        if self.network.parallel_mode:
-            self.outputderivCache = self.outputderivCache.copy()
         af.fill(self.outputderivCache, 0)
 
         outputs = af.zeros(self.num_units)
@@ -476,10 +473,6 @@ class Group:
 
         self.input_set = False
 
-        # Make a copy to fix assignment destination is read-only
-        if self.network.parallel_mode:
-            self.input_history = self.input_history.copy()
-            self.output_history = self.output_history.copy()
         self.input_history[tick] = self.input_matrix
         self.output_history[tick] = self.output_matrix
 
@@ -551,11 +544,6 @@ class Group:
         """
         Clears all derivative matrices.
         """
-        # Make a copyu to fix assignment desitnation is read only
-        if self.network.parallel_mode:
-            self.input_derivs = self.input_derivs.copy()
-            self.output_derivs = self.output_derivs.copy()
-            self.incoming_derivs = self.incoming_derivs.copy()
         af.fill(self.input_derivs, 0)
         af.fill(self.output_derivs, 0)
 

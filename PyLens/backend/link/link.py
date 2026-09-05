@@ -302,10 +302,7 @@ class Link:
         if self.freeze_mask is not None:
             self.weight_derivs += af.multiply(self.freeze_mask, self.outgoing_group.output_matrix[:, None] @ input_derivs[None, :])
         else:
-            if self.outgoing_group.network.parallel_mode:
-                self.weight_derivs = self.weight_derivs + self.outgoing_group.output_matrix[:, None] @ input_derivs[None, :]
-            else:
-                 self.weight_derivs += self.outgoing_group.output_matrix[:, None] @ input_derivs[None, :]
+            self.weight_derivs += self.outgoing_group.output_matrix[:, None] @ input_derivs[None, :]
         if self.lesion_mask is not None:
             self.weight_derivs = self.lesion_mask.multiply(self.weight_derivs).A if type(
                 self.lesion_mask) is not af.ndarray else self.lesion_mask * self.weight_derivs
@@ -315,10 +312,6 @@ class Link:
         if self.connection_mask is not None:
             self.weight_derivs = self.connection_mask.multiply(self.weight_derivs).A if type(
                 self.connection_mask) is not af.ndarray else self.connection_mask * self.weight_derivs
-        # print("incoming group: {}".format(self.incoming_group.name))
-        # print("WEIGHT_DERIVS:")
-        # print(self.weight_derivs)
-        # print("-------------------------------")
 
     def backward_prod(self, input_derivs: object, v: float):
         """

@@ -42,9 +42,5 @@ class Dot_Product(Input_Transform):
             input_derivs (np.array): Derivatives of the inputs affecting weight updates.
         """
         for link in prev_links:
-            if link.outgoing_group.network.parallel_mode:
-                link.outgoing_group.increment_outputderiveCache(input_derivs @ link.weights.T)
-            else:
-                link.outgoing_group.outputderivCache += input_derivs @ link.weights.T
-            
+            link.outgoing_group.outputderivCache += input_derivs @ link.weights.T
             link.backward(input_derivs)
