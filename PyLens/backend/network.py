@@ -2304,28 +2304,19 @@ class Network:
         Args:
             tick (int): passing in the length of time the example will occur for
         """
-        group_outputs = []
 
-        # iterate through all of the groups and compute the forward pass for each
-        for group in self.groups[:]:
-            if (group.group_type != "bias"):
-                group_outputs += [group.forward(tick)]
-
-        return group_outputs
+        for group in self.groups:
+            if group.group_type != "bias":
+                group.forward(tick)
 
     def backward(self):
         """
-        Computes the backward pass of the network, iterating through the list of groups in reverse order
-        
-        Returns:
-            group_outputs (List): the output of each group in the network
+        Propagate derivatives backward through all groups.
         """
-        group_outputs = []
 
         for group in reversed(self.groups):
-            group_outputs += [group.backward()]
+            group.backward()
 
-        return group_outputs
 
     def update_weights(self, report_request=False):
         """
@@ -2627,30 +2618,35 @@ class Network:
         if event.pre_proc_name is not None:
             event.pre_proc()
 
-        target = self.output_groups[0].target
-
-        if self.network_type == 'standard':
+        if self.network_type in ('standard', 'srbptt'):
             self.reset_derivs()
-        group_outputs = self.forward(tick) # continuous network, srbptt, and other networks have different self.forward methods.
-        output = group_outputs[-1]
-
-        # check if output is greater than threshold. If so, update criterion?
-        for i in range(len(output)):
-            if abs(output[i] - target[i]) < self.group_criterion_threshold:
-                self.group_criterion_reached = True
-            else:
-                self.group_criterion_reached = False
-
-        group_outputs.append(target)
-        input_result.append([s.tolist() for s in group_outputs])
-
+        self.forward(tick) # continuous network, srbptt, and other networks have different self.forward methods.
         self.errors, self.error_derivs = self.compute_cost(
                 self.output_groups, 
                 example.frequency, 
                 tick)
         self.unit_cost, self.unit_cost_derivs = self.compute_unit_output_cost(self.output_groups)
-        example.example_train_error.append(sum(self.errors))
 
+        self.group_criterion_reached = (
+            self.group_criteria_reached(training=True)
+        )
+
+        group_outputs = [
+            af.copy(group.output_matrix)
+            for group in self.groups
+            if group.group_type != "bias"
+        ]
+        group_targets = [
+            af.copy(group.target)
+            for group in self.output_groups
+        ]
+        input_result.append([
+            s.tolist()
+            for s in group_outputs + group_targets
+        ])
+
+
+        example.example_train_error.append(sum(self.errors))
         # Accumulate errors over the batch
         if self.batch_errors is None:
             self.batch_errors = self.errors
@@ -2662,15 +2658,19 @@ class Network:
         else:
             self.batch_unit_costs = [i + j for i, j in zip(self.batch_unit_costs, self.unit_cost)]
 
-        if self.network_type == 'continuous':
-            # here it transfers the derivatives to output groups, the backprop for the groups are then done by net_train_example_back()
-            for i in range(len(self.output_groups)):
-                self.output_groups[i].output_derivs = self.error_derivs[i] + self.unit_cost_derivs[i]
-                # if self.parallel_mode:
-                #     self.output_groups[i].output_derivs_history = self.output_groups[i].output_derivs_history.copy()
-                self.output_groups[i].output_derivs_history[tick] = self.error_derivs[i] + self.unit_cost_derivs[i]
+        # backprop the error derivatives to output groups
+        for i in range(len(self.output_groups)):
+            self.output_groups[i].output_derivs[...] = (
+                self.error_derivs[i]
+                + self.unit_cost_derivs[i]
+            )
+
+        if self.network_type in ('continuous', 'srbptt'):
+            # the backprop for the groups are then done by net_train_example_back() in continuous_network.py
+            for group in self.output_groups:
+                group.output_derivs_history[tick] = group.output_derivs
         else:
-            output_derivs = self.compute_back()
+            self.backward()
             for group in self.groups:
                 af.fill(group.outputderivCache, 0)
 
@@ -2709,27 +2709,33 @@ class Network:
         """
 
         input_result = []
-        target = self.output_groups[0].target
 
         self.reset_derivs()
-        group_outputs = self.forward(tick)
-        output = group_outputs[-1]
+        self.forward(tick)
 
-        # check if output is greater than threshold. If so, update criterion?
-        for i in range(len(output)):
-            if abs(output[i] - target[i]) < self.test_group_criterion_threshold:
-                self.test_group_criterion_reached = True
-            else:
-                self.test_group_criterion_reached = False
-
-        group_outputs.append(target)
-        input_result.append([s.tolist() for s in group_outputs])
         self.test_errors, self.test_error_derivs = self.compute_cost(
                 self.output_groups, 
                 example.frequency, 
                 tick
                 )
         self.test_unit_cost, self.test_unit_cost_derivs = self.compute_unit_output_cost(self.output_groups)
+
+        self.test_group_criterion_reached = (
+            self.group_criteria_reached(training=False)
+        )
+        group_outputs = [
+            af.copy(group.output_matrix)
+            for group in self.groups
+            if group.group_type != "bias"
+        ]
+        group_targets = [
+            af.copy(group.target)
+            for group in self.output_groups
+        ]
+        input_result.append([
+            s.tolist()
+            for s in group_outputs + group_targets
+        ])
         example.example_test_error += sum(self.test_errors)
 
         # Accumulate errors over the batch
@@ -3024,7 +3030,7 @@ class Network:
                     self.max_example_time = example_set.max_time
                     result, training_errors, unit_costs = self.standard_net_train_example(example, test)
                     if self.network_type in ['continuous', 'srbptt']:
-                        self.net_train_example_back(example)
+                        self.net_train_example_back()
                     if self.visualized:
                         self.dispatch("example", stop_event)
                     self.update_graphs(update_no=self.examples_token_trained+i, updates_before=self.examples_token_trained, s="example")
@@ -3760,19 +3766,6 @@ Instead, use set_properties(), e.g.:
             unit_cost_derivs.append(cost_derivs)
         return (unit_cost_groups, unit_cost_derivs)
     
-    def compute_back(self):
-        """
-        Propogate the error derivative into the output groups and calculate the rest of the network derivates
-        
-        Returns:
-            out (List): the output of the network
-        """
-
-        for i in range(len(self.output_groups)):
-            self.output_groups[i].output_derivs = self.error_derivs[i] + self.unit_cost_derivs[i]
-        out = self.backward()
-        return out
-
     def reset_outputs(self, group):
         """
         Resets the cache
@@ -4166,6 +4159,26 @@ Instead, use set_properties(), e.g.:
 
         for group in self.groups:
             group.check_params()
+
+
+    def group_criteria_reached(self, training=True):
+        criterion = (
+            self.group_criterion_threshold
+            if training
+            else self.test_group_criterion_threshold
+        )
+
+        for group in self.output_groups:
+            for i in range(group.num_units):
+                if (
+                    not af.isnan(group.target[i])
+                    and abs(
+                        group.output_matrix[i] - group.target[i]
+                    ) >= criterion
+                ):
+                    return False
+
+        return bool(self.output_groups)
 
 class CPU:
     """CPU core idle time for *this process* between start() and stop()."""

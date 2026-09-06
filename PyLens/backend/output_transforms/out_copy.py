@@ -6,7 +6,7 @@ class Out_Copy(Basic):
         self.source_group = None
         self.source_field = "outputs"
 
-    def forward(self, x):
+    def forward(self):
         output = self.group.output_matrix
 
         if self.source_group is None:

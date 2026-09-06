@@ -14,8 +14,13 @@ class Exponential(Basic):
     def func(self, x):
         return af.exp(x)
 
-    def forward(self, x):
-        return self.func(x)
+    def forward(self):
+        self.group.output_matrix[...] = af.exp(
+            self.group.input_matrix
+        )
 
-    def backward(self, x, output_derivs):
-        return self.group.output_matrix * output_derivs
+    def backward(self):
+        self.group.input_derivs[...] = (
+            self.group.output_matrix
+            * self.group.output_derivs
+        )

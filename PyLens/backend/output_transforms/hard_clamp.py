@@ -9,12 +9,18 @@ class Hard_Clamp(Clamping):
     def __init__(self, group):
         super().__init__("Hard_clamp", group)
 
-    def forward(self, x):
-        # x = self.group.external_input
-        x = af.where(af.isnan(self.group.external_input), x, self.group.external_input)
-        return x
+    def forward(self):
+        self.unitHistoryData[self.group.curr_tick] = (
+            self.group.external_input
+        )
 
-    def backward(self, x, output_derivs):
-        ## External Input History = x
-        # return input deriv of 0s
-        return af.zeros(x.shape)
+        self.group.output_matrix[...] = af.where(
+            af.isnan(self.group.external_input),
+            self.group.output_matrix,
+            self.group.external_input
+        )
+        
+
+    def backward(self):
+        clamped = ~af.isnan(self.unitHistoryData[self.group.curr_tick])
+        self.group.input_derivs[clamped] = 0

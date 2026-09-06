@@ -15,7 +15,7 @@ class Dot_Product(Input_Transform):
         """
         super().__init__("dot", group)
 
-    def compute(self, prev_links):
+    def forward(self):
         """
         Computes the dot product between the output of the outgoing groups and their corresponding weights.
 
@@ -25,22 +25,20 @@ class Dot_Product(Input_Transform):
         Returns:
             af: Computed dot product matrix.
         """
-        input_matrix = af.zeros(prev_links[0].incoming_group.num_units)
-        for link in prev_links:
-            forward_output = link.forward(link.outgoing_group.output_matrix)
+        af.fill(self.group.input_matrix, 0)
 
-            input_matrix += forward_output
+        for link in self.group.incoming_links:
+            self.group.input_matrix += link.forward(
+                link.outgoing_group.output_matrix
+            )
 
-        return input_matrix
-
-    def backward(self, prev_links, input_derivs):
+    def backward(self):
         """
         Computes the derivative of the dot product for each linked group and updates weight derivatives.
 
-        Args:
-            prev_links (list): List of links connecting to the current group.
-            input_derivs (np.array): Derivatives of the inputs affecting weight updates.
         """
-        for link in prev_links:
+        input_derivs = self.group.input_derivs
+
+        for link in self.group.incoming_links:
             link.outgoing_group.outputderivCache += input_derivs @ link.weights.T
-            link.backward(input_derivs)
+            link.backward(self.group.input_derivs)

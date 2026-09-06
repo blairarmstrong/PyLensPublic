@@ -16,13 +16,17 @@ class SoftMax(Clamping):
         exp_x = af.exp(x - af.max(x))
         return exp_x / af.sum(exp_x)
 
-    def forward(self, x):
-        return self.func(x)
+    def forward(self):
+        self.group.output_matrix[...] = self.func(
+            self.group.input_matrix
+        )
 
-    def backward(self, x, output_derivs):
-        exp_x = af.exp(x)
-        s = exp_x / af.sum(exp_x)
-        deriv = -s[:,af.newaxis] @ af.array([s])
-        af.fill_diagonal(deriv, s*(1-s))
-        result = deriv @ output_derivs
-        return result
+    def backward(self):
+        output = self.group.output_matrix
+        output_derivs = self.group.output_derivs
+
+        output_deriv_sum = af.sum(output_derivs * output)
+
+        self.group.input_derivs[...] = (
+            output * (output_derivs - output_deriv_sum)
+        )

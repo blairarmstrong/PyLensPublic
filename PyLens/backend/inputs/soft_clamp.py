@@ -60,7 +60,7 @@ class Soft_Clamp(Clamping):
         result = af.log(y / (1-y)) / g + infty_mask
         return result
 
-    def forward(self, x):
+    def forward(self):
         """
         Applies the soft clamping transformation to the input.
 
@@ -71,17 +71,16 @@ class Soft_Clamp(Clamping):
             af.array: Transformed values after applying soft clamping.
         """
         val = self.init_output + self.clamp_strength * (self.group.external_input - self.init_output)
-        return self._inverse_sigmoid(val, self.gain) #should be return x+self._inverse_sigmoid(val, self.gain)?
 
-    def backward(self, x, output_derivs):
-        """
-        Computes the backward pass for the soft clamping transformation.
+        adjustment = self._inverse_sigmoid(val, self.gain)
 
-        Args:
-            x (af.array)
-            output_derivs (af.array): Derivative of the output with respect to the input.
-        
-        Returns:
-            af.array: The backpropagated derivatives.
-        """
-        return output_derivs
+        unclamped = af.isnan(self.group.external_input)
+
+        self.group.input_matrix[...] = af.where(
+            unclamped,
+            self.group.input_matrix,
+            self.group.input_matrix + adjustment
+        )
+
+    def backward(self):
+        pass

@@ -40,8 +40,10 @@ class Sigmoid(Basic):
     :param x: the values to pass in 
     :type x: ndarray
     """
-    def forward(self, x):
-        return self.func(x)
+    def forward(self):
+        self.group.output_matrix[...] = self.func(
+            self.group.input_matrix
+        )
 
     """
     Passes data backward into the deriv of the sigmoid transform
@@ -49,8 +51,12 @@ class Sigmoid(Basic):
     :param x: the values to pass in 
     :type x: ndarray
     """
-    def backward(self, x, output_derivs):
-        # deriv = self.func_deriv(x)
-        deriv = self.func(x) * (1- self.func(x)) #manual deriv
-        result = output_derivs * deriv
-        return result
+    def backward(self):
+        output = self.group.output_matrix
+
+        self.group.input_derivs[...] = (
+            self.group.output_derivs
+            * output
+            * (1 - output)
+            * self.gain
+        )

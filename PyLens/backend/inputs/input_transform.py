@@ -7,18 +7,10 @@ class Input_Transform(Transform):
     """
 
     def __init__(self, name, group):
-        """
-        Initializes the Input_Transform class.
-
-        Args:
-            name (str): Name of the transformation.
-            group: The neural network group to which this transformation is applied.
-        """
         super().__init__(name, group)
 
-    def compute(self, prev_links):
-        """
-        Abstract method for computing the input transformation.
-        Must be implemented by subclasses.
-        """
+    def forward(self):
+        pass
+
+    def backward(self):
         pass

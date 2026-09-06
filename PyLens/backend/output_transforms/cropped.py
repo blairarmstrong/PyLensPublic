@@ -21,9 +21,16 @@ class Cropped(Modifying):
         x = af.where(x < self.minOutput, self.minOutput, x)
         return x
 
-    def forward(self, x):
-        self.unitHistoryData[self.group.curr_tick] = copy.copy(x)
-        return self.func(x)
+    def forward(self):
+        self.unitHistoryData[self.group.curr_tick] = (
+            self.group.output_matrix
+        )
 
-    def backward(self, x, y):
-        return self.unitHistoryData[self.group.curr_tick]
+        self.group.output_matrix[...] = self.func(
+            self.group.output_matrix
+        )
+
+    def backward(self):
+        self.group.output_matrix[...] = (
+            self.unitHistoryData[self.group.curr_tick]
+        )

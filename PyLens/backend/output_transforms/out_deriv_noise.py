@@ -25,14 +25,16 @@ class Out_Deriv_Noise(Modifying):
     #     return x
 
 
-    def backward(self, x, output_derivs):
+    def backward(self):
         noise_range = self.group.network.noise_range if af.isnan(self.group.noise_range) else self.group.noise_range
+
+        output_derivs = self.group.output_derivs
         dim = output_derivs.shape
         if self.noise_proc == "addGaussianNoise":
-            self.group.output_derivs = output_derivs + gaussian_noise(0, noise_range, dim)
+            self.group.output_derivs[...] = output_derivs + gaussian_noise(0, noise_range, dim)
         elif self.noise_proc == "multiplyGaussianNoise":
-            self.group.output_derivs = output_derivs * gaussian_noise(0, noise_range, dim)
+            self.group.output_derivs[...] = output_derivs * gaussian_noise(0, noise_range, dim)
         elif self.noise_proc == "addUniformNoise":
-            self.group.output_derivs = output_derivs + uniform_noise(-noise_range, noise_range, dim)
+            self.group.output_derivs[...] = output_derivs + uniform_noise(-noise_range, noise_range, dim)
         elif self.noise_proc == "multiplyUniformNoise":
-            self.group.output_derivs = output_derivs * gaussian_noise(-noise_range, noise_range, dim)
+            self.group.output_derivs[...] = output_derivs * uniform_noise(-noise_range, noise_range, dim)

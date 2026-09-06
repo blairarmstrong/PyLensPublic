@@ -15,7 +15,7 @@ class Distance(Input_Transform):
         """
         super().__init__("distance", group)
 
-    def compute(self, prev_links):
+    def forward(self):
         """
         Computes the squared Euclidean distance between the output of incoming groups and their respective weights.
 
@@ -25,17 +25,18 @@ class Distance(Input_Transform):
         Returns:
             af: Computed distance matrix.
         """
-        input_matrix = af.ones(prev_links[0].incoming_group.num_units)
+        af.fill(self.group.input_matrix, 0)
 
-        for link in prev_links:
-            forward_output = (
-                (link.outgoing_group.output_matrix - link.weights) ** 2).flatten()
-            input_matrix += forward_output
-            self.unitHistoryData = input_matrix
+        for link in self.group.incoming_links:
+            source = link.outgoing_group
 
-        return input_matrix
+            self.group.input_matrix += af.sum(
+                (link.weights - source.output_matrix[:, None]) ** 2,
+                axis=0
+            )
 
-    def backward(self, prev_links, input_derivs):
+
+    def backward(self):
         """
         Computes the derivative of the distance function and updates the weights accordingly.
 
@@ -46,21 +47,16 @@ class Distance(Input_Transform):
         Returns:
             Updated output derivatives of the outgoing group.
         """
-        delta = 0
-        if input_derivs != 0:
-            for link in prev_links:
-                # act.c: real inputDeriv = U->inputDeriv * 2.0;
-                input_deriv = input_derivs * 2
-                # act.c: delta = inputDeriv * (L_WGT - V_OUT);
-                delta = input_deriv * \
-                    (link.weights - link.outgoing_group.output_matrix)
-                # act.c: V_DRV -= delta;
-                # act.c: L_DRV += delta;
-                link.weights += delta
+        input_derivs = self.group.input_derivs
 
-            if link.outgoing_group.group_type != "bias":
-                link.outgoing_group.output_matrix -= delta
-            else:
-                link.outgoing_group.output_derivs -= [
-                    sum((delta).flatten())]
-        return link.outgoing_group.output_derivs
+        for link in self.group.incoming_links:
+            source = link.outgoing_group
+
+            delta = (
+                2
+                * (link.weights - source.output_matrix[:, None])
+                * input_derivs[None, :]
+            )
+
+            source.outputderivCache -= af.sum(delta, axis=1)
+            link.weight_derivs += delta

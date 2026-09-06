@@ -6,20 +6,22 @@ class Elman_Clamp(Clamping):
         super().__init__("Elman_Clamp", group)
         self.source_group = None
 
-    def forward(self, x):
-        # self.group.input_matrix = x
+    def forward(self):
         if self.source_group is None:
-            self.source_group = self.group.incoming_links[0].outgoing_group
-        elman_input = self.source_group.output_matrix_cache
-        return elman_input  # context group's output is zeroed
+            self.source_group = (
+                self.group.incoming_links[0].outgoing_group
+            )
 
-    def backward(self, x, output_derivs):
+        self.group.output_matrix += (
+            self.source_group.output_matrix_cache
+        )
+
+    def backward(self):
         if self.source_group is None:
             self.source_group = self.group.incoming_links[0].outgoing_group
+
         elman_deriv = self.source_group.outputderivCache
         elman_input = self.source_group.output_matrix_cache
 
-        elman_deriv += output_derivs
+        elman_deriv += self.group.output_derivs
         self.group.output_matrix -= elman_input
-
-        # elman_clamp does not return input_derivs

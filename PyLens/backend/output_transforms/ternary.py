@@ -27,24 +27,43 @@ class Ternary(Basic):
         # self.ternary_shift = 5
         # self.gain = 1
 
-    def forward(self, x):
+    def forward(self):
+        x = self.group.input_matrix
 
-        gain = self.group.network.gain if af.isnan(self.group.gain) else self.group.gain
-        ternary_shift = self.group.network.ternary_shift if af.isnan(self.group.ternary_shift) else self.group.ternary_shift
+        gain = (
+            self.group.network.gain
+            if af.isnan(self.group.gain)
+            else self.group.gain
+        )
+        ternary_shift = (
+            self.group.network.ternary_shift
+            if af.isnan(self.group.ternary_shift)
+            else self.group.ternary_shift
+        )
+
         y = af.exp(gain * ternary_shift)
         x_1 = af.exp(gain * x)
         z = x_1 * y
-        return ((x_1 * z) - y) / ((x_1 + y) * (z + 1.0))
-        # return self.func(x)
 
-    def backward(self, x, output_derivs):
+        self.group.output_matrix[...] = (
+            ((x_1 * z) - y)
+            / ((x_1 + y) * (z + 1.0))
+        )
+
+    def backward(self):
+        x = self.group.input_matrix
+        output_derivs = self.group.output_derivs
 
         gain = self.group.network.gain if af.isnan(self.group.gain) else self.group.gain
         ternary_shift = self.group.network.ternary_shift if af.isnan(self.group.ternary_shift) else self.group.ternary_shift
+
         y = af.exp(gain * ternary_shift)
         x_1 = af.exp(gain * x)
         z = x_1 * y
         v = af.square(x_1 + y)
         w = af.square(z + 1.0)
-        return output_derivs * gain * z * (v + w) / (v * w)
+
+        self.group.input_derivs[...] = (
+            output_derivs * gain * z * (v + w) / (v * w)
+        )
         # return output_derivs

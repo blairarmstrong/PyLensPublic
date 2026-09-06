@@ -26,30 +26,29 @@ class Out_Norm(Modifying):
             return x * scale
         return x
 
-    def forward(self, x):
+    def forward(self):
         tick = self.group.curr_tick
-        # original_output = self.group.unitHistoryData[tick]
-        scale = af.sum(x)
-        self.groupHistoryData[tick] = scale
-        self.unitHistoryData[tick] = x
+
+        self.unitHistoryData[tick] = self.group.output_matrix
+
+        scale = af.sum(self.group.output_matrix)
+
         if scale != 0:
-            scale = 1/scale
-            self.groupHistoryData[tick] = scale
-            return x * scale
+            scale = 1 / scale
+            self.group.output_matrix *= scale
+
         self.groupHistoryData[tick] = scale
-        return x
-        # output = self.group.output_history[tick]
 
-        # return self.func(output)
-
-    def backward(self, x, output_derivs):
+    def backward(self):
         tick = self.group.curr_tick
-        shift = af.sum(x * output_derivs)
-        # original_output = self.unitHistoryData[tick]
+
+        shift = af.sum(
+            self.group.output_derivs
+            * self.group.output_matrix
+        )
         scale = self.groupHistoryData[tick]
-        self.group.output_derivs = scale * (self.group.output_derivs - shift)
-        self.group.output_matrix = copy.copy(self.unitHistoryData[self.group.curr_tick])
-        return af.zeros(x.shape)
-        # return self.unitHistoryData[tick]
+
+        self.group.output_derivs[...] = scale * (self.group.output_derivs - shift)
+        self.group.output_matrix[...] = copy.copy(self.unitHistoryData[self.group.curr_tick])
 
 

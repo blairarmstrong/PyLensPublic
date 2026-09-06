@@ -8,18 +8,22 @@ class Out_Winner(Modifying):
         super().__init__("Out_Winner", group)
 
 
-    def forward(self, x):
-        # original = self.unitHistoryData[self.group.curr_tick]
-        self.unitHistoryData[self.group.curr_tick] = x
-        # dim = x.shape
-        min = self.group.minOutput
+    def forward(self):
+        self.unitHistoryData[self.group.curr_tick] = (
+            self.group.output_matrix
+        )
 
-        max = af.amax(x)
-        # change multiple max values?
-        x = af.where(x == max, x, min)
-        return x
+        min_output = self.group.minOutput
+        max_output = af.amax(self.group.output_matrix)
+
+        self.group.output_matrix[...] = af.where(
+            self.group.output_matrix == max_output,
+            self.group.output_matrix,
+            min_output
+        )
 
 
-    def backward(self, x, output_derivs):
-
-        return self.unitHistoryData[self.group.curr_tick]
+    def backward(self):
+        self.group.output_matrix[...] = (
+            self.unitHistoryData[self.group.curr_tick]
+        )

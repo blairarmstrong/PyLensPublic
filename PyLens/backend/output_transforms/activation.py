@@ -8,5 +8,5 @@ class Activation(Transform):
     def __init__(self, name, group):
         super().__init__(name, group)
 
-    def forward(self, x):
-        return x
+    def forward(self):
+        pass

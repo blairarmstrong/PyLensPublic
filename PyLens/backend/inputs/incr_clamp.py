@@ -13,7 +13,7 @@ class IncrementClamp(Input_Transform):
         """
         super().__init__("incr_clamp", group)
 
-    def forward(self, x):
+    def forward(self):
         """
         Applies a clamping transformation to the input based on the network's clamp strength.
 
@@ -23,7 +23,19 @@ class IncrementClamp(Input_Transform):
         Returns:
             np.array: Clamped input values.
         """
-        self.clamp_strength = self.group.network.clamp_strength if af.isnan(
-            self.group.clamp_strength) else self.group.clamp_strength
-        if not af.isnan(self.group.external_input):
-            return self.clamp_strength * self.group.external_input
+        strength = (
+            self.group.network.clamp_strength
+            if af.isnan(self.group.clamp_strength)
+            else self.group.clamp_strength
+        )
+
+        external_input = self.group.external_input
+
+        self.group.input_matrix[...] = af.where(
+            af.isnan(external_input),
+            self.group.input_matrix,
+            self.group.input_matrix + strength * external_input
+        )
+
+    def backward(self):
+        pass

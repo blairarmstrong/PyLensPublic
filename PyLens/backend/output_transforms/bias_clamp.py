@@ -6,11 +6,9 @@ class Bias_Clamp(Clamping):
     def __init__(self, group):
         super().__init__("Bias_Clamp", group)
 
-    def forward(self, x):
+    def forward(self):
         # TODO change this to be manipulated by user or to be bias.initOutput
-        output = af.ones(x.shape)
-        return output
+        af.fill(self.group.output_matrix, 1)
 
-    def backward(self, x, output_derivs):
-        # self.group.input_derivs = af.zeros(self.group.input_derivs.shape)
-        return af.zeros(self.group.input_derivs.shape)
+    def backward(self):
+        self.group.input_derivs[...] = 0

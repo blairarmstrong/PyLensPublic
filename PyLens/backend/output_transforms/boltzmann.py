@@ -34,7 +34,7 @@ class BoltzmannOutput(Basic):
         """
         return 1 / (1 + af.exp(-x * self.gain))
             
-    def forward(self, x) -> af:
+    def forward(self):
         """
         Passes data forward into the BoltzmannOutput transform
 
@@ -59,5 +59,4 @@ class BoltzmannOutput(Basic):
                     self._func(self.group.input_matrix[i]) - output[i]
                 )
 
-        return output
 

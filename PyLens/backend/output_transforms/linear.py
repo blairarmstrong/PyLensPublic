@@ -13,10 +13,8 @@ class Linear(Basic):
     def func(self, x):
         return x
 
-    def forward(self, x):
-        return self.func(x)
+    def forward(self):
+        self.group.output_matrix[...] = self.group.input_matrix
 
-    def backward(self, x, output_derivs):
-        deriv = self.func_deriv(x)
-        result = output_derivs * deriv
-        return result
+    def backward(self):
+        self.group.input_derivs[...] = self.group.output_derivs

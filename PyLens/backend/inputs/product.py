@@ -13,7 +13,7 @@ class Product(Input_Transform):
         """
         super().__init__("product", group)
 
-    def compute(self, prev_links):
+    def forward(self):
         """
         Computes the element-wise product between the output of incoming groups and their corresponding weights.
 
@@ -24,31 +24,41 @@ class Product(Input_Transform):
             af: Computed product matrix.
         """
 
-        input_matrix = af.ones(prev_links[0].incoming_group.num_units)
+        af.fill(self.group.input_matrix, 1)
 
-        for link in prev_links:
-            forward_output = (link.outgoing_group.output_matrix*link.weights).flatten()
-            input_matrix *= forward_output
-            self.unitHistoryData = input_matrix
+        for link in self.group.incoming_links:
+            self.group.input_matrix *= (
+                link.outgoing_group.output_matrix
+                * link.weights
+            ).flatten()
 
-        return input_matrix
+        self.unitHistoryData[self.group.curr_tick] = (
+            self.group.input_matrix
+        )
 
-    def backward(self, prev_links, input_derivs):
+
+    def backward(self):
         """
         Computes the derivative of the product for each linked group and updates weight derivatives.
 
-        Args:
-            prev_links (list): List of links connecting to the current group.
-            input_derivs (np.array): Derivatives of the inputs affecting weight updates.
         """
+        input_derivs = self.group.input_derivs
+        input_store = self.unitHistoryData[self.group.curr_tick]
 
-        for link in prev_links:
-
-            p = input_derivs*self.unitHistoryData
-            v = p/(link.outgoing_group.output_matrix*link.weights)
+        for link in self.group.incoming_links:
+            p = input_derivs * input_store
+            v = p / (
+                link.outgoing_group.output_matrix
+                * link.weights
+            )
 
             if link.outgoing_group.group_type != "bias":
-                link.outgoing_group.output_derivs += v*link.weights
+                link.outgoing_group.outputderivCache += (
+                    v * link.weights
+                )
             else:
-                link.outgoing_group.output_derivs += [sum((v*link.weights).flatten())]
+                link.outgoing_group.outputderivCache += [
+                    af.sum((v * link.weights).flatten())
+                ]
+
             link.backward_prod(input_derivs, v)

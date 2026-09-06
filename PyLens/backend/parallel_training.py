@@ -78,7 +78,7 @@ class ParallelBaseNetwork:
             result, training_errors, unit_costs = self.standard_net_train_example(example, test)
 
             if self.network_type in ['continuous', 'srbptt']:
-                self.net_train_example_back(example)
+                self.net_train_example_back()
 
             result_list.append(result)
             training_errors_list.extend(training_errors)

@@ -10,22 +10,25 @@ class Out_Integr(Modifying):
         super().__init__("Out_Integr", group)
         self.dt = self.group.network.dt * self.group.dt
 
+    def forward(self):
+        tick = self.group.curr_tick
 
-    def func(self, x):
-        lastoutput = self.unitData
-        self.unitHistoryData[self.group.curr_tick] = x
-        self.unitData += self.dt * (x - lastoutput)
+        self.unitHistoryData[tick] = self.group.output_matrix
 
-        return self.unitData
+        self.unitData += self.dt * (
+            self.group.output_matrix - self.unitData
+        )
 
-    def forward(self, x):
-        return self.func(x)
+        self.group.output_matrix[...] = self.unitData
 
-    def backward(self, x, output_derivs):
+
+    def backward(self):
         lastoutputderiv = self.unitData
 
-        self.unitData += self.dt * (output_derivs - lastoutputderiv)
+        self.unitData += self.dt * (self.group.output_derivs - lastoutputderiv)
 
-        self.group.output_derivs = copy.copy(self.unitData)
-        self.group.output_matrix = copy.copy(self.unitHistoryData[self.group.curr_tick])
-        return self.unitHistoryData[self.group.curr_tick]
+        self.group.output_derivs[...] = self.unitData
+        self.group.output_matrix[...] = (
+            self.unitHistoryData[self.group.curr_tick]
+        )
+

@@ -53,17 +53,14 @@ class ContinuousNetwork(Network):
         self.max_ticks = self.ticks_per_interval * self.time_intervals + 1
 
     def forward(self, tick):
+
         """
         Performs a forward pass through the network.
 
         Args:
             tick (int): The current tick of the network.
 
-        Returns:
-            list: A list containing the outputs of each group.
         """
-
-        group_outputs = []
 
         # compute input for all groups
         for group in self.groups:
@@ -76,20 +73,20 @@ class ContinuousNetwork(Network):
         for group in self.groups:
             if group.group_type != "bias":
                 group.compute_output()
+
                 if group.lesion_mask is not None:
                     group.output_matrix *= group.lesion_mask
+
                 # reinitialize dropout mask
                 group.unit_dropout(group.dropout_rate)
+
                 if group.dropout_mask is not None:
                     group.output_matrix *= group.dropout_mask
+
                 group.input_set = False
-
                 group.output_history[tick] = group.output_matrix
-                group_outputs += [group.output_matrix]
-        return group_outputs
 
-
-    def net_train_example_back(self, example):
+    def net_train_example_back(self):
         """
         Performs backpropagation through time (BPTT) for training.
 
@@ -113,24 +110,27 @@ class ContinuousNetwork(Network):
             # restore output_derivs, Set outputDerivs to the
             # stored instant error derivatives. 
             for group in self.groups: 
-                if group.name == "output":
-                    group.output_derivs = group.output_derivs_history[tick]
+                if group in self.output_groups:
+                    group.output_derivs[...] = group.output_derivs_history[tick]
                 else:
-                    group.output_derivs = af.zeros(group.num_units)
+                    af.fill(group.output_derivs, 0)
 
             # Compute output backward
             for group in self.groups:
                 group.curr_tick = tick
+                group.compute_output_back()
+
                 if group.group_type != "elman":
-                    input_derivs = group.compute_output_back()
-                    group.input_derivs = input_derivs * group.lesion_mask if group.lesion_mask is not None else input_derivs
-                    group.input_derivs = group.input_derivs * group.dropout_mask if group.dropout_mask is not None else input_derivs
+                    if group.lesion_mask is not None:
+                        group.input_derivs *= group.lesion_mask
+                    if group.dropout_mask is not None:
+                        group.input_derivs *= group.dropout_mask
 
             # Restore the outputs from the previous tick
             for group in self.groups:
                 if (group.group_type != "bias"):
-                    group.output_matrix = group.output_history[tick - 1]
-                    group.input_matrix = group.input_history[tick - 1]
+                    group.output_matrix[...] = group.output_history[tick - 1]
+                    group.input_matrix[...] = group.input_history[tick - 1]
 
             # compute input backwards
             for group in self.groups:
@@ -138,5 +138,5 @@ class ContinuousNetwork(Network):
 
         for group in self.groups:
             if (group.group_type != "bias"):
-                group.output_matrix = group.output_history[self.ticks_on_example-1]
+                group.output_matrix[...] = group.output_history[self.ticks_on_example-1]
 

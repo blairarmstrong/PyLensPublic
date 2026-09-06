@@ -18,11 +18,16 @@ class Tanh(Basic):
         self.gain = af.array(self.gain)
         self.sig = Sigmoid(group)
 
-    def forward(self, x):
-        output = af.tanh(self.gain * x)
-        return output
+    def forward(self):
+        self.group.output_matrix[...] = af.tanh(
+            self.gain * self.group.input_matrix
+        )
 
-    def backward(self, x, output_derivs):
-        tanh_output = af.tanh(self.gain * x)
-        tanh_deriv = 1 - tanh_output**2
-        return output_derivs * tanh_deriv * self.gain
+    def backward(self):
+        output = self.group.output_matrix
+
+        self.group.input_derivs[...] = (
+            self.group.output_derivs
+            * (1 - output**2)
+            * self.gain
+        )

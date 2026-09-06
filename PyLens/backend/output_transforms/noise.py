@@ -14,25 +14,37 @@ class Noise(Modifying):
         super().__init__("Noise", group)
         self.noise_range = self.group.network.noise_range if af.isnan(self.group.noise_range) else self.group.noise_range
         self.noise_proc = self.group.noise_proc
-       # self.func_deriv = elementwise_grad(self.func)
 
     def func(self, x):
         self.unitHistoryData[self.group.curr_tick] = x
 
-        if self.noise_proc == "addGaussianNoise": #other option is addUniformNoise
-            return x + af.random_normal(0, self.noise_range, x.shape)
+        if self.noise_proc == "addGaussianNoise":
+            return x + af.random_normal(
+                0, self.noise_range, x.shape
+            )
         elif self.noise_proc == "multiplyGaussianNoise":
-            return x * af.random_normal(0, self.noise_range, x.shape)
+            return x * af.random_normal(
+                0, self.noise_range, x.shape
+            )
         elif self.noise_proc == "addUniformNoise":
-            return x + af.random_uniform(-self.noise_range, self.noise_range, x.shape)
+            return x + af.random_uniform(
+                -self.noise_range,
+                self.noise_range,
+                x.shape
+            )
         elif self.noise_proc == "multiplyUniformNoise":
-            return x * af.random_uniform(-self.noise_range, self.noise_range, x.shape)
+            return x * af.random_uniform(
+                -self.noise_range,
+                self.noise_range,
+                x.shape
+            )
 
-    def forward(self, x):
-        return self.func(x)
+    def forward(self):
+        self.group.output_matrix[...] = self.func(
+            self.group.output_matrix
+        )
 
-    def backward(self, x, output_derivs):
-        self.group.output_matrix = af.copy(
+    def backward(self):
+        self.group.output_matrix[...] = af.copy(
             self.unitHistoryData[self.group.curr_tick]
         )
-        return output_derivs

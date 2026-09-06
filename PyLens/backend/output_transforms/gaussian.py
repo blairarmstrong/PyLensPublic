@@ -24,11 +24,17 @@ class Gaussian(Basic):
         return af.exp(-z * z)
         # return 1 / (1 + np.exp(-(x ** 2) * (self.gain ** 2)))
 
-    def forward(self, x):
-        return self.func(x)
+    def forward(self):
+        self.group.output_matrix[...] = self.func(
+            self.group.input_matrix
+        )
 
-    def backward(self, x, output_derivs):
+    def backward(self):
         scale = -2 * self.gain * self.gain
-        # x is the input
-        return output_derivs * self.group.output_history[self.group.curr_tick] * x * scale
-        # return self.func_deriv(x)
+
+        self.group.input_derivs[...] = (
+            self.group.output_derivs
+            * self.group.output_matrix
+            * self.group.input_matrix
+            * scale
+        )

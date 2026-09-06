@@ -46,6 +46,14 @@ from .link.link_random import LinkRandom
 
 group_params = GroupParameters()
 
+basic_input_transforms = (
+    Dot_Product,
+    Product,
+    Distance,
+    In_Copy,
+    BoltzmannInput,
+)
+
 basic_output_transforms = (
     Linear,
     Sigmoid,
@@ -129,7 +137,7 @@ class Group:
                    "interact_integr": Interact_Integr, "kohonen": Kohonen,
                    "boltzmann": BoltzmannOutput}
     # No Backward Activation Function
-    no_back_out = {"Out_Copy", "Interact_integr"}
+    no_back_out = {"Out_Copy", "Interact_integr", "BoltzmannOutput",}
     input_types = {"dot": Dot_Product, "product": Product,
                    "soft_clamp": Soft_Clamp,"in_copy": In_Copy,
                    "in_integr": In_Integr, "distance": Distance,
@@ -390,24 +398,29 @@ class Group:
         """
         Computes the input transformations and updates the input matrix.
         """
-        # compute input if group has incoming links
-        if self.incoming_links:
-            for transform in self.input_transforms:
-                self.input_matrix = transform.compute(self.incoming_links)
+        if not self.input_transforms:
+            af.fill(self.input_matrix, 0)
+            return
+
+        if not any(
+            isinstance(transform, basic_input_transforms)
+            for transform in self.input_transforms
+        ):
+            af.fill(self.input_matrix, 0)
+
+        for transform in self.input_transforms:
+            transform.forward()
 
     def compute_input_back(self):
         """
         Computes the backward pass for input derivatives.
 
-        Returns:
-            ndarray: The computed input derivatives.
         """
-        input_derivs = af.zeros(self.num_units)
+
         if self.group_type not in ("bias", "elman") and self.incoming_links:
             for transform in reversed(self.input_transforms):
-                input_derivs = transform.backward(self.incoming_links, self.input_derivs)
+                transform.backward()
 
-        return input_derivs
 
     def compute_output(self):
         """
@@ -418,32 +431,24 @@ class Group:
             isinstance(transform, basic_output_transforms)
             for transform in self.output_transforms
         ):
-            self.output_matrix[:] = 0.0
+            af.fill(self.output_matrix, 0)
 
         for transform in self.output_transforms:
-            if isinstance(transform, basic_output_transforms):
-                self.output_matrix = transform.forward(self.input_matrix)
-            else:
-                self.output_matrix = transform.forward(self.output_matrix)
+            transform.forward()
 
         self.cache_outputs()
 
     def compute_output_back(self):
         """
         Computes the backward pass for output derivatives.
-
-        Returns:
-            ndarray: The computed output derivatives.
         """
         self.output_derivs += self.outputderivCache
         af.fill(self.outputderivCache, 0)
 
-        outputs = af.zeros(self.num_units)
         for transform in reversed(self.output_transforms):
             if transform.name not in self.no_back_out:
-                outputs = transform.backward(self.input_matrix, self.output_derivs)
+                transform.backward()
 
-        return outputs
 
     def unit_dropout(self, p: float):
         """
@@ -460,6 +465,8 @@ class Group:
         """
         Performs a forward pass through the group.
         """
+        self.curr_tick = tick
+
         self.compute_input()
         self.compute_output()
 
@@ -476,23 +483,23 @@ class Group:
         self.input_history[tick] = self.input_matrix
         self.output_history[tick] = self.output_matrix
 
-        return self.output_matrix
 
     def backward(self):
         """
         Compute the backward pass (i.e. the derivative of the error with respect to everything else)
         """
 
-        input_derivs = self.compute_output_back()
-        if self.group_type != "elman":
-            self.input_derivs = input_derivs * self.lesion_mask if self.lesion_mask is not None else input_derivs
-            self.input_derivs = self.input_derivs * self.dropout_mask if self.dropout_mask is not None else input_derivs
+        self.compute_output_back()
 
-        else:
-            pass
+        if self.group_type != "elman":
+            if self.lesion_mask is not None:
+                self.input_derivs *= self.lesion_mask
+
+            if self.dropout_mask is not None:
+                self.input_derivs *= self.dropout_mask
+
         self.compute_input_back()
 
-        return self.output_derivs
 
     def cache_outputs(self):
         """
