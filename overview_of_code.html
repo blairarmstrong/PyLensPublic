@@ -268,44 +268,269 @@ optimizer classes.</p>
 <section id="network">
 <h3>Network<a class="headerlink" href="#network" title="Link to this heading">¶</a></h3>
 <p>This is the backbone neural network object. It connects other components, such as groups (layers), input/output transformations, and links (weights).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.network.Network">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.network.</span></span><span class="sig-name descname"><span class="pre">Network</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">baseType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'numpy'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">time_intervals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">ticks_per_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">add_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">batch_error_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">group_criterion_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">num_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">min_criterion_batches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">update_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'STEEPEST'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">stats_plotted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">pseudo_example_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">graph_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error</span> <span class="pre">vs</span> <span class="pre">Report</span> <span class="pre">Interval'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">graph_quantity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">tk_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">net_res_save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">output_cost_strength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">output_cost_peak</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.network.Network" title="Link to this definition">¶</a></dt>
+<dd><p>The Network class is used to build the architecture of standard neural networks
+and run examples through the network.  It also serves as the base class for other networks.</p>
+</dd></dl>
+
 <section id="simple-recurrent-backpropagation-through-time-network">
 <h4>Simple Recurrent Backpropagation Through Time Network<a class="headerlink" href="#simple-recurrent-backpropagation-through-time-network" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.srbptt_network.SRBPTTNetwork">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.srbptt_network.</span></span><span class="sig-name descname"><span class="pre">SRBPTTNetwork</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">baseType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'numpy'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">time_intervals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">ticks_per_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">add_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">batch_error_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">group_criterion_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">num_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">min_criterion_batches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">update_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'STEEPEST'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">stats_plotted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">pseudo_example_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">graph_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error</span> <span class="pre">vs</span> <span class="pre">Report</span> <span class="pre">Interval'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">graph_quantity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">tk_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">net_res_save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.srbptt_network.SRBPTTNetwork" title="Link to this definition">¶</a></dt>
+<dd><p>This class implements the SRBPTT (Simple Recurrent Backpropagation Through Time) network. It provides functionality for training the recurrent neural network using recurrent backpropagation through time.</p>
+</dd></dl>
+
 </section>
 <section id="continuous-network">
 <h4>Continuous Network<a class="headerlink" href="#continuous-network" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.continuous_network.ContinuousNetwork">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.continuous_network.</span></span><span class="sig-name descname"><span class="pre">ContinuousNetwork</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">baseType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'numpy'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">time_intervals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">ticks_per_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">add_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">batch_error_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">group_criterion_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">num_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">min_criterion_batches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">update_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'STEEPEST'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">stats_plotted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">pseudo_example_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">graph_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error</span> <span class="pre">vs</span> <span class="pre">Report</span> <span class="pre">Interval'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">graph_quantity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">tk_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">net_res_save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.continuous_network.ContinuousNetwork" title="Link to this definition">¶</a></dt>
+<dd><p>This class implements a continuous-time neural network. It runs and trains a continuous neural network over multiple time ticks.</p>
+</dd></dl>
+
 </section>
 <section id="boltzmann-machine">
 <h4>Boltzmann Machine<a class="headerlink" href="#boltzmann-machine" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.boltzmann_network.BoltzmannMachine">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.boltzmann_network.</span></span><span class="sig-name descname"><span class="pre">BoltzmannMachine</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">baseType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'numpy'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">time_intervals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">ticks_per_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">add_bias</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">batch_error_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">group_criterion_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">num_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">min_criterion_batches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">update_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'STEEPEST'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">stats_plotted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">pseudo_example_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.boltzmann_network.BoltzmannMachine" title="Link to this definition">¶</a></dt>
+<dd><p>This class implements a deterministic Boltzmann machine, which is trained through minimizing the difference between negative and positive phases of the network.</p>
+</dd></dl>
+
 </section>
 </section>
 <section id="groups">
 <h3>Groups<a class="headerlink" href="#groups" title="Link to this heading">¶</a></h3>
 <p>This is the object representing a group (layer) of units.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.group.Group">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.group.</span></span><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">num_units</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">group_type</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">input_transforms</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">output_transforms</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">time_intervals</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">ticks_per_interval</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">num_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.group.Group" title="Link to this definition">¶</a></dt>
+<dd><p>This class represents a group (also called layer) of units.  It is responsible for processing inputs, applying input transformations, and computing output activations.</p>
+</dd></dl>
+
 </section>
 <section id="input-transformations">
 <h3>Input transformations<a class="headerlink" href="#input-transformations" title="Link to this heading">¶</a></h3>
 <p>This is the object that applies an input transformation to a group of units.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.inputs.input_transform.Input_Transform">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.inputs.input_transform.</span></span><span class="sig-name descname"><span class="pre">Input_Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.inputs.input_transform.Input_Transform" title="Link to this definition">¶</a></dt>
+<dd><p>This class implements the input transformation to a group of units. It serves as the base for different kinds of input transformations.</p>
+</dd></dl>
+
 </section>
 <section id="output-transformations">
 <h3>Output transformations<a class="headerlink" href="#output-transformations" title="Link to this heading">¶</a></h3>
 <p>This is the object that applies an output transformation from a group of units, also called an activation function.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.output_transforms.basic.Basic">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.output_transforms.basic.</span></span><span class="sig-name descname"><span class="pre">Basic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.output_transforms.basic.Basic" title="Link to this definition">¶</a></dt>
+<dd><p>This class implements the output transformation (activation) from a group of units. It serves as the base for different kinds of output transformations.</p>
+</dd></dl>
+
 </section>
 <section id="links">
 <h3>Links<a class="headerlink" href="#links" title="Link to this heading">¶</a></h3>
 <p>This is the object representing the links (weights) between two groups (layers) of units.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.link.link.Link">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.link.link.</span></span><span class="sig-name descname"><span class="pre">Link</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">outgoing_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">incoming_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">initialization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uniform'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">link_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">perma_lesion_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.link.link.Link" title="Link to this definition">¶</a></dt>
+<dd><p>Links (weights) between different groups (layers) of neural network.
+Abstract class that represents different types links: LinkFull, LinkOneToOne, LinkRandom.</p>
+</dd></dl>
+
 <section id="fully-connected-links">
 <h4>Fully connected links<a class="headerlink" href="#fully-connected-links" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.link.link_full.LinkFull">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.link.link_full.</span></span><span class="sig-name descname"><span class="pre">LinkFull</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">outgoing_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">incoming_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">perma_lesion_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">initialization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">link_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.link.link_full.LinkFull" title="Link to this definition">¶</a></dt>
+<dd><p>Full connected links (weights) between groups (layers) of neural network. (operation: dot product)</p>
+</dd></dl>
+
 </section>
 <section id="one-to-one-connected-links">
 <h4>One-to-one connected links<a class="headerlink" href="#one-to-one-connected-links" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.link.link_one_to_one.LinkOneToOne">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.link.link_one_to_one.</span></span><span class="sig-name descname"><span class="pre">LinkOneToOne</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">outgoing_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">incoming_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">perma_lesion_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">initialization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">link_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.link.link_one_to_one.LinkOneToOne" title="Link to this definition">¶</a></dt>
+<dd><p>One to one connected links (weights) between groups (layers) of neural network.  (operation: hadamard product)</p>
+</dd></dl>
+
 </section>
 <section id="randomly-connected-links">
 <h4>Randomly connected links<a class="headerlink" href="#randomly-connected-links" title="Link to this heading">¶</a></h4>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.link.link_random.LinkRandom">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.link.link_random.</span></span><span class="sig-name descname"><span class="pre">LinkRandom</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">outgoing_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">incoming_group</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">perma_lesion_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">initialization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">link_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.link.link_random.LinkRandom" title="Link to this definition">¶</a></dt>
+<dd><p>Initialized to drop drop_prob% of link permanently, if the drop probability is larger than 66%,
+then use the sparse matrix as random mask, otherwise use numpy dense matrix as mask.</p>
+</dd></dl>
+
 </section>
 </section>
 <section id="optimizers">
 <h3>Optimizers<a class="headerlink" href="#optimizers" title="Link to this heading">¶</a></h3>
 <p>This is the object representing the weights between two groups (layers) of units.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.backend.optimizer.optimizer.Optimizer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.backend.optimizer.optimizer.</span></span><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyLens.backend.optimizer.optimizer.Optimizer" title="Link to this definition">¶</a></dt>
+<dd><p>Optimizer used to perform gradient descent for the training of neural network. It serves as the base for different optimizing algorithm.</p>
+</dd></dl>
+
 </section>
 </section>
 <section id="example-classes">
@@ -313,30 +538,148 @@ optimizer classes.</p>
 <p>There are three example class objects: example set, example, and event. The example iterator iterates over the examples in an example set.</p>
 <section id="example-set">
 <h3>Example Set<a class="headerlink" href="#example-set" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.examples.example_set.ExampleSet">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.examples.example_set.</span></span><span class="sig-name descname"><span class="pre">ExampleSet</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">proc_exists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">input_groups</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">target_groups</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">default_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">active_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">default_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">active_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">loading_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ORDERED'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">def_s_pipe_loop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">def_s_max_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">def_s_min_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">def_s_grace_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ORDERED'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">num_loaded</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.examples.example_set.ExampleSet" title="Link to this definition">¶</a></dt>
+<dd><p>It stores a set of examples with similar properties
+on which the neural network will be trained or tested. Each <code class="docutils literal notranslate"><span class="pre">.ex</span></code> file contains information used to construct one ExampleSet.</p>
+</dd></dl>
+
 </section>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.examples.example.Example">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.examples.example.</span></span><span class="sig-name descname"><span class="pre">Example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">example_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyLens.examples.example.Example" title="Link to this definition">¶</a></dt>
+<dd><p>It stores information related to one example of the
+ExampleSet and has a list of events which will be executed by the neural network.</p>
+</dd></dl>
+
 </section>
 <section id="event">
 <h3>Event<a class="headerlink" href="#event" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.examples.event.Event">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.examples.event.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyLens.examples.event.Event" title="Link to this definition">¶</a></dt>
+<dd><p>It consist of information related to one event of the Example object
+and has UnitGroup object as inputs and targets</p>
+</dd></dl>
+
 </section>
 <section id="example-iterator">
 <h3>Example Iterator<a class="headerlink" href="#example-iterator" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.examples.example_iterator.ExampleIterator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.examples.example_iterator.</span></span><span class="sig-name descname"><span class="pre">ExampleIterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">example_set</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyLens.examples.example_iterator.ExampleIterator" title="Link to this definition">¶</a></dt>
+<dd><p>This class iterates over the examples in an ExampleSet object and keeps track of the current, previous and next example at each iteration. It does not changes original order of the examples in the example array, instead keeps the track of their indices in the array and is also responsible for ordering the example indices based on the value of mode parameter passed in the ExampleSet constructor. Also resets itself once it reaches the end of the array.</p>
+</dd></dl>
+
 </section>
 </section>
 <section id="gui-classes">
 <h2>GUI Classes<a class="headerlink" href="#gui-classes" title="Link to this heading">¶</a></h2>
 <section id="main-viewer">
 <h3>Main viewer<a class="headerlink" href="#main-viewer" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.gui.main_viewer_tk.main_viewer_tk">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.gui.main_viewer_tk.</span></span><span class="sig-name descname"><span class="pre">main_viewer_tk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_net</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">master</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#PyLens.gui.main_viewer_tk.main_viewer_tk" title="Link to this definition">¶</a></dt>
+<dd><p>The Main Viewer contains information about: network, display, file loading, training algorithms, training hyperparameters, training options, training controls, and an exit button.</p>
+</dd></dl>
+
 </section>
 <section id="unit-viewer">
 <h3>Unit viewer<a class="headerlink" href="#unit-viewer" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.gui.unit_viewer_tk.FrameExamplesProgram">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.gui.unit_viewer_tk.</span></span><span class="sig-name descname"><span class="pre">FrameExamplesProgram</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">input_net</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">user_defined_ex_history</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">stop_event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">cell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">cell_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.gui.unit_viewer_tk.FrameExamplesProgram" title="Link to this definition">¶</a></dt>
+<dd><p>Manage running examples through a network and visualizing unit values
+in the unit viewer window.</p>
+</dd></dl>
+
 </section>
 <section id="link-viewer">
 <h3>Link viewer<a class="headerlink" href="#link-viewer" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.gui.link_viewer_tk.link_viewer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.gui.link_viewer_tk.</span></span><span class="sig-name descname"><span class="pre">link_viewer</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">all_group_outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">input_net</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">output_example_set</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">training_set_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">testing_set_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">is_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">curr_cell_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">curr_cell_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">h_slider_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">v_slider_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">curr_ex_idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">color_palette</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">frozen_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">cell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">cell_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.gui.link_viewer_tk.link_viewer" title="Link to this definition">¶</a></dt>
+<dd><p>The Link Viewer provides a graphical illustration of the links between the layers of the network.</p>
+</dd></dl>
+
 </section>
 <section id="graph-viewer">
 <h3>Graph viewer<a class="headerlink" href="#graph-viewer" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="PyLens.gui.graph_viewer_tk.GraphViewer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">PyLens.gui.graph_viewer_tk.</span></span><span class="sig-name descname"><span class="pre">GraphViewer</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">network</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">plot_variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Symbol</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">special_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">window_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Graph</span> <span class="pre">Viewer'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">update_after</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="headerlink" href="#PyLens.gui.graph_viewer_tk.GraphViewer" title="Link to this definition">¶</a></dt>
+<dd><p>Graph viewer can plot a range of network properties during training.</p>
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -398,35 +741,91 @@ optimizer classes.</p>
 <li><a class="reference internal" href="#">Overview of the Code</a><ul>
 <li><a class="reference internal" href="#network-classes">Network Classes</a><ul>
 <li><a class="reference internal" href="#network">Network</a><ul>
-<li><a class="reference internal" href="#simple-recurrent-backpropagation-through-time-network">Simple Recurrent Backpropagation Through Time Network</a></li>
-<li><a class="reference internal" href="#continuous-network">Continuous Network</a></li>
-<li><a class="reference internal" href="#boltzmann-machine">Boltzmann Machine</a></li>
+<li><a class="reference internal" href="#PyLens.backend.network.Network"><code class="docutils literal notranslate"><span class="pre">Network</span></code></a></li>
+<li><a class="reference internal" href="#simple-recurrent-backpropagation-through-time-network">Simple Recurrent Backpropagation Through Time Network</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.srbptt_network.SRBPTTNetwork"><code class="docutils literal notranslate"><span class="pre">SRBPTTNetwork</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#groups">Groups</a></li>
-<li><a class="reference internal" href="#input-transformations">Input transformations</a></li>
-<li><a class="reference internal" href="#output-transformations">Output transformations</a></li>
+<li><a class="reference internal" href="#continuous-network">Continuous Network</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.continuous_network.ContinuousNetwork"><code class="docutils literal notranslate"><span class="pre">ContinuousNetwork</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#boltzmann-machine">Boltzmann Machine</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.boltzmann_network.BoltzmannMachine"><code class="docutils literal notranslate"><span class="pre">BoltzmannMachine</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#groups">Groups</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.group.Group"><code class="docutils literal notranslate"><span class="pre">Group</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#input-transformations">Input transformations</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.inputs.input_transform.Input_Transform"><code class="docutils literal notranslate"><span class="pre">Input_Transform</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#output-transformations">Output transformations</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.output_transforms.basic.Basic"><code class="docutils literal notranslate"><span class="pre">Basic</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#links">Links</a><ul>
-<li><a class="reference internal" href="#fully-connected-links">Fully connected links</a></li>
-<li><a class="reference internal" href="#one-to-one-connected-links">One-to-one connected links</a></li>
-<li><a class="reference internal" href="#randomly-connected-links">Randomly connected links</a></li>
+<li><a class="reference internal" href="#PyLens.backend.link.link.Link"><code class="docutils literal notranslate"><span class="pre">Link</span></code></a></li>
+<li><a class="reference internal" href="#fully-connected-links">Fully connected links</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.link.link_full.LinkFull"><code class="docutils literal notranslate"><span class="pre">LinkFull</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#optimizers">Optimizers</a></li>
+<li><a class="reference internal" href="#one-to-one-connected-links">One-to-one connected links</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.link.link_one_to_one.LinkOneToOne"><code class="docutils literal notranslate"><span class="pre">LinkOneToOne</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#randomly-connected-links">Randomly connected links</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.link.link_random.LinkRandom"><code class="docutils literal notranslate"><span class="pre">LinkRandom</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optimizers">Optimizers</a><ul>
+<li><a class="reference internal" href="#PyLens.backend.optimizer.optimizer.Optimizer"><code class="docutils literal notranslate"><span class="pre">Optimizer</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#example-classes">Example Classes</a><ul>
-<li><a class="reference internal" href="#example-set">Example Set</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
-<li><a class="reference internal" href="#event">Event</a></li>
-<li><a class="reference internal" href="#example-iterator">Example Iterator</a></li>
+<li><a class="reference internal" href="#example-set">Example Set</a><ul>
+<li><a class="reference internal" href="#PyLens.examples.example_set.ExampleSet"><code class="docutils literal notranslate"><span class="pre">ExampleSet</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example">Example</a><ul>
+<li><a class="reference internal" href="#PyLens.examples.example.Example"><code class="docutils literal notranslate"><span class="pre">Example</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event">Event</a><ul>
+<li><a class="reference internal" href="#PyLens.examples.event.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-iterator">Example Iterator</a><ul>
+<li><a class="reference internal" href="#PyLens.examples.example_iterator.ExampleIterator"><code class="docutils literal notranslate"><span class="pre">ExampleIterator</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#gui-classes">GUI Classes</a><ul>
-<li><a class="reference internal" href="#main-viewer">Main viewer</a></li>
-<li><a class="reference internal" href="#unit-viewer">Unit viewer</a></li>
-<li><a class="reference internal" href="#link-viewer">Link viewer</a></li>
-<li><a class="reference internal" href="#graph-viewer">Graph viewer</a></li>
+<li><a class="reference internal" href="#main-viewer">Main viewer</a><ul>
+<li><a class="reference internal" href="#PyLens.gui.main_viewer_tk.main_viewer_tk"><code class="docutils literal notranslate"><span class="pre">main_viewer_tk</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#unit-viewer">Unit viewer</a><ul>
+<li><a class="reference internal" href="#PyLens.gui.unit_viewer_tk.FrameExamplesProgram"><code class="docutils literal notranslate"><span class="pre">FrameExamplesProgram</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#link-viewer">Link viewer</a><ul>
+<li><a class="reference internal" href="#PyLens.gui.link_viewer_tk.link_viewer"><code class="docutils literal notranslate"><span class="pre">link_viewer</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#graph-viewer">Graph viewer</a><ul>
+<li><a class="reference internal" href="#PyLens.gui.graph_viewer_tk.GraphViewer"><code class="docutils literal notranslate"><span class="pre">GraphViewer</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
