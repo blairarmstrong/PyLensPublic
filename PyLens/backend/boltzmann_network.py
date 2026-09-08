@@ -299,7 +299,7 @@ class BoltzmannMachine(Network):
         Returns:
             list: A list containing the sequence of group outputs during training.
         """
-        tick = 1
+        tick = 0
         ticks_on_phase = 0
         ticks_on_event = 0
         phase_done = False
@@ -348,7 +348,7 @@ class BoltzmannMachine(Network):
                 ticks_on_event += 1
                 time_on_phase = ticks_on_phase / self.ticks_per_interval
 
-                if tick == self.time_intervals * self.ticks_per_interval: 
+                if tick == self.time_intervals * self.ticks_per_interval - 1: 
                     phase_done = True
                 elif time_on_phase < min_time:
                     phase_done = False
