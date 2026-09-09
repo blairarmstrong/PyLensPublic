@@ -134,7 +134,7 @@ class Network:
         self.test_unit_cost = None
         self.batch_test_unit_cost = None
         self.test_unit_cost_derivs = None
-        self.res = ""
+        self.res = []
         self.simulator = None
         # if it's in GUI mode, this will be set to true in the Simulator class
         self.visualized = False  # whether the training is in GUI mode as opposed to background mode
@@ -2856,10 +2856,12 @@ class Network:
 
         self.ticks_on_example = self.current_tick + 1
 
-        self.res = str(example.name) + "|output "
+        example_res = [str(example.name) + "|output "]
         for outg in self.output_groups:
-            self.res += ' '.join(map(str, outg.output_matrix.tolist())) + " "
-        self.res += "\n" + str(example.name) + "|target " + target_str + "\n"
+            example_res.append(' '.join(map(str, outg.output_matrix.tolist())) + " ")
+        example_res.append("\n" + str(example.name) + "|target " + target_str + "\n")
+        self.res.append("".join(example_res))
+
         if example.post_proc_name is not None:
             example.post_proc()
 
@@ -2926,16 +2928,20 @@ class Network:
         """
         self.batch_errors = []
         for result in workers_results:
-            self.batch_errors += result[1]
+            self.batch_errors += result[0]
 
         for i in range(len(workers_results)):
             for j in range(len(self.groups)):
                 for k in range(len(self.groups[j].incoming_links)):
-                    self.groups[j].incoming_links[k].weight_derivs += workers_results[i][2][j][k]
+                    self.groups[j].incoming_links[k].weight_derivs += workers_results[i][1][j][k]
 
         self.batch_unit_costs = []
         for result in workers_results:
-            self.batch_unit_costs += result[3]
+            self.batch_unit_costs += result[2]
+
+
+        for worker_result in workers_results:
+            self.res.extend(worker_result[3])
 
     def standard_net_train_batch(self, batch_size, test=False, stop_event=None):
         """
@@ -2960,7 +2966,7 @@ class Network:
                 self.example_sets = self.training_sets
             else:
                 raise ValueError(f"Make sure to load training example set.")
-        res = []
+
         # TODO: Choose which set of examples to use for training / testing
         for example_set_index, example_set in enumerate(self.example_sets):
             if batch_size == 0:
@@ -3019,8 +3025,8 @@ class Network:
                 workers_results = ray.get(workers_results)
                 self.combine_worker_result(workers_results)
 
-            for i in range(0, batch_size):
-                if not self.parallel_mode:
+            if not self.parallel_mode:
+                for i in range(0, batch_size):
                     if batch_size < example_set.num_examples:
                         if i == batch_size - 1:
                             example = example_set.iterate_example()
@@ -3045,20 +3051,10 @@ class Network:
                             example.example_test_error
                         )
 
-                else:
-                    # retrieve result and errors from each worker
-                    result = workers_results[int(i/examples_per_worker)][0]
-                    training_errors = workers_results[int(i/examples_per_worker)][1]
-                # else:
-                res += result
+                    if test and (self.test_error_criterion or self.test_group_criterion_reached):
+                        return
 
-
-                if test and (self.test_error_criterion or self.test_group_criterion_reached):
-                    return
-                self.last_example_trained = example
-                # if (network_params.PAR_N_reset_on_example):
-                #     self.reset_matrices()
-
+            self.last_example_trained = example
 
             self.examples_token_trained += batch_size
             if example_set.post_epoch_proc_name is not None:
@@ -3070,7 +3066,6 @@ class Network:
                 self.gain *= scale
                 for link in group.incoming_links:
                     link.weight_derivs *= scale
-        return res
 
 
     def save_stats(self, file_path="training_stats.csv"):
@@ -3180,7 +3175,7 @@ class Network:
         batches_at_criterion = 0
         reached_batch_error_criterion = False
         self.user_interrupt = False
-        self.res = ""
+        self.res = []
         update_no_list = list()
 
         if epochs is None:
@@ -3459,7 +3454,7 @@ class Network:
         """
         Resets the output of the network
         """
-        self.res = ""
+        self.res = []
 
     def reset_network(self):
         """
@@ -3485,7 +3480,7 @@ class Network:
             filename (str): the name of the file to save the output to
         """
         summary_file = codecs.open(filename, "w", 'utf-8')
-        summary_file.write(self.res)
+        summary_file.write("".join(self.res))
         summary_file.close()
 
     def train(self, epochs=network_params.PAR_N_numUpdates, batch_size=network_params.PAR_N_batchSize,
@@ -3566,6 +3561,9 @@ Instead, use set_properties(), e.g.:
         assert self.learning_rate > 0.0
         assert 0.0 <= self.optimizer.momentum < 1.0
         assert 0.0 <= self.optimizer.weight_decay < 1.0
+
+        # reset res
+        self.res = []
 
         # reset errors and examples
         if reset_error == True: 

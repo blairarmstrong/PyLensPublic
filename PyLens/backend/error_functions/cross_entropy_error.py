@@ -122,26 +122,8 @@ class CrossEntropyError(Error):
 
         return unit_error
 
-    # def deriv_vec(self, o, t):
-    #     '''
-    #     Vectorized helper function to calculate the derivative of the cross-entropy error.
-        
-    #     Parameters:
-    #         o (float)
-    #         t (float)
-        
-    #     Returns:
-    #         float: Derivative of the cross-entropy error for the given output and target.
-    #     '''
-    #     if t == 0:
-    #         return self.large_value if 1-o<=self.small_value else 1/(1-o)
-    #     elif t == 1:
-    #         return -self.large_value if o <= self.small_value else -1/o
-    #     else:
-    #         return (o-t)*self.large_value if o*(1-o) <= self.small_value else (o-t)/(o*(1-o))
 
     def backward(self, outputs, targets, frequency):
-        target = targets
 
         error_scale = self.group.error_scale
         pef = self.group.network.pseudoExampleFreq
@@ -189,15 +171,15 @@ class CrossEntropyError(Error):
 
         deriv_other = af.where(
             large_deriv,
-            (outputs - target) * self.large_value,
-            (outputs - target) / safe_denom
+            (outputs - targets) * self.large_value,
+            (outputs - targets) / safe_denom
         )
 
         deriv = af.where(
-            target == 0.0,
+            targets == 0.0,
             deriv_zero,
             af.where(
-                target == 1.0,
+                targets == 1.0,
                 deriv_one,
                 deriv_other
             )
@@ -205,7 +187,7 @@ class CrossEntropyError(Error):
 
         if target_zero_scaling != 1.0:
             mult = af.where(
-                target == 0.0,
+                targets == 0.0,
                 zero_target_scale,
                 scale
             )

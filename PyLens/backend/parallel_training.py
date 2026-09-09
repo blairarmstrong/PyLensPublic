@@ -57,9 +57,9 @@ class ParallelBaseNetwork:
             test (bool): Whether to run the function in testing mode.
         
         Returns:
-            tuple: Contains lists of results, training errors, weight derivatives, and unit costs.
+            tuple: Contains training errors, weight derivatives, unit costs, and output results.
         """
-        result_list = []
+        self.res = []
         training_errors_list = []
         unit_costs_list = []
 
@@ -80,7 +80,6 @@ class ParallelBaseNetwork:
             if self.network_type in ['continuous', 'srbptt']:
                 self.net_train_example_back()
 
-            result_list.append(result)
             training_errors_list.extend(training_errors)
             unit_costs_list.extend(unit_costs)
             if (network_params.PAR_N_reset_on_example):
@@ -93,7 +92,7 @@ class ParallelBaseNetwork:
                 group_weight_derivs.append(self.groups[i].incoming_links[j].weight_derivs)
             all_weight_derivs.append(group_weight_derivs)
 
-        return result_list, training_errors_list, all_weight_derivs, unit_costs_list
+        return training_errors_list, all_weight_derivs, unit_costs_list, self.res
     
     def get_attr(self, key):
         return getattr(self, key)
