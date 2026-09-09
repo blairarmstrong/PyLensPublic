@@ -2974,21 +2974,25 @@ class Network:
 
                 # initialize parallel workers when it is at the first run OR num_worker changed
                 if self.parallel_workers == None or self.num_worker != len(self.parallel_workers):
-                    self.parallel_workers = [create_parallel_network(
-                                             network_class=self.__class__,
-                                             name=f"{self.name}_worker{_}", 
-                                             time_intervals=self.time_intervals, 
-                                             ticks_per_interval=self.ticks_per_interval, 
-                                             learning_rate=self.learning_rate, 
-                                             add_bias=self.add_bias,
-                                             baseType=self.baseType,
-                                             ) for _ in range(self.num_worker)]
-                    
+                    RemoteParallelNetwork = create_parallel_network(self.__class__)
+
+                    self.parallel_workers = [
+                        RemoteParallelNetwork.remote(
+                            name=f"{self.name}_worker{_}",
+                            time_intervals=self.time_intervals,
+                            ticks_per_interval=self.ticks_per_interval,
+                            learning_rate=self.learning_rate,
+                            add_bias=self.add_bias,
+                            baseType=self.baseType,
+                        )
+                        for _ in range(self.num_worker)
+                    ]
+
                     for i in range(self.num_worker):
                         self.parallel_workers[i].replay_initialization_for_workers.remote(self.initialization_actions)
 
                 # send weights to workers
-                packaged_weights = self.package_weights()
+                packaged_weights = ray.put(self.package_weights())
                 for i in range(self.num_worker):
                     self.parallel_workers[i].sync_weights.remote(packaged_weights)
 

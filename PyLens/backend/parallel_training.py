@@ -99,7 +99,7 @@ class ParallelBaseNetwork:
         return getattr(self, key)
 
 
-def create_parallel_network(network_class, name, time_intervals, ticks_per_interval, learning_rate, add_bias, baseType):
+def create_parallel_network(network_class):
     """
     Factory function to dynamically create and instantiate a parallel network instance.
     
@@ -121,4 +121,4 @@ def create_parallel_network(network_class, name, time_intervals, ticks_per_inter
         {}
     )
 
-    return ray.remote(ParallelNetwork).remote(name, time_intervals, ticks_per_interval, learning_rate, add_bias, baseType)
+    return ray.remote(ParallelNetwork)
