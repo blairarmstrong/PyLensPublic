@@ -1376,21 +1376,70 @@ class FrameExamplesProgram():
         """
         Draw the input, hidden, output, bias target layer of the current tick.
         """
+        # remove old pink selection before updating values
+        if self.selected_outline_id is not None:
+            self.canvas.itemconfig(
+                self.selected_outline_id,
+                outline=self.selected_outline_color
+            )
+
         if getattr(self.input_net, "plot_layout", None):
             self.draw_plot_layout()
             return
+
         self.drawing = True
         self.curr_base_oY = 30
         self.curr_base_eY = 60
+
         for group in reversed(self.input_net.groups):
             self.draw_group(group)
-
 
         # Remove yellow outline if not in link weight mode
         if not self.link_flag:
             self.canvas.itemconfig(self.right_click_id, outline=BLACK_HEX)
         elif self.link_flag and self.right_click_id > -1:
             self.color_weights()
+
+        # restore selected node
+        if self.frozen_cell is not None:
+            group_name, unit_idx = self.frozen_cell
+            unit_idx = int(unit_idx)
+
+            if group_name == "target":
+                self.selected_node = self.output_nodes_border[unit_idx]
+                self.selected_outline_id = self.selected_node
+            else:
+                self.selected_node = self.nodes[group_name][unit_idx]
+
+                if group_name == "output":
+                    self.selected_outline_id = self.output_nodes_border[unit_idx]
+                else:
+                    self.selected_outline_id = self.selected_node
+
+            # save the underlying non-pink outline
+            self.selected_outline_color = self.canvas.itemcget(
+                self.selected_outline_id,
+                "outline"
+            )
+
+            # exactly one selected rim
+            self.canvas.itemconfig(
+                self.selected_outline_id,
+                outline=PINK_HEX
+            )
+
+            # refresh textbox value for current tick/example
+            tags = self.tags[self.selected_node]
+
+            if group_name == "target":
+                self.curr_cell_info = "T:" + tags[3]
+                self.curr_cell_name = "output:" + tags[1]
+            else:
+                self.curr_cell_info = "O:" + tags[2]
+                self.curr_cell_name = tags[0] + ":" + tags[1]
+
+            self.update_current_cell_name_and_info()
+
         self.drawing = False
         self.resize_canvas_height()
 
@@ -1532,11 +1581,6 @@ class FrameExamplesProgram():
             self.tags[w] = list(map(str, (group.name, col, val, target_val)))
 
         self.nodes_color[group.name].append(fill_color)
-
-        if self.frozen_cell == (group.group_type, str(col)):
-            c.create_rectangle(oX - 2, oY - 2, eX + 2, eY + 2, fill="", width=1, outline=PINK_HEX)
-            self.curr_cell_name = group.name + ":" + str(col) + self.unit_names_by_group[group.name][col]
-            self.curr_cell_info = "O" + ":" + str(val)
 
         self.update_current_cell_name_and_info()
 
@@ -1814,6 +1858,7 @@ class FrameExamplesProgram():
 
             # reset node storage references
             self.draw_tick()
+
 
         global listbox
         if self.listbox_exist:
@@ -2174,9 +2219,9 @@ class FrameExamplesProgram():
                 self.canvas.itemconfig(outline_id, outline=PINK_HEX)
                 if len(tags) != 0:
                     if tags[0] == 'target':
-                        self.curr_cell_info = "O:" + tags[3]
+                        self.curr_cell_info = "T:" + tags[3]
                         self.curr_cell_name = "output" + ":" + tags[1]
-                        self.frozen_cell = ("output", tags[1])
+                        self.frozen_cell = ("target", tags[1])
                     else:
                         self.curr_cell_info = "O:" + tags[2]
                         self.curr_cell_name = tags[0] + ":" + tags[1]

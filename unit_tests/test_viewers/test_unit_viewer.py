@@ -3,6 +3,7 @@ sys.path.insert(0, ".")
 
 from PyLens.simulator import Simulator
 from PyLens.gui.main_viewer_tk import main_viewer_tk
+import tkinter as tk
 from PyLens.gui.unit_viewer_tk import FrameExamplesProgram
 from PyLens.gui.unit_viewer_tk import PINK_HEX
 
@@ -708,6 +709,90 @@ def test_value_menu(unit_viewer):
         unit_viewer.btn_lst[2].invoke()  # <
         assert unit_viewer._curr_tick_idx == original_tick
 
+def test_selection_persistence(unit_viewer):
+    unit_viewer.window.update()
+
+    def click_center(item):
+        x1, y1, x2, y2 = unit_viewer.canvas.coords(item)
+
+        x = int((x1 + x2) / 2 - unit_viewer.canvas.canvasx(0))
+        y = int((y1 + y2) / 2 - unit_viewer.canvas.canvasy(0))
+
+        unit_viewer.canvas.event_generate("<Button-1>", x=x, y=y)
+        unit_viewer.window.update()
+
+    def check_selected(group_name, unit_idx):
+        node = unit_viewer.nodes[group_name][unit_idx]
+
+        assert unit_viewer.selected_node == node
+        assert unit_viewer.frozen_cell == (group_name, str(unit_idx))
+        assert unit_viewer.canvas.itemcget(node, "outline") == PINK_HEX
+
+        # only one pink rim
+        pink_items = [
+            item for item in unit_viewer.canvas.find_all()
+            if unit_viewer.canvas.itemcget(item, "outline") == PINK_HEX
+        ]
+        assert len(pink_items) == 1
+
+        # selected-cell textbox reflects the current tick
+        group = next(
+            g for g in unit_viewer.input_net.groups
+            if g.name == group_name
+        )
+
+        expected = group.output_history[unit_viewer._curr_tick_idx][unit_idx]
+        if hasattr(expected, "item"):
+            expected = expected.item()
+
+        assert unit_viewer.lower_textbox.get() == f"O: {float(expected):.8f}"
+
+    # select hidden unit 0
+    hidden = unit_viewer.nodes["hidden"][0]
+    click_center(hidden)
+    check_selected("hidden", 0)
+
+    # persistence across ticks
+    if unit_viewer._ticks_per_ex > 1:
+        unit_viewer.btn_lst[3].invoke()  # >
+        unit_viewer.window.update()
+
+        check_selected("hidden", 0)
+
+    # persistence across events
+    if unit_viewer.ev_total > 1:
+        unit_viewer.btn_lst[4].invoke()  # >>
+        unit_viewer.window.update()
+
+        check_selected("hidden", 0)
+
+    # persistence across examples
+    if len(unit_viewer.input_example_list) > 1:
+        new_example = (
+            1 if unit_viewer._curr_ex_idx == 0 else 0
+        )
+
+        unit_viewer.listbox.selection_clear(0, tk.END)
+        unit_viewer.listbox.select_set(new_example)
+        unit_viewer.listbox.event_generate("<<ListboxSelect>>")
+        unit_viewer.window.update()
+
+        assert unit_viewer._curr_ex_idx == new_example
+        check_selected("hidden", 0)
+
+    # unselect: no pink rim should remain
+    hidden = unit_viewer.nodes["hidden"][0]
+    click_center(hidden)
+
+    assert unit_viewer.selected_node is None
+    assert unit_viewer.frozen_cell is None
+
+    pink_items = [
+        item for item in unit_viewer.canvas.find_all()
+        if unit_viewer.canvas.itemcget(item, "outline") == PINK_HEX
+    ]
+    assert len(pink_items) == 0
+
 def run_unit_viewer_test(sim, net):
     net.visualized = True
 
@@ -720,6 +805,7 @@ def run_unit_viewer_test(sim, net):
     )
 
     test_clicks(sim.gui_program.unit_viewer)
+    test_selection_persistence(sim.gui_program.unit_viewer)
     test_redrawing(sim.gui_program.unit_viewer)
     test_value_menu(sim.gui_program.unit_viewer)
 
