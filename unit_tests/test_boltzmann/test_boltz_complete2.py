@@ -106,10 +106,10 @@ def boltz_complete2_unit_test(parallel=False):
     actual_error = reconstruction_net_one.stats_plotter.progress_stats['error'][-1]
     sim_one.delete_all_nets()
     
-    expected_weight_cost = 1131.39
+    expected_weight_cost = 1131.393
     check_difference(actual_weight_cost, expected_weight_cost)
 
-    expected_error = 29.4884
+    expected_error = 29.48842
     check_difference(actual_error, expected_error)
 
 if __name__ == '__main__':

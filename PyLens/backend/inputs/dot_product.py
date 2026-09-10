@@ -40,5 +40,5 @@ class Dot_Product(Input_Transform):
         input_derivs = self.group.input_derivs
 
         for link in self.group.incoming_links:
-            link.outgoing_group.outputderivCache += input_derivs @ link.weights.T
-            link.backward(self.group.input_derivs)
+            link.outgoing_group.outputderivCache += link.weights @ input_derivs
+            link.backward(input_derivs)

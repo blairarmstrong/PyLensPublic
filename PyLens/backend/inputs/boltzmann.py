@@ -20,16 +20,20 @@ class BoltzmannInput(Input_Transform):
         """
         af.fill(self.group.input_matrix, 0)
 
-        for i in range(self.group.num_units):
-            if af.isnan(self.group.external_input[i]) and ( 
-                af.isnan(self.group.target[i]) or not self.group.network.in_grace_period
-                ):
+        if self.group.network.in_grace_period:
+            free = (
+                af.isnan(self.group.external_input)
+                & af.isnan(self.group.target)
+            )
+        else:
+            free = af.isnan(self.group.external_input)
 
-                for link in self.group.incoming_links:
-                    self.group.input_matrix[i] += af.dot(
-                        link.outgoing_group.output_matrix,
-                        link.weights[:, i]
-                    )
+        for link in self.group.incoming_links:
+            self.group.input_matrix += (
+                link.outgoing_group.output_matrix @ link.weights
+            )
+
+        self.group.input_matrix[~free] = 0
 
     def backward(self):
         """

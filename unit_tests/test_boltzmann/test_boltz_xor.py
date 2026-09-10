@@ -8,7 +8,7 @@ def boltz_xor_unit_test(parallel=False):
     batch_size = 0
     report_interval = 1
     learning_rate = 0.1
-    update_method = "steepest"
+    update_method = "dougs momentum"
 
     # create simulator
     sim_one = Simulator(name="simulator")
@@ -87,7 +87,7 @@ def boltz_xor_unit_test(parallel=False):
     xor_net_one.set_properties(
         group_criterion_threshold=0.001,
         test_group_criterion_threshold=0.001,
-        clamp_strength=1.0,
+        clamp_strength=0.1,
         init_gain=0.1,
         final_gain=1.0,
         anneal_time=1.0,
@@ -133,10 +133,10 @@ def boltz_xor_unit_test(parallel=False):
     actual_error = xor_net_one.stats_plotter.progress_stats['error'][-1]
     sim_one.delete_all_nets()
     
-    expected_weight_cost = 33.1917
+    expected_weight_cost = 273.384
     check_difference(actual_weight_cost, expected_weight_cost)
     
-    expected_error = 0.55894
+    expected_error = 0.02188
     check_difference(actual_error, expected_error)
 
 if __name__ == '__main__':

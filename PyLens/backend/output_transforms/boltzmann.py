@@ -13,6 +13,7 @@ class BoltzmannOutput(Basic):
         :type group: Group 
         """
         super().__init__("BoltzmannOutput", group)
+        self.use_network_gain = af.isnan(self.group.gain).any()
         self._update_gain()
         self.dt = self.group.network.dt * self.group.dt # Individual unit dt has not been implemented
         self.unit_data = af.empty(self.group.num_units)
@@ -23,10 +24,9 @@ class BoltzmannOutput(Basic):
         """
         self.gain = (
             self.group.network.gain
-            if af.isnan(self.group.gain).any()
+            if self.use_network_gain
             else self.group.gain
         )
-        self.gain = af.array(self.gain)
 
     def _func(self, x):
         """
@@ -47,16 +47,20 @@ class BoltzmannOutput(Basic):
         # Store previous group outputs to check if BM has settled
         self.unit_data[:] = output
 
-        for i in range(self.group.num_units):
-            if not af.isnan(self.group.external_input[i]):
-                output[i] = self.group.external_input[i]
+        # Update every unit together
+        output += self.dt * (
+            self._func(self.group.input_matrix) - output
+        )
 
-            elif not af.isnan(self.group.target[i]) and self.group.network.in_grace_period:
-                output[i] = self.group.target[i]
+        external_input = self.group.external_input
+        has_external_input = ~af.isnan(external_input)
+        output[has_external_input] = external_input[has_external_input]
 
-            else:
-                output[i] += self.dt * (
-                    self._func(self.group.input_matrix[i]) - output[i]
-                )
-
+        if self.group.network.in_grace_period:
+            target = self.group.target
+            use_target = (
+                ~has_external_input
+                & ~af.isnan(target)
+            )
+            output[use_target] = target[use_target]
 

@@ -22,14 +22,11 @@ class Sigmoid(Basic):
     """
     def func(self, x):
         # Scale the input by gain and flip the sign (for sigmoid)
-        # x = self.group.input_matrix
         x_scaled = -x * self.gain
 
         # Clip input to avoid overflow in np.exp:
-        # np.exp(709) is approximately 8.2e+307 (still within float64 range),
-        # but np.exp(710) overflows to inf.
-        # So we clip to [-709, 709] to stay within the safe range for float64 exponentials.
-        x_scaled = af.clip(x_scaled, -709, 709)
+        # clip at 16 because of CLens 
+        x_scaled = af.clip(x_scaled, -16, 16)
 
         return 1 / (1 + af.exp(x_scaled))
             

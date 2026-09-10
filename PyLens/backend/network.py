@@ -3723,7 +3723,7 @@ Instead, use set_properties(), e.g.:
             unit_cost = self.unit_cost_functions[i]
             if unit_cost is None:
                 unit_cost_groups.append(0.0)
-                unit_cost_derivs.append(af.zeros_like(output_group.output_matrix))
+                unit_cost_derivs.append(0.0) # will be broadcasted to the same shape
                 continue
             cost = unit_cost.forward(output_group.output_matrix)
             cost_derivs = unit_cost.backward(output_group.output_matrix)
