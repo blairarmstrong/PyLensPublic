@@ -565,11 +565,16 @@ class FrameExamplesProgram():
             real_ex_idx = self._curr_ex_idx
         else:
             real_ex_idx = example_to_run
-        event_res = self.input_net.standard_net_train_example(self.input_example_list[real_ex_idx], test=testing_mode)
-        if type(self.input_net).__name__ == "ContinuousNetwork" or type(self.input_net).__name__ == "BoltzmannMachine":
-            self.parse_example_result_from_history(self.input_example_list[real_ex_idx])
-        else:
-            self.parse_example_result_from_train_example_result(event_res)
+
+        self.input_net.standard_net_train_example(
+            self.input_example_list[real_ex_idx],
+            test=testing_mode
+        )
+
+        self.parse_example_result_from_history(
+            self.input_example_list[real_ex_idx]
+        )
+
         self.update_derivatives_from_output_history()
         self.update_current_cell_name_and_info()
         self.parse_external_input()
@@ -582,21 +587,6 @@ class FrameExamplesProgram():
         for g in self.input_net.groups:
             if g.group_type == "input":
                 self.external_input = g.external_input_history
-
-    def parse_example_result_from_train_example_result(self, event_res):
-        """
-        Update self.curr_ex_input_derivs, self.curr_ex_output_derivs, self.curr_ex_history.
-        
-        Args:
-            event_res (list): The return value of standard_net_train_example.
-        """
-        # add the bias group because standard_net_train_example doesn't return it
-        for g in self.input_net.groups:
-            if g.group_type == "bias":
-                bias_event_res = [g.output_history.tolist()]
-        num_ticks = len(event_res)
-        self.curr_ex_history = list(map(list, zip(*event_res)))
-        self.curr_ex_history.insert(0, bias_event_res * num_ticks)
 
     def update_derivatives_from_output_history(self):
         """

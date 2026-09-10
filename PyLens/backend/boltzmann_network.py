@@ -184,7 +184,7 @@ class BoltzmannMachine(Network):
                 self.bias.initOutput = self.initOutputBias
                 self.bias.output_matrix = af.array([self.bias.initOutput])
 
-    def boltzmann_update(self, tick: int) -> list:
+    def boltzmann_update(self, tick: int):
         """
         Performs one step of deterministic unit updates in the Boltzmann Machine.
 
@@ -194,7 +194,6 @@ class BoltzmannMachine(Network):
         Returns:
             list: The updated output matrices for each group.
         """
-        group_outputs = []
 
         # compute input for all groups
         for group in self.groups:
@@ -213,13 +212,12 @@ class BoltzmannMachine(Network):
             group.unit_dropout(group.dropout_rate)
             if group.dropout_mask is not None:
                 group.output_matrix *= group.dropout_mask
+
             group.input_set = False
-            group_outputs += [group.output_matrix]
+
             if group.group_type != "bias": # Bias group does not have output history
                 group.output_history[tick - 1] = group.output_matrix
                 group.target_history[tick - 1] = group.target
-
-        return group_outputs
 
     def boltzmann_settled(self, training: bool) -> bool:
         """
@@ -277,19 +275,17 @@ class BoltzmannMachine(Network):
                 group.output_matrix[i] = float(initOutput)  + group.output_matrix[i] * retain_strength
         group.output_matrix_cache = copy.copy(group.output_matrix)
 
-    def standard_net_train_example(self, example, test=False) -> list:
+    def standard_net_train_example(self, example, test=False):
         self.ticks_per_event.clear()
         self.reset_history()
-        event_result = []
+
         if test:
-            cur_event_result, errors, unit_costs  = self.boltzmann_net_test_example(example)
-            event_result += cur_event_result
+            errors, unit_costs  = self.boltzmann_net_test_example(example)
         else:
-            cur_event_result, errors, unit_costs = self.boltzmann_net_train_example(example)
-            event_result += cur_event_result
-        return event_result, errors, unit_costs
+            errors, unit_costs = self.boltzmann_net_train_example(example)
+        return errors, unit_costs
         
-    def boltzmann_net_train_example(self, example: Example) -> list:
+    def boltzmann_net_train_example(self, example: Example):
         """
         Trains the Boltzmann Machine on a given example using both the positive and negative phases.
 
@@ -308,7 +304,6 @@ class BoltzmannMachine(Network):
         max_time = 0.
         grace_time = 0.
 
-        event_result = []
         target_str = ""
 
         phase = "new_event"
@@ -342,7 +337,7 @@ class BoltzmannMachine(Network):
                 self.gain_step(ticks_on_phase)
 
                 # Update Boltzmann Machine's units
-                event_result += self.boltzmann_update(tick)
+                self.boltzmann_update(tick)
 
                 ticks_on_phase += 1 
                 ticks_on_event += 1
@@ -374,7 +369,7 @@ class BoltzmannMachine(Network):
                         self.in_grace_period = False
                         phase = "negative"
                         tick += 1
-                        event_result += self.store_outputs_and_targets(tick)
+                        self.store_outputs_and_targets(tick)
                     else:
                         # For Boltzmann, this output error is not used for training
                         self.errors, self.error_derivs = self.compute_cost(
@@ -411,10 +406,16 @@ class BoltzmannMachine(Network):
 
         self.ticks_on_example = tick
         self.ticks_per_event[-1] += 1 # Add one more tick to last event to match ticks per example
-        self.res = str(example.name) + "|output "
+
+        example_res = [str(example.name) + "|output "]
         for outg in self.output_groups:
-            self.res += ' '.join(map(str, outg.output_matrix)) + " "
-        self.res += "\n" + str(example.name) + "|target " + target_str + "\n"
+            example_res.append(
+                ' '.join(map(str, outg.output_matrix.tolist())) + " "
+            )
+        example_res.append(
+            "\n" + str(example.name) + "|target " + target_str + "\n"
+        )
+        self.res.append("".join(example_res))
         if example.post_proc_name is not None:
             example.post_proc()
 
@@ -423,9 +424,9 @@ class BoltzmannMachine(Network):
         if self.unit_cost is None:
             self.unit_cost = [0.0]
             
-        return event_result, self.errors, self.unit_cost
+        return self.errors, self.unit_cost
 
-    def boltzmann_net_test_example(self, example: Example) -> list:
+    def boltzmann_net_test_example(self, example: Example):
         """
         Evaluates the Boltzmann Machine on a given example using the **negative phase** only.
 
@@ -442,7 +443,6 @@ class BoltzmannMachine(Network):
         min_time = 0.
         max_time = 0.
 
-        event_result = []
         target_str = ""
 
         phase = "new_event"
@@ -472,7 +472,7 @@ class BoltzmannMachine(Network):
                 ticks_on_event = 0
                 self.in_grace_period = False
                 phase = "negative"
-                event_result += self.store_outputs_and_targets(tick)
+                self.store_outputs_and_targets(tick)
                 tick += 1
 
             while (tick) <= self.time_intervals * self.ticks_per_interval:
@@ -480,7 +480,7 @@ class BoltzmannMachine(Network):
                 self.gain_step(ticks_on_event)
 
                 # Update Boltzmann Machine's units
-                event_result += self.boltzmann_update(tick)
+                self.boltzmann_update(tick)
 
                 ticks_on_event += 1
                 time_on_event = ticks_on_event / self.ticks_per_interval
@@ -525,14 +525,21 @@ class BoltzmannMachine(Network):
 
         self.ticks_on_example = tick
         self.ticks_per_event[-1] += 1 # Add one more tick to last event to match ticks per example
-        self.res = str(example.name) + "|output "
+
+        example_res = [str(example.name) + "|output "]
         for outg in self.output_groups:
-            self.res += ' '.join(map(str, outg.output_matrix)) + " "
-        self.res += "\n" + str(example.name) + "|target " + target_str + "\n"
+            example_res.append(
+                ' '.join(map(str, outg.output_matrix.tolist())) + " "
+            )
+        example_res.append(
+            "\n" + str(example.name) + "|target " + target_str + "\n"
+        )
+        self.res.append("".join(example_res))
+
         if example.post_proc_name is not None:
             example.post_proc()
 
-        return event_result, sum(self.test_errors), sum(self.test_unit_cost)
+        return self.test_errors, self.test_unit_cost
 
     def gain_step(self, ticks: int) -> None:
         """
@@ -553,7 +560,7 @@ class BoltzmannMachine(Network):
         """
         group.output_derivs[:] = group.output_matrix
 
-    def store_outputs_and_targets(self, tick: int) -> list:
+    def store_outputs_and_targets(self, tick: int):
         """
         Stores the network's outputs and targets at a specific tick for historical tracking.
 
@@ -563,15 +570,12 @@ class BoltzmannMachine(Network):
         Returns:
             list: A list of output matrices for each group.
         """
-        group_outputs = []
         for group in self.groups[:]:
             if group.name != 'bias':
                 group.output_history[tick - 1] = group.output_matrix
-                group_outputs += [group.output_matrix]
                 group.input_history[tick - 1] = group.input_matrix
                 group.target_history[tick - 1] = group.target
 
-        return group_outputs
 
     def reset_history(self) -> None:
         """

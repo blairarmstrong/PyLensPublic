@@ -2610,11 +2610,9 @@ class Network:
             example (Example): example of the event
             
         Returns:
-            input_result (List): the result of the input
             sum(self.errors) (float): the sum of the errors
             sum(self.unit_cost) (float): the sum of the unit costs
         """
-        input_result = []
         if event.pre_proc_name is not None:
             event.pre_proc()
 
@@ -2630,20 +2628,6 @@ class Network:
         self.group_criterion_reached = (
             self.group_criteria_reached(training=True)
         )
-
-        group_outputs = [
-            af.copy(group.output_matrix)
-            for group in self.groups
-            if group.group_type != "bias"
-        ]
-        group_targets = [
-            af.copy(group.target)
-            for group in self.output_groups
-        ]
-        input_result.append([
-            s.tolist()
-            for s in group_outputs + group_targets
-        ])
 
 
         example.example_train_error.append(sum(self.errors))
@@ -2676,9 +2660,8 @@ class Network:
 
         if event.post_proc_name is not None:
             event.post_proc()
-        # self.reset_matrices()
-        # print("reset matrices")
-        return input_result, sum(self.errors), sum(self.unit_cost)
+
+        return sum(self.errors), sum(self.unit_cost)
 
     def reset_derivs(self):
         """
@@ -2704,11 +2687,7 @@ class Network:
             event (Event): the current event
             tick (int): tick of the network
             
-        Returns:
-            input_result (List)
         """
-
-        input_result = []
 
         self.reset_derivs()
         self.forward(tick)
@@ -2723,19 +2702,7 @@ class Network:
         self.test_group_criterion_reached = (
             self.group_criteria_reached(training=False)
         )
-        group_outputs = [
-            af.copy(group.output_matrix)
-            for group in self.groups
-            if group.group_type != "bias"
-        ]
-        group_targets = [
-            af.copy(group.target)
-            for group in self.output_groups
-        ]
-        input_result.append([
-            s.tolist()
-            for s in group_outputs + group_targets
-        ])
+
         example.example_test_error += sum(self.test_errors)
 
         # Accumulate errors over the batch
@@ -2753,7 +2720,6 @@ class Network:
         else:
             self.batch_test_unit_cost = [i + j for i, j in zip(self.batch_test_unit_cost, self.test_unit_cost)]
 
-        return input_result
 
     def standard_net_train_example(self, example, test=False):
         """
@@ -2764,7 +2730,6 @@ class Network:
             test (boolean): whether the example is for testing or training
             
         Returns:
-            event_result (List): results from the processed events
             training_errors (List): the training errors
             unit_costs (List): the unit costs
         """
@@ -2773,7 +2738,6 @@ class Network:
         else:
             first_tick = 0
         ticks_on_event = 0
-        event_result = []
         training_errors = []
         unit_costs = []
         target_str = ""
@@ -2819,12 +2783,11 @@ class Network:
             self.current_tick = tick
 
             if test:
-                event_result += self.standard_net_test_tick(event, tick, example)
+                self.standard_net_test_tick(event, tick, example)
                 if self.test_error_criterion or self.test_group_criterion_reached:
-                    return
+                    return training_errors, unit_costs
             else:
-                result, error, unit_cost = self.standard_net_train_tick(event, tick, example)
-                event_result += result
+                error, unit_cost = self.standard_net_train_tick(event, tick, example)
                 training_errors.append(error)
                 unit_costs.append(unit_cost)
 
@@ -2865,7 +2828,7 @@ class Network:
         if example.post_proc_name is not None:
             example.post_proc()
 
-        return event_result, training_errors, unit_costs
+        return training_errors, unit_costs
     
     def do_example(self, example_set_name: str | None = None,
                example_index: int | None = None,
@@ -3038,7 +3001,7 @@ class Network:
                     else:
                         example = example_set.iterate_example()
                     self.max_example_time = example_set.max_time
-                    result, training_errors, unit_costs = self.standard_net_train_example(example, test)
+                    training_errors, unit_costs = self.standard_net_train_example(example, test)
                     if self.network_type in ['continuous', 'srbptt']:
                         self.net_train_example_back()
                     if self.visualized:

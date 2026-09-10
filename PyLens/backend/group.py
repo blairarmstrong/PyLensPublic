@@ -109,7 +109,6 @@ class Group:
     input_derivs = None
     output_derivs = None
     incoming_derivs = None
-    incoming_weights = None
     input_history = None
     output_history = None
     output_derivs_history = None
@@ -212,7 +211,6 @@ class Group:
         self.incoming_links = []
         self.outgoing_links = []
         self.incoming_derivs = af.zeros(self.num_units)
-        self.incoming_weights = af.array([[1]])
         self.weight_elimination = None
 
         self.input_transforms = []
@@ -555,7 +553,6 @@ class Group:
         af.fill(self.output_derivs, 0)
 
         af.fill(self.incoming_derivs, 0)
-        self.incoming_weights = af.array([[1]])
 
     def check_params(self):
         """
